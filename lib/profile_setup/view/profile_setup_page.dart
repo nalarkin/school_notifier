@@ -5,16 +5,16 @@ import '../profile_setup.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/app/app.dart';
 
-
 class ProfileSetupPage extends StatelessWidget {
   const ProfileSetupPage({Key? key}) : super(key: key);
 
-  static Page page() =>
-      MaterialPage<void>(child: ProfileSetupPage());
+  static Page page() => MaterialPage<void>(child: ProfileSetupPage());
   // late Parent parent;
 
   @override
   Widget build(BuildContext context) {
+    // context.select((value) => null)
+    AppBloc blocA = context.select((AppBloc bloc) => bloc);
     return Scaffold(
       appBar: AppBar(title: const Text('Additional Info')),
       body: Padding(
@@ -22,7 +22,7 @@ class ProfileSetupPage extends StatelessWidget {
         child: BlocProvider(
           create: (_) => ProfileSetupCubit(
             context.read<FirestoreParentsRepository>(),
-            context.read<AppBloc>(),
+            blocA,
           ),
           child: const ProfileSetupForm(),
         ),
@@ -30,3 +30,12 @@ class ProfileSetupPage extends StatelessWidget {
     );
   }
 }
+
+// class NewUserWelcome extends StatelessWidget {
+//   const NewUserWelcome({ Key? key }) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffoled
+//   }
+// }

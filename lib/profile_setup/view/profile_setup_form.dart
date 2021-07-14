@@ -20,7 +20,8 @@ class ProfileSetupForm extends StatelessWidget {
               const SnackBar(content: Text('Authentication Failure')),
             );
         } else if (state.status.isSubmissionSuccess) {
-            context.flow<AppStatus>().update(() => AppStatus.parent(state.))
+          // context.flow<AppStatus>().update((AppStatus) => AppStatus.parent);
+          BlocProvider.of<AppBloc>(context).add(AppParentAuthenticated(state.parent));
         }
       },
       child: Align(
@@ -109,7 +110,8 @@ class _StudentNameInput extends StatelessWidget {
           decoration: InputDecoration(
             labelText: 'student name',
             helperText: '',
-            errorText: state.studentName.invalid ? 'invalid student name' : null,
+            errorText:
+                state.studentName.invalid ? 'invalid student name' : null,
           ),
         );
       },
@@ -161,14 +163,14 @@ class _SubmitInfoButton extends StatelessWidget {
                   primary: Colors.orangeAccent,
                 ),
                 onPressed: state.status.isValidated
-                    ? () => context.read<ProfileSetupCubit>().signUpFormSubmitted()
+                    ? () =>
+                        context.read<ProfileSetupCubit>().signUpFormSubmitted()
                     : null,
                 child: const Text('SUBMIT INFO'),
               );
       },
     );
   }
-
 
 // class _DebugLogin extends StatelessWidget {
 //   final String debugEmail = 'abc@gmail.com';

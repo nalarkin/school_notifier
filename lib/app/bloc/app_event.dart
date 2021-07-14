@@ -28,7 +28,7 @@ class AppNewParentJoined extends AppEvent {
   List<Object> get props => [parent];
 }
 class AppParentAuthenticated extends AppEvent {
-  @visibleForTesting
+  // @visibleForTesting
   const AppParentAuthenticated(this.parent);
 
   final Parent parent;
