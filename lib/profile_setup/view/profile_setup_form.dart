@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:formz/formz.dart';
-import '../profile.dart';
+import '../profile_setup.dart';
 
 class ProfileSetupForm extends StatelessWidget {
   const ProfileSetupForm({Key? key}) : super(key: key);
