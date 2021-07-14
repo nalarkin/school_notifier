@@ -17,28 +17,6 @@ class App extends StatelessWidget {
   final AuthenticationRepository _authenticationRepository;
   // final PostsRepository _postsRepository;
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return MultiRepositoryProvider(
-  //     providers: [
-  //       RepositoryProvider.value(
-  //         value: _authenticationRepository,
-  //         child: BlocProvider(
-  //             create: (_) => AppBloc(
-  //                   authenticationRepository: _authenticationRepository,
-  //                 )),
-  //       ),
-  //       RepositoryProvider.value(
-  //         value: _postsRepository,
-  //         child: BlocProvider(
-  //             create: (_) => PostBloc(
-  //                   postsRepository: _postsRepository,
-  //                 )),
-  //       ),
-  //     ],
-  //     child: const AppView(),
-  //   );
-  // }
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(

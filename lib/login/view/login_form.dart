@@ -39,7 +39,7 @@ class LoginForm extends StatelessWidget {
               const SizedBox(height: 8.0),
               _SignUpButton(),
               const SizedBox(height: 4.0),
-              _debugLogin(),
+              _DebugLogin(),
             ],
           ),
         ),
@@ -132,7 +132,7 @@ class _SignUpButton extends StatelessWidget {
   }
 }
 
-class _debugLogin extends StatelessWidget {
+class _DebugLogin extends StatelessWidget {
   final String debugEmail = 'abc@gmail.com';
   final String debugPassword = 'arstarst';
 
