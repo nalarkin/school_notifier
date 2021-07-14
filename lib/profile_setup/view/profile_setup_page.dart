@@ -7,8 +7,13 @@ import 'package:school_notifier/app/app.dart';
 
 class ProfileSetupPage extends StatelessWidget {
   const ProfileSetupPage({Key? key}) : super(key: key);
+  static const routeName = '/profile_setup_page';
+
 
   static Page page() => MaterialPage<void>(child: ProfileSetupPage());
+  static Route route() {
+    return MaterialPageRoute<void>(builder: (_) => const ProfileSetupPage());
+  }
   // late Parent parent;
 
   @override
@@ -31,11 +36,3 @@ class ProfileSetupPage extends StatelessWidget {
   }
 }
 
-// class NewUserWelcome extends StatelessWidget {
-//   const NewUserWelcome({ Key? key }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffoled
-//   }
-// }

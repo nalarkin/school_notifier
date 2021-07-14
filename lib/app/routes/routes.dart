@@ -3,6 +3,7 @@ import 'package:school_notifier/app/app.dart';
 import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/login/login.dart';
 import 'package:school_notifier/profile_setup/profile_setup.dart';
+import 'package:school_notifier/profile_setup/view/new_user_setup_page.dart';
 
 List<Page> onGenerateAppViewPages(AppStatus state, List<Page<dynamic>> pages) {
   switch (state) {
@@ -11,7 +12,9 @@ List<Page> onGenerateAppViewPages(AppStatus state, List<Page<dynamic>> pages) {
     case AppStatus.parent:
       return [HomePage.page()];
     case AppStatus.newParent:
-      return [ProfileSetupPage.page()];
+      return [NewUserWelcomePage.page()];
+      // return [ProfileSetupPage.page()];
+      
     case AppStatus.unauthenticated:
     default:
       return [LoginPage.page()];

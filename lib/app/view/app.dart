@@ -3,6 +3,7 @@ import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/app/app.dart';
+import 'package:school_notifier/profile_setup/view/view.dart';
 import 'package:school_notifier/theme.dart';
 import 'package:users_repository/users_repository.dart';
 
@@ -13,7 +14,7 @@ class App extends StatelessWidget {
     required FirestoreParentsRepository firestoreParentsRepository,
     // required PostsRepository postsRepository,
   })  : _authenticationRepository = authenticationRepository,
-    _firestoreParentsRepository = firestoreParentsRepository,
+        _firestoreParentsRepository = firestoreParentsRepository,
         // _postsRepository = postsRepository,
         super(key: key);
 
@@ -36,7 +37,7 @@ class App extends StatelessWidget {
             BlocProvider(
                 create: (_) => AppBloc(
                       authenticationRepository: _authenticationRepository,
-                      firestoreParentsRepository :_firestoreParentsRepository,
+                      firestoreParentsRepository: _firestoreParentsRepository,
                     )),
             // BlocProvider(
             //     create: (_) => PostBloc(
@@ -54,13 +55,16 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: theme,
-        home: FlowBuilder<AppStatus>(
-          state: context.select((AppBloc bloc) => bloc.state.status),
-          onGeneratePages: onGenerateAppViewPages,
-        ));
-    // routes: <String, WidgetBuilder>{
-    //   PostsPage.routeName: (context) => PostsPage(),
-    // });
+      theme: theme,
+      home: FlowBuilder<AppStatus>(
+        state: context.select((AppBloc bloc) => bloc.state.status),
+        onGeneratePages: onGenerateAppViewPages,
+      ),
+      // routes: <String, WidgetBuilder>{
+      //   NewUserWelcomePage.routeName: (context) => NewUserWelcomePage(),
+      //   ProfileSetupPage.routeName: (context) => ProfileSetupPage(),
+
+      //   }
+    );
   }
 }
