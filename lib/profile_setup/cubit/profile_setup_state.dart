@@ -29,4 +29,6 @@ class ProfileSetupState extends Equatable {
       status: status ?? this.status,
     );
   }
+
 }
+

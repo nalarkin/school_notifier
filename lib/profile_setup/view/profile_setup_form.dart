@@ -1,8 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flow_builder/flow_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:formz/formz.dart';
+import 'package:school_notifier/app/app.dart';
 import '../profile_setup.dart';
 
 class ProfileSetupForm extends StatelessWidget {
@@ -18,6 +19,8 @@ class ProfileSetupForm extends StatelessWidget {
             ..showSnackBar(
               const SnackBar(content: Text('Authentication Failure')),
             );
+        } else if (state.status.isSubmissionSuccess) {
+            context.flow<AppStatus>().update(() => AppStatus.parent(state.))
         }
       },
       child: Align(
@@ -31,15 +34,15 @@ class ProfileSetupForm extends StatelessWidget {
                 height: 120,
               ),
               const SizedBox(height: 16.0),
-              _EmailInput(),
+              _FirstNameInput(),
               const SizedBox(height: 8.0),
-              _PasswordInput(),
+              _LastNameInput(),
               const SizedBox(height: 8.0),
-              _LoginButton(),
+              _StudentNameInput(),
               const SizedBox(height: 8.0),
-              _SignUpButton(),
-              const SizedBox(height: 4.0),
-              _DebugLogin(),
+              _SubmitInfoButton(),
+              // const SizedBox(height: 4.0),
+              // _DebugLogin(),
             ],
           ),
         ),
@@ -48,21 +51,21 @@ class ProfileSetupForm extends StatelessWidget {
   }
 }
 
-class _EmailInput extends StatelessWidget {
+class _FirstNameInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileSetupCubit, ProfileSetupState>(
-      buildWhen: (previous, current) => previous.email != current.email,
+      buildWhen: (previous, current) => previous.firstName != current.firstName,
       builder: (context, state) {
         return TextField(
-          key: const Key('ProfileSetupForm_emailInput_textField'),
-          onChanged: (email) =>
-              context.read<ProfileSetupCubit>().emailChanged(email),
-          keyboardType: TextInputType.emailAddress,
+          key: const Key('ProfileSetupForm_FirstNameInput_textField'),
+          onChanged: (firstName) =>
+              context.read<ProfileSetupCubit>().firstNameChanged(firstName),
+          keyboardType: TextInputType.text,
           decoration: InputDecoration(
-            labelText: 'email',
+            labelText: 'first name',
             helperText: '',
-            errorText: state.email.invalid ? 'invalid email' : null,
+            errorText: state.firstName.invalid ? 'invalid first name' : null,
           ),
         );
       },
@@ -70,21 +73,21 @@ class _EmailInput extends StatelessWidget {
   }
 }
 
-class _PasswordInput extends StatelessWidget {
+class _LastNameInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileSetupCubit, ProfileSetupState>(
-      buildWhen: (previous, current) => previous.password != current.password,
+      buildWhen: (previous, current) => previous.lastName != current.lastName,
       builder: (context, state) {
         return TextField(
-          key: const Key('ProfileSetupForm_passwordInput_textField'),
-          onChanged: (password) =>
-              context.read<ProfileSetupCubit>().passwordChanged(password),
-          obscureText: true,
+          key: const Key('ProfileSetupForm_LastNameInput_textField'),
+          onChanged: (lastName) =>
+              context.read<ProfileSetupCubit>().lastNameChanged(lastName),
+          keyboardType: TextInputType.text,
           decoration: InputDecoration(
-            labelText: 'password',
+            labelText: 'last name',
             helperText: '',
-            errorText: state.password.invalid ? 'invalid password' : null,
+            errorText: state.firstName.invalid ? 'invalid last name' : null,
           ),
         );
       },
@@ -92,7 +95,56 @@ class _PasswordInput extends StatelessWidget {
   }
 }
 
-class _LoginButton extends StatelessWidget {
+class _StudentNameInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ProfileSetupCubit, ProfileSetupState>(
+      buildWhen: (previous, current) => previous.lastName != current.lastName,
+      builder: (context, state) {
+        return TextField(
+          key: const Key('profileSetupForm_lastNameInput_textField'),
+          onChanged: (studentName) =>
+              context.read<ProfileSetupCubit>().studentNameChanged(studentName),
+          keyboardType: TextInputType.text,
+          decoration: InputDecoration(
+            labelText: 'student name',
+            helperText: '',
+            errorText: state.studentName.invalid ? 'invalid student name' : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
+// class _LoginButton extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocBuilder<ProfileSetupCubit, ProfileSetupState>(
+//       buildWhen: (previous, current) => previous.status != current.status,
+//       builder: (context, state) {
+//         return state.status.isSubmissionInProgress
+//             ? const CircularProgressIndicator()
+//             : ElevatedButton(
+//                 key: const Key('profileSetupForm_loginButton_raisedButton'),
+//                 style: ElevatedButton.styleFrom(
+//                   shape: RoundedRectangleBorder(
+//                     borderRadius: BorderRadius.circular(30.0),
+//                   ),
+//                   primary: const Color(0xFFFFD600),
+//                 ),
+//                 onPressed: state.status.isValidated
+//                     ? () =>
+//                         context.read<ProfileSetupCubit>().logInWithCredentials()
+//                     : null,
+//                 child: const Text('LOGIN'),
+//               );
+//       },
+//     );
+//   }
+// }
+
+class _SubmitInfoButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileSetupCubit, ProfileSetupState>(
@@ -101,57 +153,41 @@ class _LoginButton extends StatelessWidget {
         return state.status.isSubmissionInProgress
             ? const CircularProgressIndicator()
             : ElevatedButton(
-                key: const Key('ProfileSetupForm_continue_raisedButton'),
+                key: const Key('profileSetupForm_submitInfo_raisedButton'),
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
-                  primary: const Color(0xFFFFD600),
+                  primary: Colors.orangeAccent,
                 ),
                 onPressed: state.status.isValidated
-                    ? () =>
-                        context.read<ProfileSetupCubit>().logInWithCredentials()
+                    ? () => context.read<ProfileSetupCubit>().signUpFormSubmitted()
                     : null,
-                child: const Text('LOGIN'),
+                child: const Text('SUBMIT INFO'),
               );
       },
     );
   }
-}
 
-class _SignUpButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return TextButton(
-      key: const Key('ProfileSetupForm_createAccount_flatButton'),
-      onPressed: () => Navigator.of(context).push<void>(SignUpPage.route()),
-      child: Text(
-        'CREATE ACCOUNT',
-        style: TextStyle(color: theme.primaryColor),
-      ),
-    );
-  }
-}
 
-class _DebugLogin extends StatelessWidget {
-  final String debugEmail = 'abc@gmail.com';
-  final String debugPassword = 'arstarst';
+// class _DebugLogin extends StatelessWidget {
+//   final String debugEmail = 'abc@gmail.com';
+//   final String debugPassword = 'arstarst';
 
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return TextButton(
-      key: const Key('ProfileSetupForm_debugLogin_textButton'),
-      onPressed: () {
-        context.read<ProfileSetupCubit>().emailChanged(debugEmail);
-        context.read<ProfileSetupCubit>().passwordChanged(debugPassword);
-        context.read<ProfileSetupCubit>().logInWithCredentials();
-      },
-      child: Text(
-        'DEBUG LOGIN',
-        style: TextStyle(color: theme.primaryColor),
-      ),
-    );
-  }
+//   @override
+//   Widget build(BuildContext context) {
+//     final theme = Theme.of(context);
+//     return TextButton(
+//       key: const Key('ProfileSetupForm_debugLogin_textButton'),
+//       onPressed: () {
+//         context.read<ProfileSetupCubit>().emailChanged(debugEmail);
+//         context.read<ProfileSetupCubit>().passwordChanged(debugPassword);
+//         context.read<ProfileSetupCubit>().logInWithCredentials();
+//       },
+//       child: Text(
+//         'DEBUG LOGIN',
+//         style: TextStyle(color: theme.primaryColor),
+//       ),
+//     );
+//   }
 }

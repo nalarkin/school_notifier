@@ -63,7 +63,10 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
       /// if user hasn't setup their account, send them to sign in page
       if (currUser == Parent.empty) {
-        add(AppNewParentJoined(currUser));
+        add(AppNewParentJoined(Parent(
+            id: user.id,
+            email: user.email,
+            joinDate: DateTime.now().toString())));
       } else {
         add(AppParentAuthenticated(currUser));
       }

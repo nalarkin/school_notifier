@@ -20,15 +20,18 @@ class AppState extends Equatable {
       : this._(status: AppStatus.authenticated, user: user);
 
   const AppState.unauthenticated() : this._(status: AppStatus.unauthenticated);
-  const AppState.newParent(Parent parent) : this._(status: AppStatus.newParent, parent: parent);
-  const AppState.parent(Parent parent) : this._(status: AppStatus.parent, parent: parent);
+  const AppState.newParent(Parent parent)
+      : this._(status: AppStatus.newParent, parent: parent);
+  const AppState.parent(Parent parent)
+      : this._(status: AppStatus.parent, parent: parent);
   // const AppState.newTeacher(Teacher teacher) : this._(status: AppStatus.newTeacher);
 
   final AppStatus status;
   final User user;
   final Parent parent;
   // final Teacher teacher;
-  
+
+  Parent get getParent => parent;
 
   @override
   List<Object> get props => [status, user, parent];

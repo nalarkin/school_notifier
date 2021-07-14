@@ -1,55 +1,67 @@
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:users_repository/users_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
+import 'package:school_notifier/app/app.dart';
 
 part 'profile_setup_state.dart';
 
 class ProfileSetupCubit extends Cubit<ProfileSetupState> {
-  ProfileSetupCubit(this._authenticationRepository) : super(const ProfileSetupState());
+  ProfileSetupCubit(this._firestoreParentsRepository, this._appBloc)
+      : super(const ProfileSetupState());
 
-  final AuthenticationRepository _authenticationRepository;
+  final FirestoreParentsRepository _firestoreParentsRepository;
+  final AppBloc _appBloc;
 
-  void emailChanged(String value) {
-    final email = Email.dirty(value);
+  void firstNameChanged(String value) {
+    final firstName = FirstName.dirty(value);
     emit(state.copyWith(
-      email: email,
-      status: Formz.validate([email, state.password]),
+      firstName: firstName,
+      status: Formz.validate([firstName, state.lastName, state.studentName]),
     ));
   }
 
-  void passwordChanged(String value) {
-    final password = Password.dirty(value);
+  void lastNameChanged(String value) {
+    final lastName = LastName.dirty(value);
     emit(state.copyWith(
-      password: password,
-      status: Formz.validate([state.email, password]),
+      lastName: lastName,
+      status: Formz.validate([state.firstName, lastName, state.studentName]),
     ));
   }
 
-  Future<void> logInWithCredentials() async {
+  void studentNameChanged(String value) {
+    final studentName = StudentName.dirty(value);
+    emit(state.copyWith(
+      studentName: studentName,
+      status: Formz.validate([state.firstName, state.lastName, studentName]),
+    ));
+  }
+
+  Future<void> signUpFormSubmitted() async {
     if (!state.status.isValidated) return;
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
-      await _authenticationRepository.logInWithEmailAndPassword(
-        email: state.email.value,
-        password: state.password.value,
-      );
+      await _firestoreParentsRepository.addNewUser(_appBloc.state.getParent.copyWith(
+        firstName: state.firstName.value,
+        lastName: state.lastName.value,
+      ));
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } on Exception {
       emit(state.copyWith(status: FormzStatus.submissionFailure));
     }
   }
 
-  Future<void> logInWithGoogle() async {
-    emit(state.copyWith(status: FormzStatus.submissionInProgress));
-    try {
-      await _authenticationRepository.logInWithGoogle();
-      emit(state.copyWith(status: FormzStatus.submissionSuccess));
-    } on Exception {
-      emit(state.copyWith(status: FormzStatus.submissionFailure));
-    } on NoSuchMethodError {
-      emit(state.copyWith(status: FormzStatus.pure));
-    }
-  }
+  // Future<void> logInWithGoogle() async {
+  //   emit(state.copyWith(status: FormzStatus.submissionInProgress));
+  //   try {
+  //     await _authenticationRepository.logInWithGoogle();
+  //     emit(state.copyWith(status: FormzStatus.submissionSuccess));
+  //   } on Exception {
+  //     emit(state.copyWith(status: FormzStatus.submissionFailure));
+  //   } on NoSuchMethodError {
+  //     emit(state.copyWith(status: FormzStatus.pure));
+  //   }
+  // }
 }
