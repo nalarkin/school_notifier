@@ -2,26 +2,30 @@ part of 'profile_setup_cubit.dart';
 
 class ProfileSetupState extends Equatable {
   const ProfileSetupState({
-    this.email = const Email.pure(),
-    this.password = const Password.pure(),
+    this.firstName = const FirstName.pure(),
+    this.lastName = const LastName.pure(),
+    this.studentName = const StudentName.pure(),
     this.status = FormzStatus.pure,
   });
 
-  final Email email;
-  final Password password;
+  final FirstName firstName;
+  final LastName lastName;
+  final StudentName studentName;
   final FormzStatus status;
 
   @override
-  List<Object> get props => [email, password, status];
+  List<Object> get props => [firstName, lastName, studentName, status];
 
   ProfileSetupState copyWith({
-    Email? email,
-    Password? password,
+    FirstName? firstName,
+    LastName? lastName,
+    StudentName? studentName,
     FormzStatus? status,
   }) {
     return ProfileSetupState(
-      email: email ?? this.email,
-      password: password ?? this.password,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      studentName: studentName ?? this.studentName,
       status: status ?? this.status,
     );
   }
