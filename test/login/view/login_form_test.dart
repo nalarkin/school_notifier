@@ -22,10 +22,10 @@ class MockPassword extends Mock implements Password {}
 
 void main() {
   const loginButtonKey = Key('loginForm_continue_raisedButton');
-  const signInWithGoogleButtonKey = Key('loginForm_googleLogin_raisedButton');
   const emailInputKey = Key('loginForm_emailInput_textField');
   const passwordInputKey = Key('loginForm_passwordInput_textField');
   const createAccountButtonKey = Key('loginForm_createAccount_flatButton');
+  const debugButtonKey = Key('loginForm_debugLogin_textButton');
 
   const testEmail = 'test@gmail.com';
   const testPassword = 'testP@ssw0rd1';
@@ -92,22 +92,6 @@ void main() {
         );
         await tester.tap(find.byKey(loginButtonKey));
         verify(() => loginCubit.logInWithCredentials()).called(1);
-      });
-
-      testWidgets('logInWithGoogle when sign in with google button is pressed',
-          (tester) async {
-        await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
-              body: BlocProvider.value(
-                value: loginCubit,
-                child: const LoginForm(),
-              ),
-            ),
-          ),
-        );
-        await tester.tap(find.byKey(signInWithGoogleButtonKey));
-        verify(() => loginCubit.logInWithGoogle()).called(1);
       });
     });
 
@@ -211,20 +195,6 @@ void main() {
           find.byKey(loginButtonKey),
         );
         expect(loginButton.enabled, isTrue);
-      });
-
-      testWidgets('Sign in with Google Button', (tester) async {
-        await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
-              body: BlocProvider.value(
-                value: loginCubit,
-                child: const LoginForm(),
-              ),
-            ),
-          ),
-        );
-        expect(find.byKey(signInWithGoogleButtonKey), findsOneWidget);
       });
     });
 

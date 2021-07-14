@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "828403765115",
+    "project_id": "school-notifier-jnd",
+    "storage_bucket": "school-notifier-jnd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:828403765115:android:2d0b506238f245d96af7de",
+        "android_client_info": {
+          "package_name": "teamjnd.school_notifier"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "828403765115-l1l9u90c2062om5o4hqrjvu2jjj653ba.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSvC9Gs0yh1yw54kHFmis-Bj32kdl0RLE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "828403765115-l1l9u90c2062om5o4hqrjvu2jjj653ba.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

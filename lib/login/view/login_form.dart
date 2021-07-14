@@ -37,9 +37,9 @@ class LoginForm extends StatelessWidget {
               const SizedBox(height: 8.0),
               _LoginButton(),
               const SizedBox(height: 8.0),
-              _GoogleLoginButton(),
-              const SizedBox(height: 4.0),
               _SignUpButton(),
+              const SizedBox(height: 4.0),
+              _debugLogin(),
             ],
           ),
         ),
@@ -117,28 +117,6 @@ class _LoginButton extends StatelessWidget {
   }
 }
 
-class _GoogleLoginButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return ElevatedButton.icon(
-      key: const Key('loginForm_googleLogin_raisedButton'),
-      label: const Text(
-        'SIGN IN WITH GOOGLE',
-        style: TextStyle(color: Colors.white),
-      ),
-      style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-        primary: theme.accentColor,
-      ),
-      icon: const Icon(FontAwesomeIcons.google, color: Colors.white),
-      onPressed: () => context.read<LoginCubit>().logInWithGoogle(),
-    );
-  }
-}
-
 class _SignUpButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -148,6 +126,28 @@ class _SignUpButton extends StatelessWidget {
       onPressed: () => Navigator.of(context).push<void>(SignUpPage.route()),
       child: Text(
         'CREATE ACCOUNT',
+        style: TextStyle(color: theme.primaryColor),
+      ),
+    );
+  }
+}
+
+class _debugLogin extends StatelessWidget {
+  final String debugEmail = 'abc@gmail.com';
+  final String debugPassword = 'arstarst';
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return TextButton(
+      key: const Key('loginForm_debugLogin_textButton'),
+      onPressed: () {
+        context.read<LoginCubit>().emailChanged(debugEmail);
+        context.read<LoginCubit>().passwordChanged(debugPassword);
+        context.read<LoginCubit>().logInWithCredentials();
+      },
+      child: Text(
+        'DEBUG LOGIN',
         style: TextStyle(color: theme.primaryColor),
       ),
     );
