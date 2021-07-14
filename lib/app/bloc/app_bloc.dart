@@ -13,9 +13,9 @@ part 'app_state.dart';
 class AppBloc extends Bloc<AppEvent, AppState> {
   AppBloc(
       {required AuthenticationRepository authenticationRepository,
-      required FirestoreUsersRepository firestoreUsersRepository})
+      required FirestoreParentsRepository firestoreParentsRepository})
       : _authenticationRepository = authenticationRepository,
-        _firestoreUsersRepository = firestoreUsersRepository,
+        _firestoreParentsRepository = firestoreParentsRepository,
         super(
           authenticationRepository.currentUser.isNotEmpty
               ? AppState.authenticated(authenticationRepository.currentUser)
@@ -25,7 +25,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   }
 
   final AuthenticationRepository _authenticationRepository;
-  final FirestoreUsersRepository _firestoreUsersRepository;
+  final FirestoreParentsRepository _firestoreParentsRepository;
   late final StreamSubscription<User> _userSubscription;
 
   void _onUserChanged(User user) async {
@@ -39,6 +39,10 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       yield _mapUserChangedToState(event, state);
     } else if (event is AppLogoutRequested) {
       unawaited(_authenticationRepository.logOut());
+    } else if (event is AppParentAuthenticated) {
+      yield AppState.parent(event.parent);
+    } else if (event is AppNewParentJoined) {
+      yield AppState.newParent(event.parent);
     }
   }
 
@@ -49,9 +53,21 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   }
 
   Future<void> _convertToFirestoreUser(User user) async {
-    FirestoreUser currUser =
-        await _firestoreUsersRepository.getUserOrDefault(user.id);
-    if (currUser == FirestoreUser.empty)
+    /// check if teacher is added, if the user is not a teacher, than we know they are a parent/new-parent
+
+    if (user.isEmpty) {
+      add(AppUserChanged(user));
+    } else {
+      Parent currUser =
+          await _firestoreParentsRepository.getUserOrDefault(user.id);
+
+      /// if user hasn't setup their account, send them to sign in page
+      if (currUser == Parent.empty) {
+        add(AppNewParentJoined(currUser));
+      } else {
+        add(AppParentAuthenticated(currUser));
+      }
+    }
   }
 
   @override

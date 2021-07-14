@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:users_repository/users_repository.dart';
 
-abstract class UsersRepository {
-  Future<void> addNewUser(FirestoreUser user);
+abstract class UsersRepository<T> {
+  Future<void> addNewUser(T user);
 
-  Future<void> deleteUser(FirestoreUser user);
+  Future<void> deleteUser(T user);
 
-  Stream<List<FirestoreUser>> users();
+  Stream<List<T>> users();
 
-  Future<void> updateUser(FirestoreUser user);
+  Future<void> updateUser(T user);
 
-  Future<FirestoreUser> getUserOrDefault(String id);
+  Future<T> getUserOrDefault(String id);
 }

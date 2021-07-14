@@ -10,15 +10,15 @@ class App extends StatelessWidget {
   const App({
     Key? key,
     required AuthenticationRepository authenticationRepository,
-    required FirestoreUsersRepository firestoreUsersRepository,
+    required FirestoreParentsRepository firestoreParentsRepository,
     // required PostsRepository postsRepository,
   })  : _authenticationRepository = authenticationRepository,
-    _firestoreUsersRepository = firestoreUsersRepository,
+    _firestoreParentsRepository = firestoreParentsRepository,
         // _postsRepository = postsRepository,
         super(key: key);
 
   final AuthenticationRepository _authenticationRepository;
-  final FirestoreUsersRepository _firestoreUsersRepository;
+  final FirestoreParentsRepository _firestoreParentsRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class App extends StatelessWidget {
             value: _authenticationRepository,
           ),
           RepositoryProvider.value(
-            value: _firestoreUsersRepository,
+            value: _firestoreParentsRepository,
           ),
         ],
         child: MultiBlocProvider(
@@ -36,7 +36,7 @@ class App extends StatelessWidget {
             BlocProvider(
                 create: (_) => AppBloc(
                       authenticationRepository: _authenticationRepository,
-                      firestoreUsersRepository :_firestoreUsersRepository,
+                      firestoreParentsRepository :_firestoreParentsRepository,
                     )),
             // BlocProvider(
             //     create: (_) => PostBloc(
