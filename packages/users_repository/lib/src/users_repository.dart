@@ -10,4 +10,6 @@ abstract class UsersRepository {
   Stream<List<FirestoreUser>> users();
 
   Future<void> updateUser(FirestoreUser user);
+
+  Future<FirestoreUser> getUserOrDefault(String id);
 }

@@ -4,18 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/app/app.dart';
 import 'package:school_notifier/theme.dart';
+import 'package:users_repository/users_repository.dart';
 
 class App extends StatelessWidget {
   const App({
     Key? key,
     required AuthenticationRepository authenticationRepository,
+    required FirestoreUsersRepository firestoreUsersRepository,
     // required PostsRepository postsRepository,
   })  : _authenticationRepository = authenticationRepository,
+    _firestoreUsersRepository = firestoreUsersRepository,
         // _postsRepository = postsRepository,
         super(key: key);
 
   final AuthenticationRepository _authenticationRepository;
-  // final PostsRepository _postsRepository;
+  final FirestoreUsersRepository _firestoreUsersRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +27,16 @@ class App extends StatelessWidget {
           RepositoryProvider.value(
             value: _authenticationRepository,
           ),
-          // RepositoryProvider.value(
-          //   value: _postsRepository,
-          // ),
+          RepositoryProvider.value(
+            value: _firestoreUsersRepository,
+          ),
         ],
         child: MultiBlocProvider(
           providers: [
             BlocProvider(
                 create: (_) => AppBloc(
                       authenticationRepository: _authenticationRepository,
+                      firestoreUsersRepository :_firestoreUsersRepository,
                     )),
             // BlocProvider(
             //     create: (_) => PostBloc(
