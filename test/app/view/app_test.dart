@@ -13,11 +13,11 @@ class MockUser extends Mock implements User {}
 class MockAuthenticationRepository extends Mock
     implements AuthenticationRepository {}
 
-class MockAppBloc extends MockBloc<AppEvent, AppState> implements AppBloc {}
+class MockAppBloc extends MockBloc<AuthenticationEvent, AuthenticationState> implements AuthenticationBloc {}
 
-class FakeAppEvent extends Fake implements AppEvent {}
+class FakeAppEvent extends Fake implements AuthenticationEvent {}
 
-class FakeAppState extends Fake implements AppState {}
+class FakeAppState extends Fake implements AuthenticationState {}
 
 void main() {
   group('App', () {
@@ -25,8 +25,8 @@ void main() {
     late User user;
 
     setUpAll(() {
-      registerFallbackValue<AppEvent>(FakeAppEvent());
-      registerFallbackValue<AppState>(FakeAppState());
+      registerFallbackValue<AuthenticationEvent>(FakeAppEvent());
+      registerFallbackValue<AuthenticationState>(FakeAppState());
     });
 
     setUp(() {
@@ -54,11 +54,11 @@ void main() {
 
   group('AppView', () {
     late AuthenticationRepository authenticationRepository;
-    late AppBloc appBloc;
+    late AuthenticationBloc appBloc;
 
     setUpAll(() {
-      registerFallbackValue<AppEvent>(FakeAppEvent());
-      registerFallbackValue<AppState>(FakeAppState());
+      registerFallbackValue<AuthenticationEvent>(FakeAppEvent());
+      registerFallbackValue<AuthenticationState>(FakeAppState());
     });
 
     setUp(() {
@@ -67,7 +67,7 @@ void main() {
     });
 
     testWidgets('navigates to LoginPage when unauthenticated', (tester) async {
-      when(() => appBloc.state).thenReturn(const AppState.unauthenticated());
+      when(() => appBloc.state).thenReturn(const AuthenticationState.unauthenticated());
       await tester.pumpWidget(
         RepositoryProvider.value(
           value: authenticationRepository,
@@ -83,7 +83,7 @@ void main() {
     testWidgets('navigates to HomePage when authenticated', (tester) async {
       final user = MockUser();
       when(() => user.email).thenReturn('test@gmail.com');
-      when(() => appBloc.state).thenReturn(AppState.authenticated(user));
+      when(() => appBloc.state).thenReturn(AuthenticationState.authenticated(user));
       await tester.pumpWidget(
         RepositoryProvider.value(
           value: authenticationRepository,

@@ -27,44 +27,44 @@ void main() {
 
     test('initial state is unauthenticated when user is empty', () {
       expect(
-        AppBloc(authenticationRepository: authenticationRepository).state,
-        AppState.unauthenticated(),
+        AuthenticationBloc(authenticationRepository: authenticationRepository).state,
+        AuthenticationState.unauthenticated(),
       );
     });
 
     group('UserChanged', () {
-      blocTest<AppBloc, AppState>(
+      blocTest<AuthenticationBloc, AuthenticationState>(
         'emits authenticated when user is not empty',
         build: () {
           when(() => user.isNotEmpty).thenReturn(true);
           when(() => authenticationRepository.user).thenAnswer(
             (_) => Stream.value(user),
           );
-          return AppBloc(authenticationRepository: authenticationRepository);
+          return AuthenticationBloc(authenticationRepository: authenticationRepository);
         },
-        seed: () => AppState.unauthenticated(),
-        expect: () => [AppState.authenticated(user)],
+        seed: () => AuthenticationState.unauthenticated(),
+        expect: () => [AuthenticationState.authenticated(user)],
       );
 
-      blocTest<AppBloc, AppState>(
+      blocTest<AuthenticationBloc, AuthenticationState>(
         'emits unauthenticated when user is empty',
         build: () {
           when(() => authenticationRepository.user).thenAnswer(
             (_) => Stream.value(User.empty),
           );
-          return AppBloc(authenticationRepository: authenticationRepository);
+          return AuthenticationBloc(authenticationRepository: authenticationRepository);
         },
-        expect: () => [AppState.unauthenticated()],
+        expect: () => [AuthenticationState.unauthenticated()],
       );
     });
 
     group('LogoutRequested', () {
-      blocTest<AppBloc, AppState>(
+      blocTest<AuthenticationBloc, AuthenticationState>(
         'invokes logOut',
         build: () {
-          return AppBloc(authenticationRepository: authenticationRepository);
+          return AuthenticationBloc(authenticationRepository: authenticationRepository);
         },
-        act: (bloc) => bloc.add(AppLogoutRequested()),
+        act: (bloc) => bloc.add(AuthenticationLogoutRequested()),
         verify: (_) {
           verify(() => authenticationRepository.logOut()).called(1);
         },

@@ -4,6 +4,7 @@ import 'package:flow_builder/flow_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:formz/formz.dart';
 import 'package:school_notifier/app/app.dart';
+import 'package:school_notifier/authentication/authentication.dart';
 import '../profile_setup.dart';
 
 class ProfileSetupForm extends StatelessWidget {
@@ -21,7 +22,7 @@ class ProfileSetupForm extends StatelessWidget {
             );
         } else if (state.status.isSubmissionSuccess) {
           // context.flow<AppStatus>().update((AppStatus) => AppStatus.parent);
-          BlocProvider.of<AppBloc>(context).add(AppParentAuthenticated(state.parent));
+          BlocProvider.of<AuthenticationBloc>(context).add(AuthenticationParentAuthenticated(state.parent));
         }
       },
       child: Align(

@@ -4,6 +4,8 @@ import 'package:users_repository/users_repository.dart';
 import '../profile_setup.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/app/app.dart';
+import 'package:school_notifier/authentication/authentication.dart';
+
 
 class ProfileSetupPage extends StatelessWidget {
   const ProfileSetupPage({Key? key}) : super(key: key);
@@ -19,7 +21,7 @@ class ProfileSetupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // context.select((value) => null)
-    AppBloc blocA = context.select((AppBloc bloc) => bloc);
+    AuthenticationBloc blocA = context.select((AuthenticationBloc bloc) => bloc);
     return Scaffold(
       appBar: AppBar(title: const Text('Additional Info')),
       body: Padding(

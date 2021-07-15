@@ -10,8 +10,8 @@ void main() {
   group('AppState', () {
     group('unauthenticated', () {
       test('has correct status', () {
-        final state = AppState.unauthenticated();
-        expect(state.status, AppStatus.unauthenticated);
+        final state = AuthenticationState.unauthenticated();
+        expect(state.status, AuthenticationStatus.unauthenticated);
         expect(state.user, User.empty);
       });
     });
@@ -19,8 +19,8 @@ void main() {
     group('authenticated', () {
       test('has correct status', () {
         final user = MockUser();
-        final state = AppState.authenticated(user);
-        expect(state.status, AppStatus.authenticated);
+        final state = AuthenticationState.authenticated(user);
+        expect(state.status, AuthenticationStatus.authenticated);
         expect(state.user, user);
       });
     });

@@ -9,6 +9,7 @@ import 'package:school_notifier/profile_setup/view/view.dart';
 import 'package:school_notifier/sign_up/view/view.dart';
 import 'package:school_notifier/theme.dart';
 import 'package:users_repository/users_repository.dart';
+import 'package:school_notifier/authentication/authentication.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -38,7 +39,7 @@ class App extends StatelessWidget {
         child: MultiBlocProvider(
           providers: [
             BlocProvider(
-                create: (_) => AppBloc(
+                create: (_) => AuthenticationBloc(
                       authenticationRepository: _authenticationRepository,
                       firestoreParentsRepository: _firestoreParentsRepository,
                     )),
@@ -61,7 +62,7 @@ class AppView extends StatelessWidget {
         theme: theme,
         home: BlocProvider(
           create: (context) =>
-              NavigationBloc(BlocProvider.of<AppBloc>(context)),
+              NavigationBloc(BlocProvider.of<AuthenticationBloc>(context)),
           child: NavigationPage(),
         ),
         routes: <String, WidgetBuilder>{
