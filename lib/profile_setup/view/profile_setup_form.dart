@@ -60,7 +60,7 @@ class _FirstNameInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.firstName != current.firstName,
       builder: (context, state) {
         return TextField(
-          key: const Key('ProfileSetupForm_FirstNameInput_textField'),
+          key: const Key('profileSetupForm_firstNameInput_textField'),
           onChanged: (firstName) =>
               context.read<ProfileSetupCubit>().firstNameChanged(firstName),
           keyboardType: TextInputType.text,
@@ -82,7 +82,7 @@ class _LastNameInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.lastName != current.lastName,
       builder: (context, state) {
         return TextField(
-          key: const Key('ProfileSetupForm_LastNameInput_textField'),
+          key: const Key('profileSetupForm_lastNameInput_textField'),
           onChanged: (lastName) =>
               context.read<ProfileSetupCubit>().lastNameChanged(lastName),
           keyboardType: TextInputType.text,
@@ -104,7 +104,7 @@ class _StudentNameInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.lastName != current.lastName,
       builder: (context, state) {
         return TextField(
-          key: const Key('profileSetupForm_lastNameInput_textField'),
+          key: const Key('profileSetupForm_studentNameInput_textField'),
           onChanged: (studentName) =>
               context.read<ProfileSetupCubit>().studentNameChanged(studentName),
           keyboardType: TextInputType.text,
