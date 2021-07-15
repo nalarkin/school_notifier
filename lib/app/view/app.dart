@@ -1,9 +1,8 @@
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/app/app.dart';
-import 'package:school_notifier/auth/auth.dart';
+import 'package:school_notifier/navigation/navigation.dart';
 import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/login/login.dart';
 import 'package:school_notifier/profile_setup/view/view.dart';
@@ -61,8 +60,9 @@ class AppView extends StatelessWidget {
     return MaterialApp(
         theme: theme,
         home: BlocProvider(
-          create: (context) => AuthBloc(BlocProvider.of<AppBloc>(context)),
-          child: AuthPage(),
+          create: (context) =>
+              NavigationBloc(BlocProvider.of<AppBloc>(context)),
+          child: NavigationPage(),
         ),
         routes: <String, WidgetBuilder>{
           NewUserWelcomePage.routeName: (context) => NewUserWelcomePage(),

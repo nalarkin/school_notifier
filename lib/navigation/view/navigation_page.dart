@@ -3,20 +3,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/login/view/view.dart';
 import 'package:school_notifier/profile_setup/view/view.dart';
-import '../auth.dart';
+import '../navigation.dart';
 
-class AuthPage extends StatelessWidget {
-  const AuthPage({Key? key}) : super(key: key);
+class NavigationPage extends StatelessWidget {
+  const NavigationPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthBloc, AuthState>(
+    return BlocListener<NavigationBloc, NavigationState>(
       listener: (context, state) {
-        if (state is AuthNewParentSetup) {
+        if (state is NavigationNewParentSetup) {
           Navigator.pushNamed(context, ProfileSetupPage.routeName);
-        } else if (state is AuthParentSignInSuccess) {
+        } else if (state is NavigationParentSignInSuccess) {
           Navigator.pushNamed(context, HomePage.routeName);
-        } else if (state is AuthInitial) {
+        } else if (state is NavigationInitial) {
           ///
           Navigator.pushNamed(context, LoginPage.routeName);
         }
