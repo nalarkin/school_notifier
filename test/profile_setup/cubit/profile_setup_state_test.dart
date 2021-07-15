@@ -1,54 +1,47 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:form_inputs/form_inputs.dart';
-import 'package:school_notifier/sign_up/sign_up.dart';
+import 'package:school_notifier/profile_setup/cubit/profile_setup_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
-
+  
 void main() {
-  const email = FirstName.dirty('email');
-  const passwordString = 'password';
-  const password = Password.dirty(passwordString);
-  const confirmedPassword = ConfirmedPassword.dirty(
-    password: passwordString,
-    value: passwordString,
-  );
+  const firstName = FirstName.dirty('firstName');
+  const lastName = LastName.dirty('lastName');
+  const studentName = StudentName.dirty('student');
 
-  group('SignUpState', () {
+  group('ProfileSetupState', () {
     test('supports value comparisons', () {
-      expect(SignUpState(), SignUpState());
+      expect(ProfileSetupState(), ProfileSetupState());
     });
 
     test('returns same object when no properties are passed', () {
-      expect(SignUpState().copyWith(), SignUpState());
+      expect(ProfileSetupState().copyWith(), ProfileSetupState());
     });
 
     test('returns object with updated status when status is passed', () {
       expect(
-        SignUpState().copyWith(status: FormzStatus.pure),
-        SignUpState(status: FormzStatus.pure),
+        ProfileSetupState().copyWith(status: FormzStatus.pure),
+        ProfileSetupState(status: FormzStatus.pure),
       );
     });
 
-    test('returns object with updated email when email is passed', () {
+    test('returns object with updated firstName when firstName is passed', () {
       expect(
-        SignUpState().copyWith(email: email),
-        SignUpState(email: email),
+        ProfileSetupState().copyWith(firstName: firstName),
+        ProfileSetupState(firstName: firstName),
       );
     });
-
-    test('returns object with updated password when password is passed', () {
+    test('returns object with updated lastName when lastName is passed', () {
       expect(
-        SignUpState().copyWith(password: password),
-        SignUpState(password: password),
+        ProfileSetupState().copyWith(lastName: lastName),
+        ProfileSetupState(lastName: lastName),
       );
     });
-
-    test(
-        'returns object with updated confirmedPassword'
-        ' when confirmedPassword is passed', () {
+    test('returns object with updated studentName when studentName is passed',
+        () {
       expect(
-        SignUpState().copyWith(confirmedPassword: confirmedPassword),
-        SignUpState(confirmedPassword: confirmedPassword),
+        ProfileSetupState().copyWith(studentName: studentName),
+        ProfileSetupState(studentName: studentName),
       );
     });
   });
