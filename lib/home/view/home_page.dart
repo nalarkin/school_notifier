@@ -5,7 +5,7 @@ import 'package:school_notifier/home/home.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
-
+  static const String routeName = '/home';
   static Page page() => const MaterialPage<void>(child: HomePage());
 
   @override
@@ -36,9 +36,8 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 4.0),
             // MaterialButton(
             //   onPressed: () =>
-            //       Navigator.of(context).push<void>(PostsPage.route()),  
+            //       Navigator.of(context).push<void>(PostsPage.route()),
             //   child: const Text('Posts Page'),
-            
           ],
         ),
       ),

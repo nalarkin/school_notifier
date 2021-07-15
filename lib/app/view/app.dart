@@ -60,6 +60,7 @@ class AppView extends StatelessWidget {
         state: context.select((AppBloc bloc) => bloc.state.status),
         onGeneratePages: onGenerateAppViewPages,
       ),
+      
       // routes: <String, WidgetBuilder>{
       //   NewUserWelcomePage.routeName: (context) => NewUserWelcomePage(),
       //   ProfileSetupPage.routeName: (context) => ProfileSetupPage(),
