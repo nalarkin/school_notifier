@@ -4,7 +4,7 @@ import 'package:school_notifier/profile_setup/view/view.dart';
 class NewUserWelcomePage extends StatelessWidget {
   const NewUserWelcomePage({Key? key}) : super(key: key);
   static Page page() => MaterialPage<void>(child: NewUserWelcomePage());
-  // static const routeName = '/new_user_welcome_page';
+  static const routeName = '/new_user_welcome_page';
 
   @override
   Widget build(BuildContext context) {

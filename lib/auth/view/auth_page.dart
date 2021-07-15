@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/home/home.dart';
+import 'package:school_notifier/login/view/view.dart';
 import 'package:school_notifier/profile_setup/view/view.dart';
 import '../auth.dart';
 
@@ -15,9 +16,13 @@ class AuthPage extends StatelessWidget {
           Navigator.pushNamed(context, ProfileSetupPage.routeName);
         } else if (state is AuthParentSignInSuccess) {
           Navigator.pushNamed(context, HomePage.routeName);
+        } else if (state is AuthInitial) {
+          ///
+          Navigator.pushNamed(context, LoginPage.routeName);
         }
       },
-      child: Container(),
-    )
+      // child: Container(child: Text('loading...')),
+      child: LoadingIndicator(),
+    );
   }
 }

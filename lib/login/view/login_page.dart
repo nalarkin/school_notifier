@@ -6,6 +6,7 @@ import 'package:school_notifier/login/login.dart';
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
 
+  static const routeName = '/login_page';
   static Page page() => const MaterialPage<void>(child: LoginPage());
 
   @override

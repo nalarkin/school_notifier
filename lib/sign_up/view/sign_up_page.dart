@@ -5,6 +5,7 @@ import 'package:school_notifier/sign_up/sign_up.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({Key? key}) : super(key: key);
+  static const routeName = '/sign_up_page';
 
   static Route route() {
     return MaterialPageRoute<void>(builder: (_) => const SignUpPage());

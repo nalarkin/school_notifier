@@ -3,7 +3,11 @@ import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/app/app.dart';
+import 'package:school_notifier/auth/auth.dart';
+import 'package:school_notifier/home/home.dart';
+import 'package:school_notifier/login/login.dart';
 import 'package:school_notifier/profile_setup/view/view.dart';
+import 'package:school_notifier/sign_up/view/view.dart';
 import 'package:school_notifier/theme.dart';
 import 'package:users_repository/users_repository.dart';
 
@@ -55,17 +59,17 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: theme,
-      home: FlowBuilder<AppStatus>(
-        state: context.select((AppBloc bloc) => bloc.state.status),
-        onGeneratePages: onGenerateAppViewPages,
-      ),
-      
-      // routes: <String, WidgetBuilder>{
-      //   NewUserWelcomePage.routeName: (context) => NewUserWelcomePage(),
-      //   ProfileSetupPage.routeName: (context) => ProfileSetupPage(),
-
-      //   }
-    );
+        theme: theme,
+        home: BlocProvider(
+          create: (context) => AuthBloc(BlocProvider.of<AppBloc>(context)),
+          child: AuthPage(),
+        ),
+        routes: <String, WidgetBuilder>{
+          NewUserWelcomePage.routeName: (context) => NewUserWelcomePage(),
+          ProfileSetupPage.routeName: (context) => ProfileSetupPage(),
+          HomePage.routeName: (context) => HomePage(),
+          LoginPage.routeName: (context) => LoginPage(),
+          SignUpPage.routeName: (context) => SignUpPage(),
+        });
   }
 }

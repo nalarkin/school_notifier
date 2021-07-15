@@ -18,6 +18,7 @@ class AppUserChanged extends AppEvent {
   @override
   List<Object> get props => [user];
 }
+
 class AppNewParentJoined extends AppEvent {
   @visibleForTesting
   const AppNewParentJoined(this.parent);
@@ -27,6 +28,7 @@ class AppNewParentJoined extends AppEvent {
   @override
   List<Object> get props => [parent];
 }
+
 class AppParentAuthenticated extends AppEvent {
   // @visibleForTesting
   const AppParentAuthenticated(this.parent);
