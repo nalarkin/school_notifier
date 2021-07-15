@@ -12,8 +12,8 @@ void main() {
       final user = MockUser();
       test('supports value comparisons', () {
         expect(
-          AppUserChanged(user),
-          AppUserChanged(user),
+          AuthenticationUserChanged(user),
+          AuthenticationUserChanged(user),
         );
       });
     });
@@ -21,8 +21,8 @@ void main() {
     group('AppLogoutRequested', () {
       test('supports value comparisons', () {
         expect(
-          AppLogoutRequested(),
-          AppLogoutRequested(),
+          AuthenticationLogoutRequested(),
+          AuthenticationLogoutRequested(),
         );
       });
     });

@@ -8,30 +8,30 @@ import 'package:school_notifier/home/widgets/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockAppBloc extends MockBloc<AppEvent, AppState> implements AppBloc {}
+class MockAppBloc extends MockBloc<AuthenticationEvent, AuthenticationState> implements AuthenticationBloc {}
 
-class FakeAppEvent extends Fake implements AppEvent {}
+class FakeAppEvent extends Fake implements AuthenticationEvent {}
 
-class FakeAppState extends Fake implements AppState {}
+class FakeAppState extends Fake implements AuthenticationState {}
 
 class MockUser extends Mock implements User {}
 
 void main() {
   const logoutButtonKey = Key('homePage_logout_iconButton');
   group('HomePage', () {
-    late AppBloc appBloc;
+    late AuthenticationBloc appBloc;
     late User user;
 
     setUpAll(() {
-      registerFallbackValue<AppEvent>(FakeAppEvent());
-      registerFallbackValue<AppState>(FakeAppState());
+      registerFallbackValue<AuthenticationEvent>(FakeAppEvent());
+      registerFallbackValue<AuthenticationState>(FakeAppState());
     });
 
     setUp(() {
       appBloc = MockAppBloc();
       user = MockUser();
       when(() => user.email).thenReturn('test@gmail.com');
-      when(() => appBloc.state).thenReturn(AppState.authenticated(user));
+      when(() => appBloc.state).thenReturn(AuthenticationState.authenticated(user));
     });
 
     group('calls', () {
@@ -43,7 +43,7 @@ void main() {
           ),
         );
         await tester.tap(find.byKey(logoutButtonKey));
-        verify(() => appBloc.add(AppLogoutRequested())).called(1);
+        verify(() => appBloc.add(AuthenticationLogoutRequested())).called(1);
       });
     });
 

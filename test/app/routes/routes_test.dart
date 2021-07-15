@@ -8,14 +8,14 @@ void main() {
   group('onGenerateAppViewPages', () {
     test('returns [HomePage] when authenticated', () {
       expect(
-        onGenerateAppViewPages(AppStatus.authenticated, []),
+        onGenerateAppViewPages(AuthenticationStatus.authenticated, []),
         [isA<MaterialPage>().having((p) => p.child, 'child', isA<HomePage>())],
       );
     });
 
     test('returns [LoginPage] when unauthenticated', () {
       expect(
-        onGenerateAppViewPages(AppStatus.unauthenticated, []),
+        onGenerateAppViewPages(AuthenticationStatus.unauthenticated, []),
         [isA<MaterialPage>().having((p) => p.child, 'child', isA<LoginPage>())],
       );
     });

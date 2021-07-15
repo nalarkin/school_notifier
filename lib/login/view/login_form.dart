@@ -39,7 +39,7 @@ class LoginForm extends StatelessWidget {
               const SizedBox(height: 8.0),
               _SignUpButton(),
               const SizedBox(height: 4.0),
-              _debugLogin(),
+              _DebugLogin(),
             ],
           ),
         ),
@@ -123,7 +123,8 @@ class _SignUpButton extends StatelessWidget {
     final theme = Theme.of(context);
     return TextButton(
       key: const Key('loginForm_createAccount_flatButton'),
-      onPressed: () => Navigator.of(context).push<void>(SignUpPage.route()),
+      // onPressed: () => Navigator.of(context).push<void>(SignUpPage.route()),
+      onPressed: () => Navigator.pushNamed(context, SignUpPage.routeName),
       child: Text(
         'CREATE ACCOUNT',
         style: TextStyle(color: theme.primaryColor),
@@ -132,7 +133,7 @@ class _SignUpButton extends StatelessWidget {
   }
 }
 
-class _debugLogin extends StatelessWidget {
+class _DebugLogin extends StatelessWidget {
   final String debugEmail = 'abc@gmail.com';
   final String debugPassword = 'arstarst';
 

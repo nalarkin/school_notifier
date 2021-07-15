@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/app/app.dart';
 import 'package:school_notifier/home/home.dart';
+import 'package:school_notifier/authentication/authentication.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
-
+  static const String routeName = '/home';
   static Page page() => const MaterialPage<void>(child: HomePage());
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final user = context.select((AppBloc bloc) => bloc.state.user);
+    final user = context.select((AuthenticationBloc bloc) => bloc.state.user);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
@@ -19,7 +20,7 @@ class HomePage extends StatelessWidget {
           IconButton(
             key: const Key('homePage_logout_iconButton'),
             icon: const Icon(Icons.exit_to_app),
-            onPressed: () => context.read<AppBloc>().add(AppLogoutRequested()),
+            onPressed: () => context.read<AuthenticationBloc>().add(AuthenticationLogoutRequested()),
           )
         ],
       ),
@@ -36,9 +37,8 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 4.0),
             // MaterialButton(
             //   onPressed: () =>
-            //       Navigator.of(context).push<void>(PostsPage.route()),  
+            //       Navigator.of(context).push<void>(PostsPage.route()),
             //   child: const Text('Posts Page'),
-            
           ],
         ),
       ),

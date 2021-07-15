@@ -1,44 +1,30 @@
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/app/app.dart';
+import 'package:school_notifier/navigation/navigation.dart';
+import 'package:school_notifier/home/home.dart';
+import 'package:school_notifier/login/login.dart';
+import 'package:school_notifier/profile_setup/view/view.dart';
+import 'package:school_notifier/sign_up/view/view.dart';
 import 'package:school_notifier/theme.dart';
+import 'package:users_repository/users_repository.dart';
+import 'package:school_notifier/authentication/authentication.dart';
 
 class App extends StatelessWidget {
   const App({
     Key? key,
     required AuthenticationRepository authenticationRepository,
+    required FirestoreParentsRepository firestoreParentsRepository,
     // required PostsRepository postsRepository,
   })  : _authenticationRepository = authenticationRepository,
+        _firestoreParentsRepository = firestoreParentsRepository,
         // _postsRepository = postsRepository,
         super(key: key);
 
   final AuthenticationRepository _authenticationRepository;
-  // final PostsRepository _postsRepository;
+  final FirestoreParentsRepository _firestoreParentsRepository;
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return MultiRepositoryProvider(
-  //     providers: [
-  //       RepositoryProvider.value(
-  //         value: _authenticationRepository,
-  //         child: BlocProvider(
-  //             create: (_) => AppBloc(
-  //                   authenticationRepository: _authenticationRepository,
-  //                 )),
-  //       ),
-  //       RepositoryProvider.value(
-  //         value: _postsRepository,
-  //         child: BlocProvider(
-  //             create: (_) => PostBloc(
-  //                   postsRepository: _postsRepository,
-  //                 )),
-  //       ),
-  //     ],
-  //     child: const AppView(),
-  //   );
-  // }
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
@@ -46,15 +32,16 @@ class App extends StatelessWidget {
           RepositoryProvider.value(
             value: _authenticationRepository,
           ),
-          // RepositoryProvider.value(
-          //   value: _postsRepository,
-          // ),
+          RepositoryProvider.value(
+            value: _firestoreParentsRepository,
+          ),
         ],
         child: MultiBlocProvider(
           providers: [
             BlocProvider(
-                create: (_) => AppBloc(
+                create: (_) => AuthenticationBloc(
                       authenticationRepository: _authenticationRepository,
+                      firestoreParentsRepository: _firestoreParentsRepository,
                     )),
             // BlocProvider(
             //     create: (_) => PostBloc(
@@ -73,12 +60,17 @@ class AppView extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         theme: theme,
-        home: FlowBuilder<AppStatus>(
-          state: context.select((AppBloc bloc) => bloc.state.status),
-          onGeneratePages: onGenerateAppViewPages,
-        ));
-    // routes: <String, WidgetBuilder>{
-    //   PostsPage.routeName: (context) => PostsPage(),
-    // });
+        home: BlocProvider(
+          create: (context) =>
+              NavigationBloc(BlocProvider.of<AuthenticationBloc>(context)),
+          child: NavigationPage(),
+        ),
+        routes: <String, WidgetBuilder>{
+          NewUserWelcomePage.routeName: (context) => NewUserWelcomePage(),
+          ProfileSetupPage.routeName: (context) => ProfileSetupPage(),
+          HomePage.routeName: (context) => HomePage(),
+          LoginPage.routeName: (context) => LoginPage(),
+          SignUpPage.routeName: (context) => SignUpPage(),
+        });
   }
 }
