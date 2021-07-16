@@ -7,8 +7,10 @@ import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/home/widgets/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:school_notifier/authentication/authentication.dart';
 
-class MockAppBloc extends MockBloc<AuthenticationEvent, AuthenticationState> implements AuthenticationBloc {}
+class MockAppBloc extends MockBloc<AuthenticationEvent, AuthenticationState>
+    implements AuthenticationBloc {}
 
 class FakeAppEvent extends Fake implements AuthenticationEvent {}
 
@@ -31,7 +33,8 @@ void main() {
       appBloc = MockAppBloc();
       user = MockUser();
       when(() => user.email).thenReturn('test@gmail.com');
-      when(() => appBloc.state).thenReturn(AuthenticationState.authenticated(user));
+      when(() => appBloc.state)
+          .thenReturn(AuthenticationState.authenticated(user));
     });
 
     group('calls', () {
