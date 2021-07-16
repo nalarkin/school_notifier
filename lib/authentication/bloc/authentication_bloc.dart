@@ -10,7 +10,8 @@ import 'package:very_good_analysis/very_good_analysis.dart';
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
-class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
+class AuthenticationBloc
+    extends Bloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc(
       {required AuthenticationRepository authenticationRepository,
       required FirestoreParentsRepository firestoreParentsRepository})
@@ -18,7 +19,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
         _firestoreParentsRepository = firestoreParentsRepository,
         super(
           authenticationRepository.currentUser.isNotEmpty
-              ? AuthenticationState.authenticated(authenticationRepository.currentUser)
+              ? AuthenticationState.authenticated(
+                  authenticationRepository.currentUser)
               : const AuthenticationState.unauthenticated(),
         ) {
     _userSubscription = _authenticationRepository.user.listen(_onUserChanged);
@@ -29,12 +31,17 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   late final StreamSubscription<User> _userSubscription;
 
   void _onUserChanged(User user) async {
-    await _convertToFirestoreUser(user);
+    if (user.isEmpty) {
+      add(AuthenticationUserChanged(user));
+    } else {
+      unawaited(_convertToFirestoreUser(user));
+    }
   }
   // add(AppUserChanged(user));
 
   @override
-  Stream<AuthenticationState> mapEventToState(AuthenticationEvent event) async* {
+  Stream<AuthenticationState> mapEventToState(
+      AuthenticationEvent event) async* {
     if (event is AuthenticationUserChanged) {
       yield _mapUserChangedToState(event, state);
     } else if (event is AuthenticationLogoutRequested) {
@@ -46,7 +53,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     }
   }
 
-  AuthenticationState _mapUserChangedToState(AuthenticationUserChanged event, AuthenticationState state) {
+  AuthenticationState _mapUserChangedToState(
+      AuthenticationUserChanged event, AuthenticationState state) {
     return event.user.isNotEmpty
         ? AuthenticationState.authenticated(event.user)
         : const AuthenticationState.unauthenticated();
@@ -54,22 +62,17 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
 
   Future<void> _convertToFirestoreUser(User user) async {
     /// check if teacher is added, if the user is not a teacher, than we know they are a parent/new-parent
+    Parent currUser =
+        await _firestoreParentsRepository.getUserOrDefault(user.id);
 
-    if (user.isEmpty) {
-      add(AuthenticationUserChanged(user));
+    /// if user hasn't setup their account, send them to sign in page
+    if (currUser == Parent.empty) {
+      add(AuthenticationNewParentJoined(Parent(
+          id: user.id,
+          email: user.email,
+          joinDate: DateTime.now().toString())));
     } else {
-      Parent currUser =
-          await _firestoreParentsRepository.getUserOrDefault(user.id);
-
-      /// if user hasn't setup their account, send them to sign in page
-      if (currUser == Parent.empty) {
-        add(AuthenticationNewParentJoined(Parent(
-            id: user.id,
-            email: user.email,
-            joinDate: DateTime.now().toString())));
-      } else {
-        add(AuthenticationParentAuthenticated(currUser));
-      }
+      add(AuthenticationParentAuthenticated(currUser));
     }
   }
 

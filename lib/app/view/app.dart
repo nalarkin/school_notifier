@@ -60,6 +60,8 @@ class AppView extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         theme: theme,
+        darkTheme: darkTheme,
+        // themeMode: ThemeMode.dark,
         home: BlocProvider(
           create: (context) =>
               NavigationBloc(BlocProvider.of<AuthenticationBloc>(context)),

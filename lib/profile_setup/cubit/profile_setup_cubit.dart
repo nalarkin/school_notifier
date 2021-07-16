@@ -10,11 +10,12 @@ import 'package:school_notifier/authentication/authentication.dart';
 part 'profile_setup_state.dart';
 
 class ProfileSetupCubit extends Cubit<ProfileSetupState> {
-  ProfileSetupCubit(this._firestoreParentsRepository, this._authenticationBloc)
+  ProfileSetupCubit(this._firestoreParentsRepository, this._parent)
       : super(const ProfileSetupState());
 
   final FirestoreParentsRepository _firestoreParentsRepository;
-  final AuthenticationBloc _authenticationBloc;
+  // final AuthenticationBloc _authenticationBloc;
+  final Parent _parent;
 
   void firstNameChanged(String value) {
     final firstName = FirstName.dirty(value);
@@ -44,7 +45,7 @@ class ProfileSetupCubit extends Cubit<ProfileSetupState> {
     if (!state.status.isValidated) return;
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
-      await _firestoreParentsRepository.addNewUser(_authenticationBloc.state.getParent.copyWith(
+      await _firestoreParentsRepository.addNewUser(_parent.copyWith(
         firstName: state.firstName.value,
         lastName: state.lastName.value,
       ));
