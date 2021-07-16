@@ -14,15 +14,18 @@ class ProfileSetupForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<ProfileSetupCubit, ProfileSetupState>(
       listener: (context, state) {
-        if (state.status.isSubmissionFailure) {
+        if (state.status.isSubmissionSuccess) {
+          // context.flow<AppStatus>().update((AppStatus) => AppStatus.parent);
+          Navigator.of(context).pop();
+          BlocProvider.of<AuthenticationBloc>(context)
+              .add(AuthenticationParentAuthenticated(state.parent));
+          // Navigator.pop(context);
+        } else if (state.status.isSubmissionFailure) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
-              const SnackBar(content: Text('Authentication Failure')),
+              const SnackBar(content: Text('Profile Setup Failure')),
             );
-        } else if (state.status.isSubmissionSuccess) {
-          // context.flow<AppStatus>().update((AppStatus) => AppStatus.parent);
-          BlocProvider.of<AuthenticationBloc>(context).add(AuthenticationParentAuthenticated(state.parent));
         }
       },
       child: Align(
@@ -89,7 +92,7 @@ class _LastNameInput extends StatelessWidget {
           decoration: InputDecoration(
             labelText: 'last name',
             helperText: '',
-            errorText: state.firstName.invalid ? 'invalid last name' : null,
+            errorText: state.lastName.invalid ? 'invalid last name' : null,
           ),
         );
       },
