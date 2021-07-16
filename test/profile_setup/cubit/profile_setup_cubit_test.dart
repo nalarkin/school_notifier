@@ -7,9 +7,12 @@ import 'package:school_notifier/profile_setup/profile_setup.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:users_repository/users_repository.dart';
 
 class MockAuthenticationRepository extends Mock
     implements AuthenticationRepository {}
+class MockFirestoreParentsRepository extends Mock
+    implements FirestoreParentsRepository {}
 
 void main() {
 
@@ -32,19 +35,20 @@ void main() {
 
   group('ProfileSetupCubit', () {
     late AuthenticationRepository authenticationRepository;
+    late FirestoreParentsRepository firestoreParentsRepository;
 
     setUp(() {
       authenticationRepository = MockAuthenticationRepository();
+      firestoreParentsRepository = MockFirestoreParentsRepository();
       when(
-        () => authenticationRepository.signUp(
-          email: any(named: 'email'),
-          password: any(named: 'password'),
+        () => firestoreParentsRepository.addNewUser(
+          any(named: 'parent')
         ),
       ).thenAnswer((_) async {});
     });
 
     test('initial state is ProfileSetupState', () {
-      expect(ProfileSetupCubit(authenticationRepository).state, ProfileSetupState());
+      expect(ProfileSetupCubit(authenticationRepository, firestoreParentsRepository).state, ProfileSetupState());
     });
 
     group('firstNameChanged', () {

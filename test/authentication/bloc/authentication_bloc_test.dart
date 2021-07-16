@@ -17,6 +17,9 @@ class MockUser extends Mock implements User {}
 
 class MockParent extends Mock implements Parent {}
 
+
+/// COULD USE MORE COMPREHENSIVE TESTS
+
 void main() {
   group('AuthenticationBloc', () {
     final user = MockUser();

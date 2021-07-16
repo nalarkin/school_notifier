@@ -21,7 +21,7 @@ class ProfileSetupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // context.select((value) => null)
-    AuthenticationBloc blocA = context.select((AuthenticationBloc bloc) => bloc);
+    // AuthenticationBloc blocA = context.select((AuthenticationBloc bloc) => bloc);
     return Scaffold(
       appBar: AppBar(title: const Text('Additional Info')),
       body: Padding(
@@ -29,7 +29,7 @@ class ProfileSetupPage extends StatelessWidget {
         child: BlocProvider(
           create: (_) => ProfileSetupCubit(
             context.read<FirestoreParentsRepository>(),
-            blocA,
+            context.read<AuthenticationBloc>().state.parent,
           ),
           child: const ProfileSetupForm(),
         ),
