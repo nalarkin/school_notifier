@@ -11,11 +11,13 @@ import 'package:users_repository/users_repository.dart';
 
 class MockAuthenticationRepository extends Mock
     implements AuthenticationRepository {}
+
 class MockFirestoreParentsRepository extends Mock
     implements FirestoreParentsRepository {}
 
-void main() {
+class MockParent extends Mock implements Parent {}
 
+void main() {
   const invalidNameString = '';
   const invalidFirstName = FirstName.dirty(invalidNameString);
 
@@ -36,34 +38,38 @@ void main() {
   group('ProfileSetupCubit', () {
     late AuthenticationRepository authenticationRepository;
     late FirestoreParentsRepository firestoreParentsRepository;
+    Parent mockParent = MockParent();
 
     setUp(() {
       authenticationRepository = MockAuthenticationRepository();
       firestoreParentsRepository = MockFirestoreParentsRepository();
       when(
-        () => firestoreParentsRepository.addNewUser(
-          any(named: 'parent')
-        ),
+        () => firestoreParentsRepository.addNewUser(any(named: 'parent')),
       ).thenAnswer((_) async {});
     });
 
     test('initial state is ProfileSetupState', () {
-      expect(ProfileSetupCubit(authenticationRepository, firestoreParentsRepository).state, ProfileSetupState());
+      expect(
+          ProfileSetupCubit(
+            firestoreParentsRepository, mockParent
+          ).state,
+          ProfileSetupState());
     });
 
     group('firstNameChanged', () {
       blocTest<ProfileSetupCubit, ProfileSetupState>(
         'emits [invalid] when email/password/confirmedPassword are invalid',
-        build: () => ProfileSetupCubit(authenticationRepository),
+        build: () => ProfileSetupCubit(firestoreParentsRepository, mockParent),
         act: (cubit) => cubit.firstNameChanged(invalidNameString),
         expect: () => const <ProfileSetupState>[
-          ProfileSetupState(firstName: invalidFirstName, status: FormzStatus.invalid),
+          ProfileSetupState(
+              firstName: invalidFirstName, status: FormzStatus.invalid),
         ],
       );
 
       blocTest<ProfileSetupCubit, ProfileSetupState>(
         'emits [valid] when email/password/confirmedPassword are valid',
-        build: () => ProfileSetupCubit(authenticationRepository),
+        build: () => ProfileSetupCubit(firestoreParentsRepository, mockParent),
         seed: () => ProfileSetupState(
           password: validPassword,
           confirmedPassword: validConfirmedPassword,
@@ -83,7 +89,7 @@ void main() {
     group('passwordChanged', () {
       blocTest<ProfileSetupCubit, ProfileSetupState>(
         'emits [invalid] when email/password/confirmedPassword are invalid',
-        build: () => ProfileSetupCubit(authenticationRepository),
+        build: () => ProfileSetupCubit(firestoreParentsRepository, mockParent),
         act: (cubit) => cubit.passwordChanged(invalidNameString),
         expect: () => const <ProfileSetupState>[
           ProfileSetupState(
@@ -99,7 +105,7 @@ void main() {
 
       blocTest<ProfileSetupCubit, ProfileSetupState>(
         'emits [valid] when email/password/confirmedPassword are valid',
-        build: () => ProfileSetupCubit(authenticationRepository),
+        build: () => ProfileSetupCubit(firestoreParentsRepository, mockParent),
         seed: () => ProfileSetupState(
           email: validFirstName,
           confirmedPassword: validConfirmedPassword,
@@ -118,7 +124,7 @@ void main() {
       blocTest<ProfileSetupCubit, ProfileSetupState>(
         'emits [valid] when confirmedPasswordChanged is called first and then '
         'passwordChanged is called',
-        build: () => ProfileSetupCubit(authenticationRepository),
+        build: () => ProfileSetupCubit(firestoreParentsRepository, mockParent),
         seed: () => ProfileSetupState(
           email: validFirstName,
         ),
@@ -145,9 +151,8 @@ void main() {
     group('confirmedPasswordChanged', () {
       blocTest<ProfileSetupCubit, ProfileSetupState>(
         'emits [invalid] when email/password/confirmedPassword are invalid',
-        build: () => ProfileSetupCubit(authenticationRepository),
-        act: (cubit) =>
-            cubit.confirmedPasswordChanged(invalidNameString),
+        build: () => ProfileSetupCubit(firestoreParentsRepository, mockParent),
+        act: (cubit) => cubit.confirmedPasswordChanged(invalidNameString),
         expect: () => const <ProfileSetupState>[
           ProfileSetupState(
             confirmedPassword: invalidConfirmedPassword,
@@ -158,8 +163,9 @@ void main() {
 
       blocTest<ProfileSetupCubit, ProfileSetupState>(
         'emits [valid] when email/password/confirmedPassword are valid',
-        build: () => ProfileSetupCubit(authenticationRepository),
-        seed: () => ProfileSetupState(email: validFirstName, password: validPassword),
+        build: () => ProfileSetupCubit(firestoreParentsRepository, mockParent),
+        seed: () =>
+            ProfileSetupState(email: validFirstName, password: validPassword),
         act: (cubit) => cubit.confirmedPasswordChanged(
           validConfirmedPasswordString,
         ),
@@ -176,7 +182,7 @@ void main() {
       blocTest<ProfileSetupCubit, ProfileSetupState>(
         'emits [valid] when passwordChanged is called first and then '
         'confirmedPasswordChanged is called',
-        build: () => ProfileSetupCubit(authenticationRepository),
+        build: () => ProfileSetupCubit(firestoreParentsRepository, mockParent),
         seed: () => ProfileSetupState(
           email: validFirstName,
         ),
@@ -205,14 +211,14 @@ void main() {
     group('signUpFormSubmitted', () {
       blocTest<ProfileSetupCubit, ProfileSetupState>(
         'does nothing when status is not validated',
-        build: () => ProfileSetupCubit(authenticationRepository),
+        build: () => ProfileSetupCubit(firestoreParentsRepository, mockParent),
         act: (cubit) => cubit.signUpFormSubmitted(),
         expect: () => const <ProfileSetupState>[],
       );
 
       blocTest<ProfileSetupCubit, ProfileSetupState>(
         'calls signUp with correct email/password/confirmedPassword',
-        build: () => ProfileSetupCubit(authenticationRepository),
+        build: () => ProfileSetupCubit(firestoreParentsRepository, mockParent),
         seed: () => ProfileSetupState(
           status: FormzStatus.valid,
           email: validFirstName,
@@ -233,7 +239,7 @@ void main() {
       blocTest<ProfileSetupCubit, ProfileSetupState>(
         'emits [submissionInProgress, submissionSuccess] '
         'when signUp succeeds',
-        build: () => ProfileSetupCubit(authenticationRepository),
+        build: () => ProfileSetupCubit(firestoreParentsRepository, mockParent),
         seed: () => ProfileSetupState(
           status: FormzStatus.valid,
           email: validFirstName,
@@ -267,7 +273,7 @@ void main() {
               password: any(named: 'password'),
             ),
           ).thenThrow(Exception('oops'));
-          return ProfileSetupCubit(authenticationRepository);
+          return ProfileSetupCubit(firestoreParentsRepository, mockParent);
         },
         seed: () => ProfileSetupState(
           status: FormzStatus.valid,
