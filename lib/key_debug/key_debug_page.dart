@@ -52,6 +52,16 @@ class KeyDebugPage extends StatelessWidget {
                   .read<KeyRepository>()
                   .generateNewTeacherKeyFromTeacherID('teacherIDHERE'),
             ),
+            TextButton(
+                child: Text('Print key 47wm9F9GnJ5L13K5ou68 if it exists'),
+                onPressed: () async {
+                  FirestoreKey? key = await context
+                      .read<KeyRepository>()
+                      .getKey('47wm9F9GnJ5L13K5ou68');
+                  if (key != null) {
+                    print(key);
+                  }
+                }),
           ],
         ));
   }
