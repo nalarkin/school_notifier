@@ -11,12 +11,12 @@ part 'navigation_event.dart';
 part 'navigation_state.dart';
 
 class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
-  NavigationBloc(this._appBloc) : super(NavigationInitial()) {
-    _appBlocSubscription = _appBloc.stream.listen(_mapAppBlocStateToAuthEvent);
+  NavigationBloc(this._authBloc) : super(NavigationInitial()) {
+    _authBlocSubscription = _authBloc.stream.listen(_mapAppBlocStateToAuthEvent);
   }
 
-  final AuthenticationBloc _appBloc;
-  late StreamSubscription _appBlocSubscription;
+  final AuthenticationBloc _authBloc;
+  late StreamSubscription _authBlocSubscription;
 
   @override
   Stream<NavigationState> mapEventToState(NavigationEvent event) async* {
@@ -53,14 +53,14 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
       add(NavigationParentSignedIn(parent: appState.parent, user: appState.user));
     } else if (appState.status == AuthenticationStatus.newParent) {
       add(NavigationNewParent(parent: appState.parent, user: appState.user));
-    } else {
+    } else if (appState.status == AuthenticationStatus.unauthenticated){
       add(NavigationStarted(user: appState.user, parent: appState.parent));
     }
   }
 
   @override
   Future<void> close() {
-    _appBlocSubscription.cancel();
+    _authBlocSubscription.cancel();
     return super.close();
   }
 }

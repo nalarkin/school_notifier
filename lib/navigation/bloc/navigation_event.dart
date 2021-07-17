@@ -8,6 +8,7 @@ abstract class NavigationEvent extends Equatable {
 
   @override
   List<Object?> get props => [user, parent, teacher];
+  // List<Object?> get props => [teacher];
 }
 
 class NavigationTeacherSignedIn extends NavigationEvent {
@@ -27,5 +28,9 @@ class NavigationNewParent extends NavigationEvent {
 
 class NavigationStarted extends NavigationEvent {
   NavigationStarted({parent, teacher, user})
+      : super(teacher: teacher, parent: parent, user: user);
+}
+class NavigationLogoutRequested extends NavigationEvent {
+  NavigationLogoutRequested({parent, teacher, user})
       : super(teacher: teacher, parent: parent, user: user);
 }

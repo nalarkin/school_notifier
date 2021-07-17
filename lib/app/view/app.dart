@@ -67,12 +67,15 @@ class AppView extends StatelessWidget {
               NavigationBloc(BlocProvider.of<AuthenticationBloc>(context)),
           child: NavigationPage(),
         ),
-        routes: <String, WidgetBuilder>{
-          NewUserWelcomePage.routeName: (context) => NewUserWelcomePage(),
-          ProfileSetupPage.routeName: (context) => ProfileSetupPage(),
-          HomePage.routeName: (context) => HomePage(),
-          LoginPage.routeName: (context) => LoginPage(),
-          SignUpPage.routeName: (context) => SignUpPage(),
-        });
+        routes: allRoutes,
+        
+        // <String, WidgetBuilder>{
+        //   NewUserWelcomePage.routeName: (context) => NewUserWelcomePage(),
+        //   ProfileSetupPage.routeName: (context) => ProfileSetupPage(),
+        //   HomePage.routeName: (context) => HomePage(),
+        //   LoginPage.routeName: (context) => LoginPage(),
+        //   SignUpPage.routeName: (context) => SignUpPage(),
+        // }
+        );
   }
 }

@@ -7,30 +7,38 @@ import 'package:mocktail/mocktail.dart';
 import 'package:school_notifier/app/app.dart';
 import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/login/login.dart';
+import 'package:school_notifier/authentication/authentication.dart';
+import 'package:users_repository/users_repository.dart';
 
 class MockUser extends Mock implements User {}
 
 class MockAuthenticationRepository extends Mock
     implements AuthenticationRepository {}
 
-class MockAppBloc extends MockBloc<AuthenticationEvent, AuthenticationState> implements AuthenticationBloc {}
+class MockFirestoreParentsRepository extends Mock
+    implements FirestoreParentsRepository {}
 
-class FakeAppEvent extends Fake implements AuthenticationEvent {}
+class MockAppBloc extends MockBloc<AuthenticationEvent, AuthenticationState>
+    implements AuthenticationBloc {}
 
-class FakeAppState extends Fake implements AuthenticationState {}
+class FakeAuthenticationEvent extends Fake implements AuthenticationEvent {}
+
+class FakeAuthenticationState extends Fake implements AuthenticationState {}
 
 void main() {
   group('App', () {
     late AuthenticationRepository authenticationRepository;
+    late FirestoreParentsRepository firestoreParentsRepository;
     late User user;
 
     setUpAll(() {
-      registerFallbackValue<AuthenticationEvent>(FakeAppEvent());
-      registerFallbackValue<AuthenticationState>(FakeAppState());
+      registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
+      registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
     });
 
     setUp(() {
       authenticationRepository = MockAuthenticationRepository();
+      firestoreParentsRepository = MockFirestoreParentsRepository();
       user = MockUser();
       when(() => authenticationRepository.user).thenAnswer(
         (_) => const Stream.empty(),
@@ -45,6 +53,7 @@ void main() {
       await tester.pumpWidget(
         App(
           authenticationRepository: authenticationRepository,
+          firestoreParentsRepository: firestoreParentsRepository,
         ),
       );
       await tester.pump();
@@ -52,48 +61,8 @@ void main() {
     });
   });
 
-  group('AppView', () {
-    late AuthenticationRepository authenticationRepository;
-    late AuthenticationBloc appBloc;
+  // group('AppView', () {
 
-    setUpAll(() {
-      registerFallbackValue<AuthenticationEvent>(FakeAppEvent());
-      registerFallbackValue<AuthenticationState>(FakeAppState());
-    });
-
-    setUp(() {
-      authenticationRepository = MockAuthenticationRepository();
-      appBloc = MockAppBloc();
-    });
-
-    testWidgets('navigates to LoginPage when unauthenticated', (tester) async {
-      when(() => appBloc.state).thenReturn(const AuthenticationState.unauthenticated());
-      await tester.pumpWidget(
-        RepositoryProvider.value(
-          value: authenticationRepository,
-          child: MaterialApp(
-            home: BlocProvider.value(value: appBloc, child: const AppView()),
-          ),
-        ),
-      );
-      await tester.pumpAndSettle();
-      expect(find.byType(LoginPage), findsOneWidget);
-    });
-
-    testWidgets('navigates to HomePage when authenticated', (tester) async {
-      final user = MockUser();
-      when(() => user.email).thenReturn('test@gmail.com');
-      when(() => appBloc.state).thenReturn(AuthenticationState.authenticated(user));
-      await tester.pumpWidget(
-        RepositoryProvider.value(
-          value: authenticationRepository,
-          child: MaterialApp(
-            home: BlocProvider.value(value: appBloc, child: const AppView()),
-          ),
-        ),
-      );
-      await tester.pumpAndSettle();
-      expect(find.byType(HomePage), findsOneWidget);
-    });
-  });
+  // });
+  /// TODO: add initial routing tests
 }
