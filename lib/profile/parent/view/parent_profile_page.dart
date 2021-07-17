@@ -13,10 +13,12 @@ class ParentProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Parent currentParent =
+        context.watch<NavigationBloc>().state.parent ?? Parent.empty;
     return BlocProvider(
       create: (_) => ParentProfileBloc(
           parentsRepository: context.read<FirestoreParentsRepository>(),
-          parentId: context.read<NavigationBloc>().state.parent!.id),
+          parentId: currentParent.id),
       child: ProfileLoader(),
     );
   }
