@@ -8,68 +8,118 @@ import 'package:school_notifier/app/app.dart';
 import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/login/login.dart';
 import 'package:school_notifier/authentication/authentication.dart';
+import 'package:school_notifier/navigation/bloc/navigation_bloc.dart';
+import 'package:school_notifier/navigation/view/navigation_page.dart';
 import 'package:users_repository/users_repository.dart';
 
-// class MockUser extends Mock implements User {}
+class MockUser extends Mock implements User {}
 
-// class MockAuthenticationRepository extends Mock
-//     implements AuthenticationRepository {}
+class MockParent extends Mock implements Parent {}
 
-// class MockFirestoreParentsRepository extends Mock
-//     implements FirestoreParentsRepository {}
+class MockAuthenticationRepository extends Mock
+    implements AuthenticationRepository {}
 
-// class MockAppBloc extends MockBloc<AuthenticationEvent, AuthenticationState>
-//     implements AuthenticationBloc {}
+class MockFirestoreParentsRepository extends Mock
+    implements FirestoreParentsRepository {}
 
-// class FakeAuthenticationEvent extends Fake implements AuthenticationEvent {}
+class MockNavigationBloc extends MockBloc<NavigationEvent, NavigationState>
+    implements NavigationBloc {}
 
-// class FakeAuthenticationState extends Fake implements AuthenticationState {}
+class MockAuthenticationBloc
+    extends MockBloc<AuthenticationEvent, AuthenticationState>
+    implements AuthenticationBloc {}
 
-void main() {}
-//   group('AppView', () {
-//     late AuthenticationRepository authenticationRepository;
-//     late AuthenticationBloc appBloc;
+class FakeNavigationEvent extends Fake implements NavigationEvent {}
 
-//     setUpAll(() {
-//       registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
-//       registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
-//     });
+class FakeNavigationState extends Fake implements NavigationState {}
+class FakeAuthenticationEvent extends Fake implements AuthenticationEvent {}
+class FakeAuthenticationState extends Fake implements AuthenticationState {}
 
-//     setUp(() {
-//       authenticationRepository = MockAuthenticationRepository();
-//       appBloc = MockAppBloc();
-//     });
+void main() {
+  group('NavigationPage', () {
+    late NavigationBloc navigationBloc;
+    late AuthenticationRepository authenticationRepository;
+    late AuthenticationBloc authenticationBloc;
 
-//     testWidgets('navigates to LoginPage when unauthenticated', (tester) async {
-//       when(() => appBloc.state)
-//           .thenReturn(const AuthenticationState.unauthenticated());
-//       await tester.pumpWidget(
+    setUpAll(() {
+      registerFallbackValue<NavigationEvent>(FakeNavigationEvent());
+      registerFallbackValue<NavigationState>(FakeNavigationState());
+      registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
+      registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
+    });
+
+    setUp(() {
+      navigationBloc = MockNavigationBloc();
+      authenticationRepository = MockAuthenticationRepository();
+      authenticationBloc = MockAuthenticationBloc();
+    });
+
+    testWidgets('navigates to LoginPage when NavigationInitial()',
+        (tester) async {
+      when(() => navigationBloc.state).thenReturn(NavigationInitial());
+      when(() => navigationBloc.stream)
+          .thenAnswer((_) => Stream.value(NavigationInitial()));
+      await tester.pumpWidget(
+        RepositoryProvider.value(
+          value: authenticationRepository,
+          child: MaterialApp(
+            routes: allRoutes,
+            home: BlocProvider.value(
+                value: navigationBloc, child: const NavigationPage()),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(LoginPage), findsOneWidget);
+    });
+    testWidgets('navigates to HomePage when NavigationParentSignInSuccess()',
+        (tester) async {
+      final parent = MockParent();
+      // when(() => authenticationBloc.state.user).thenReturn(MockUser());
+      // when(() => authenticationBloc.state).thenReturn(AuthenticationState.parent(parent));
+      when(() => navigationBloc.state)
+          .thenReturn(NavigationParentSignInSuccess(parent: parent));
+      when(() => navigationBloc.stream).thenAnswer(
+          (_) => Stream.value(NavigationParentSignInSuccess(parent: parent)));
+      await tester.pumpWidget(
+        RepositoryProvider.value(
+          value: authenticationRepository,
+          child: MaterialApp(
+            routes: allRoutes,
+            home: BlocProvider.value(
+                value: navigationBloc,
+                child: BlocProvider.value(
+                    value: authenticationBloc, child: const NavigationPage())),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(HomePage), findsOneWidget);
+    });
+  });
+}
+
+
+// MultiRepositoryProvider buildDependencies(Widget curr) {
+//   final authenticationRepository = MockAuthenticationRepository();
+//   when(() => authenticationRepository.user).thenAnswer((_) => Stream.empty());
+//   when(() => authenticationRepository.currentUser).thenReturn(User.empty);
+//   final firstoreParentsRepository = MockFirestoreParentsRepository();
+
+//   return MultiRepositoryProvider(
+//       providers: [
 //         RepositoryProvider.value(
-//           value: authenticationRepository,
-//           child: MaterialApp(
-//             home: BlocProvider.value(value: appBloc, child: const AppView()),
-//           ),
+//           value: authenticationRepository as AuthenticationRepository,
 //         ),
-//       );
-//       await tester.pumpAndSettle();
-//       expect(find.byType(LoginPage), findsOneWidget);
-//     });
-
-//     testWidgets('naigates to HomePage when authenticated', (tester) async {
-//       final user = MockUser();
-//       when(() => user.email).thenReturn('test@gmail.com');
-//       when(() => appBloc.state)
-//           .thenReturn(AuthenticationState.authenticated(user));
-//       await tester.pumpWidget(
 //         RepositoryProvider.value(
-//           value: authenticationRepository,
-//           child: MaterialApp(
-//             home: BlocProvider.value(value: appBloc, child: const AppView()),
-//           ),
+//           value: firstoreParentsRepository as FirestoreParentsRepository,
 //         ),
-//       );
-//       await tester.pumpAndSettle();
-//       expect(find.byType(HomePage), findsOneWidget);
-//     });
-//   });
+//       ],
+//       child: BlocProvider(
+//         create: (_) => AuthenticationBloc(
+//           authenticationRepository: authenticationRepository,
+//           firestoreParentsRepository: firstoreParentsRepository,
+//         ),
+//         child: curr,
+//       ));
 // }

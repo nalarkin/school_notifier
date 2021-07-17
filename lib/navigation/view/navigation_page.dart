@@ -14,14 +14,10 @@ class NavigationPage extends StatelessWidget {
       listener: (context, state) {
         if (state is NavigationNewParentSetup) {
           Navigator.pushNamed(context, ProfileSetupPage.routeName);
-          // Navigator.of(context).push(ProfileSetupPage.route());
         } else if (state is NavigationParentSignInSuccess) {
-          //  Navigator.of(context).push(HomePage.route());
           Navigator.pushNamed(context, HomePage.routeName);
         } else if (state is NavigationInitial) {
-          ///
           Navigator.pushNamed(context, LoginPage.routeName);
-          // Navigator.of(context).push(LoginPage.route());
         }
       },
       // child: Container(child: Text('loading...')),
