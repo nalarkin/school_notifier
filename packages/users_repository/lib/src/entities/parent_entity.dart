@@ -20,7 +20,7 @@ class ParentEntity extends Equatable {
   final String firstName;
   final String lastName;
   final String joinDate;
-  final List<dynamic> children;
+  final Map<String, dynamic> children;
 
   Map<String, Object?> toJson() {
     return {
@@ -50,7 +50,7 @@ class ParentEntity extends Equatable {
       firstName: json['firstName'] as String,
       lastName: json['lastName'] as String,
       joinDate: json['joinDate'].toString(),
-      children: json['children'] as List<dynamic>,
+      children: json['children'] as Map<String, dynamic>,
     );
   }
 
@@ -63,7 +63,7 @@ class ParentEntity extends Equatable {
       firstName: data['firstName'] as String,
       lastName: data['lastName'] as String,
       joinDate: data['joinDate'] as String,
-      children: data['children'] as List<dynamic>,
+      children: data['children'] as Map<String, dynamic>,
     );
   }
 

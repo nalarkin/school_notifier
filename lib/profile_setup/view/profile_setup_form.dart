@@ -17,7 +17,10 @@ class ProfileSetupForm extends StatelessWidget {
         if (state.status.isSubmissionSuccess) {
           // context.flow<AppStatus>().update((AppStatus) => AppStatus.parent);
           Navigator.of(context).pop();
-          BlocProvider.of<AuthenticationBloc>(context)
+          // BlocProvider.of<AuthenticationBloc>(context)
+          //     .add();
+          context
+              .read<AuthenticationBloc>()
               .add(AuthenticationParentAuthenticated(state.parent));
           // Navigator.pop(context);
         } else if (state.status.isSubmissionFailure) {
