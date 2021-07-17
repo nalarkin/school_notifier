@@ -27,8 +27,8 @@ class NewUserWelcomePage extends StatelessWidget {
                   primary: Colors.orangeAccent,
                 ),
                 onPressed: () =>
-                    Navigator.of(context).push<void>(ProfileSetupPage.route()),
-                    // Navigator.of(context).pushNamed(ProfileSetupPage.routeName),
+                    // Navigator.of(context).push<void>(ProfileSetupPage.route()),
+                    Navigator.pushNamed(context, ProfileSetupPage.routeName),
                 child: const Text('SUBMIT INFO'),
               ),
             ],

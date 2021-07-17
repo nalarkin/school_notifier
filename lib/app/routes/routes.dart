@@ -5,20 +5,13 @@ import 'package:school_notifier/login/login.dart';
 import 'package:school_notifier/profile_setup/profile_setup.dart';
 import 'package:school_notifier/profile_setup/view/new_user_setup_page.dart';
 import 'package:school_notifier/authentication/authentication.dart';
+import 'package:school_notifier/sign_up/sign_up.dart';
 
 
-List<Page> onGenerateAppViewPages(AuthenticationStatus state, List<Page<dynamic>> pages) {
-  switch (state) {
-    case AuthenticationStatus.authenticated:
-      return [HomePage.page()];
-    case AuthenticationStatus.parent:
-      return [HomePage.page()];
-    case AuthenticationStatus.newParent:
-      return [NewUserWelcomePage.page()];
-      // return [ProfileSetupPage.page()];
-      
-    case AuthenticationStatus.unauthenticated:
-    default:
-      return [LoginPage.page()];
-  }
-}
+Map<String, WidgetBuilder> allRoutes = <String, WidgetBuilder>{
+  NewUserWelcomePage.routeName: (context) => NewUserWelcomePage(),
+  ProfileSetupPage.routeName: (context) => ProfileSetupPage(),
+  HomePage.routeName: (context) => HomePage(),
+  LoginPage.routeName: (context) => LoginPage(),
+  SignUpPage.routeName: (context) => SignUpPage(),
+};
