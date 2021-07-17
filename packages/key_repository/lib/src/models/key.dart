@@ -1,71 +1,60 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:key_repository/key_repository.dart';
 
-// import '../../users_repository.dart';
-import 'package:key_repository/';
-
-class FirestoreUser extends Equatable {
-  const FirestoreUser({
+class FirestoreKey extends Equatable {
+  const FirestoreKey({
+    this.creationDate,
     required this.id,
-    required this.email,
-    required this.firstName,
-    required this.lastName,
-    required this.joinDate,
-    required this.username,
+    this.isValid = true,
+    required this.studentID,
+     
   });
 
+  final String? creationDate;
   final String id;
-  final String email;
-  final String firstName;
-  final String lastName;
-  final Timestamp joinDate;
-  final String username;
+  final bool isValid;
+  final String studentID;
 
-  FirestoreUser copyWith(
-      {String? email,
-      String? firstName,
-      String? lastName,
-      Timestamp? joinDate,
-      String? username}) {
-    return FirestoreUser(
+
+
+  FirestoreKey copyWith(
+      {String? creationDate,
+      bool? isValid,
+      String? studentID,}) {
+    return FirestoreKey(
+      creationDate: creationDate ?? this.creationDate,
       id: id,
-      email: email ?? this.email,
-      firstName: firstName ?? this.firstName,
-      lastName: lastName ?? this.lastName,
-      joinDate: joinDate ?? this.joinDate,
-      username: username ?? this.username,
+      isValid: isValid ?? this.isValid,
+      studentID: studentID ?? this.studentID,
     );
   }
 
   @override
   List<Object> get props =>
-      [id, username, email, firstName, lastName, joinDate];
+      [id, isValid];
 
   @override
   String toString() {
-    return '''FirestoreUser { id: $id, name: $firstName $lastName, 
-            username: $username, email: $email, joinDate: $joinDate}''';
+    return '''FirestoreKey { id: $id, studentId: $studentID isValid: $isValid, 
+            creationDate: $creationDate}''';
   }
 
-  UserEntity toEntity() {
-    return UserEntity(
+  KeyEntity toEntity() {
+    return KeyEntity(
+      creationDate: creationDate ?? DateTime.now().toString(),
       id: id,
-      email: email,
-      firstName: firstName,
-      lastName: lastName,
-      joinDate: joinDate,
-      username: username,
+      isValid: isValid ,
+      studentID: studentID,
     );
   }
 
-  static FirestoreUser fromEntity(UserEntity entity) {
-    return FirestoreUser(
+  static FirestoreKey fromEntity(KeyEntity entity) {
+    return FirestoreKey(
+      creationDate: entity.creationDate,
       id: entity.id,
-      email: entity.email,
-      firstName: entity.firstName,
-      lastName: entity.lastName,
-      joinDate: entity.joinDate,
-      username: entity.username,
+      isValid: entity.isValid,
+      studentID: entity.studentID,
     );
   }
 }
