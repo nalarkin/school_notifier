@@ -5,12 +5,16 @@ class KeyEntity extends Equatable {
   const KeyEntity({
     required this.creationDate,
     required this.id,
+    required this.isParent,
+    required this.isTeacher,
     required this.isValid,
     required this.studentID,
   });
 
   final String creationDate;
   final String id;
+  final bool isParent;
+  final bool isTeacher;
   final bool isValid;
   final String studentID;
 
@@ -18,14 +22,15 @@ class KeyEntity extends Equatable {
     return {
       'creationDate': creationDate,
       'id': id,
+      'isParent': isParent,
+      'isTeacher': isTeacher,
       'isValid': isValid,
       'studentID': studentID,
     };
   }
 
   @override
-  List<Object> get props =>
-      [id, isValid, studentID];
+  List<Object> get props => [id, isValid, studentID];
 
   @override
   String toString() {
@@ -37,6 +42,8 @@ class KeyEntity extends Equatable {
     return KeyEntity(
       creationDate: json['creationDate'].toString(),
       id: json['id'] as String,
+      isParent: json['isParent'] as bool,
+      isTeacher: json['isTeacher'] as bool,
       isValid: json['isValid'] as bool,
       studentID: json['studentID'] as String,
     );
@@ -48,6 +55,8 @@ class KeyEntity extends Equatable {
     return KeyEntity(
       creationDate: data['creationDate'].toString(),
       id: data['id'] as String,
+      isParent: data['isParent'] as bool,
+      isTeacher: data['isTeacher'] as bool,
       isValid: data['isValid'] as bool,
       studentID: data['studentID'] as String,
     );
@@ -57,6 +66,8 @@ class KeyEntity extends Equatable {
     return {
       'creationDate': creationDate,
       'id': id,
+      'isParent': isParent,
+      'isTeacher': isTeacher,
       'isValid': isValid,
       'studentID': studentID,
     };
