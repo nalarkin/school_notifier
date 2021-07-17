@@ -30,16 +30,15 @@ class NavigationPage extends StatelessWidget {
         if (state is NavigationNewParentSetup) {
           Navigator.pushNamed(context, ProfileSetupPage.routeName);
         } else if (state is NavigationParentSignInSuccess) {
-          Navigator.pushNamed(context, ParentProfilePage.routeName);
+          // Navigator.pushNamed(context, ParentProfilePage.routeName);
           // Navigator.push(context, ParentProfilePage.route());
-          // Navigator.pushNamed(context, HomePage.routeName);
+          Navigator.pushNamed(context, HomePage.routeName);
         } else if (state is NavigationInitial) {
           Navigator.pushNamed(context, LoginPage.routeName);
         }
       },
       // child: Container(child: Text('loading...')),
-      child: Builder(builder: (_) => Container()) ,
-
+      child: Builder(builder: (_) => Container()),
     );
   }
 }

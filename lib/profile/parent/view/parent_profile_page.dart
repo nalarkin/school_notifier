@@ -35,8 +35,11 @@ class ProfileLoader1 extends StatelessWidget {
   Widget build(BuildContext context) {
     // Parent currentParent =
     //     context.watch<NavigationBloc>().state.parent ?? Parent.empty;
-    NavigationBloc bloc = context.select((NavigationBloc bloc) => bloc);
-    Parent currentParent = bloc.state.parent ?? Parent.empty;
+    // NavigationBloc bloc = context.select((NavigationBloc bloc) => bloc);
+    Parent currentParent =
+        context.select((NavigationBloc bloc) => bloc.state.parent) ??
+            Parent.empty;
+    // Parent currentParent = bloc.state.parent ?? Parent.empty;
     return BlocProvider(
       create: (_) => ParentProfileBloc(
           parentsRepository: context.read<FirestoreParentsRepository>(),
@@ -45,6 +48,7 @@ class ProfileLoader1 extends StatelessWidget {
     );
   }
 }
+
 class ProfileLoader extends StatelessWidget {
   const ProfileLoader({Key? key}) : super(key: key);
 
@@ -56,7 +60,7 @@ class ProfileLoader extends StatelessWidget {
           return ProfileView();
         } else if (state is ParentProfileSuccess) {
           return ProfileView();
-        } 
+        }
 
         throw Exception(
             'This case should never occur. located in profile_page.dart');
@@ -100,7 +104,6 @@ class ProfileView extends StatelessWidget {
                 _LastNameDisplay(),
                 _EmailDisplay(),
                 _JoinDateDisplay(),
-                
               ],
             ),
           ),
@@ -124,6 +127,7 @@ class _FirstNameDisplay extends StatelessWidget {
         });
   }
 }
+
 class _LastNameDisplay extends StatelessWidget {
   const _LastNameDisplay({Key? key}) : super(key: key);
 
@@ -140,6 +144,7 @@ class _LastNameDisplay extends StatelessWidget {
         });
   }
 }
+
 class _EmailDisplay extends StatelessWidget {
   const _EmailDisplay({Key? key}) : super(key: key);
 
@@ -156,6 +161,7 @@ class _EmailDisplay extends StatelessWidget {
         });
   }
 }
+
 class _JoinDateDisplay extends StatelessWidget {
   const _JoinDateDisplay({Key? key}) : super(key: key);
 

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/app/app.dart';
 import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/authentication/authentication.dart';
+import 'package:school_notifier/profile/profile.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -37,10 +38,11 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 4.0),
             // Text(user.name ?? '', style: textTheme.headline5),
             const SizedBox(height: 4.0),
-            // MaterialButton(
-            //   onPressed: () =>
-            //       Navigator.of(context).push<void>(PostsPage.route()),
-            //   child: const Text('Posts Page'),
+            MaterialButton(
+              onPressed: () =>
+                  Navigator.pushNamed(context, ParentProfilePage.routeName),
+              child: const Text('Profile Page'),
+            )
           ],
         ),
       ),
