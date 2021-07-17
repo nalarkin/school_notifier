@@ -45,4 +45,12 @@ class FirestoreParentsRepository implements UsersRepository<Parent> {
       throw Exception(e);
     }
   }
+
+  @override 
+  Stream<Parent> liveProfileStream(String id) {
+    return parentsCollection
+        .doc(id)
+        .snapshots()
+        .map((doc) => Parent.fromEntity(ParentEntity.fromSnapshot(doc)));
+  }
 }

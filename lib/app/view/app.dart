@@ -58,24 +58,35 @@ class AppView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return BlocProvider(
+      create: (context) =>
+          NavigationBloc(BlocProvider.of<AuthenticationBloc>(context)),
+      child: MaterialApp(
         theme: theme,
         darkTheme: darkTheme,
         // themeMode: ThemeMode.dark,
-        home: BlocProvider(
-          create: (context) =>
-              NavigationBloc(BlocProvider.of<AuthenticationBloc>(context)),
-          child: NavigationPage(),
-        ),
+        home: NavigationPage(),
         routes: allRoutes,
-        
-        // <String, WidgetBuilder>{
-        //   NewUserWelcomePage.routeName: (context) => NewUserWelcomePage(),
-        //   ProfileSetupPage.routeName: (context) => ProfileSetupPage(),
-        //   HomePage.routeName: (context) => HomePage(),
-        //   LoginPage.routeName: (context) => LoginPage(),
-        //   SignUpPage.routeName: (context) => SignUpPage(),
-        // }
-        );
+      ),
+    );
+    // return MaterialApp(
+    //     theme: theme,
+    //     darkTheme: darkTheme,
+    //     // themeMode: ThemeMode.dark,
+    //     home: BlocProvider(
+    //       create: (context) =>
+    //           NavigationBloc(BlocProvider.of<AuthenticationBloc>(context)),
+    //       child: NavigationPage(),
+    //     ),
+    //     routes: allRoutes,
+
+    // <String, WidgetBuilder>{
+    //   NewUserWelcomePage.routeName: (context) => NewUserWelcomePage(),
+    //   ProfileSetupPage.routeName: (context) => ProfileSetupPage(),
+    //   HomePage.routeName: (context) => HomePage(),
+    //   LoginPage.routeName: (context) => LoginPage(),
+    //   SignUpPage.routeName: (context) => SignUpPage(),
+    // }
+    // );
   }
 }
