@@ -1,0 +1,1 @@
+export 'parent/parent.dart';
