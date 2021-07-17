@@ -22,13 +22,37 @@ class KeyDebugPage extends StatelessWidget {
             )
           ],
         ),
-        body: Center(
-          child: TextButton(
-            child: Text('Add Key'),
-            onPressed: () => context
-                .read<KeyRepository>()
-                .generateNewKeyFromStudentID('studentIDHERE'),
-          ),
+        body: Column(
+          children: [
+            SizedBox(
+              height: 50,
+            ),
+            TextButton(
+              child: Text('Add StudentKey'),
+              onPressed: () => context
+                  .read<KeyRepository>()
+                  .generateNewStudentKeyFromStudentID(
+                      'studentIDHERE.Studentkey'),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            TextButton(
+              child: Text('Add ParentKey'),
+              onPressed: () => context
+                  .read<KeyRepository>()
+                  .generateNewParentKeyFromStudentID('studentIDHERE.Parentkey'),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            TextButton(
+              child: Text('Add TeacherKey'),
+              onPressed: () => context
+                  .read<KeyRepository>()
+                  .generateNewTeacherKeyFromTeacherID('teacherIDHERE'),
+            ),
+          ],
         ));
   }
 }

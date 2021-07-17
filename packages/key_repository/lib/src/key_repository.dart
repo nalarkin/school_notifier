@@ -38,18 +38,50 @@ class KeyRepository {
     return null;
   }
 
-  Future<void> generateNewKeyFromStudentID(String studentID) async {
+  // Future<void> generateNewKeyFromStudentID(String studentID) async {
+  //   try {
+  //     final newKeyID = keyCollection.doc();
+  //     FirestoreKey keyGenerated = FirestoreKey(
+  //         id: newKeyID.id,
+  //         creationDate: DateTime.now().toString(),
+  //         isValid: true,
+  //         studentID: studentID);
+  //     keyCollection.doc(newKeyID.id).set(keyGenerated.toEntity().toJson());
+  //   } catch (e) {
+  //     print('Error in key_repository.dart. $e');
+  //   }
+  // }
+  Future<void> _generateNewKeyFromID(
+      {required String studentID,
+      bool teacher = false,
+      bool student = false,
+      bool parent = false}) async {
     try {
       final newKeyID = keyCollection.doc();
       FirestoreKey keyGenerated = FirestoreKey(
           id: newKeyID.id,
           creationDate: DateTime.now().toString(),
+          isParent: parent,
+          isStudent: student,
+          isTeacher: teacher,
           isValid: true,
           studentID: studentID);
       keyCollection.doc(newKeyID.id).set(keyGenerated.toEntity().toJson());
     } catch (e) {
       print('Error in key_repository.dart. $e');
     }
+  }
+
+  void generateNewStudentKeyFromStudentID(String studentID) {
+    _generateNewKeyFromID(studentID: studentID, student: true);
+  }
+  void generateNewParentKeyFromStudentID(String studentID) {
+    _generateNewKeyFromID(studentID: studentID, parent: true);
+  }
+
+  /// stores teacherID in studentID to save space
+  void generateNewTeacherKeyFromTeacherID(String teacherID) {
+    _generateNewKeyFromID(studentID: teacherID, teacher: true);
   }
 
   // Future<void> addNewUser(Parent user) {
