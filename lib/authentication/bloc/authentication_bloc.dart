@@ -68,9 +68,10 @@ class AuthenticationBloc
     /// if user hasn't setup their account, send them to sign in page
     if (currUser == Parent.empty) {
       add(AuthenticationNewParentJoined(Parent(
-          id: user.id,
-          email: user.email,
-          joinDate: DateTime.now().toString())));
+        id: user.id,
+        email: user.email,
+        // joinDate: DateTime.now().toString())));
+      )));
     } else {
       add(AuthenticationParentAuthenticated(currUser));
     }

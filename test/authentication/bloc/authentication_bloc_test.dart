@@ -17,10 +17,12 @@ class MockUser extends Mock implements User {}
 
 class MockParent extends Mock implements Parent {}
 
-
 /// COULD USE MORE COMPREHENSIVE TESTS
 
 void main() {
+  setUpAll(() {
+    registerFallbackValue(MockParent());
+  });
   group('AuthenticationBloc', () {
     final user = MockUser();
     final parent = MockParent();
@@ -33,17 +35,6 @@ void main() {
       when(() => authenticationRepository.user).thenAnswer(
         (_) => Stream.empty(),
       );
-      // when(() => firestoreParentsRepository.getUserOrDefault)
-      //     .thenAnswer((String val) async {
-      //   Future.delayed(Duration(seconds: 0));
-      //   return Parent.empty;
-      // });
-      // when(() => firestoreParentsRepository.getUserOrDefault)
-      //     .thenAnswer((_) => Parent.empty),
-      // });
-      // when(() => firestoreParentsRepository.getUserOrDefault('-'))
-      //     .thenAnswer((_) => new Future<Parent>(() => Parent.empty));
-      // });
       when(
         () => authenticationRepository.currentUser,
       ).thenReturn(User.empty);
@@ -60,25 +51,44 @@ void main() {
     });
 
     group('UserChanged', () {
-      // blocTest<AuthenticationBloc, AuthenticationState>(
-      //   'emits authenticated when user is not empty',
-      //   build: () {
-      //     when(() => user.isNotEmpty).thenReturn(true);
-      //     when(() => user.isEmpty).thenReturn(false);
-      //     when(() => user.id).thenReturn('-');
-      //     when(() => authenticationRepository.user).thenAnswer(
-      //       (_) => Stream.value(user),
-      //     );
-      //     when(() => firestoreParentsRepository.getUserOrDefault('-'))
-      //         .thenAnswer((_) => new Future<Parent>(() => Parent.empty));
-      //     return AuthenticationBloc(
-      //         authenticationRepository: authenticationRepository,
-      //         firestoreParentsRepository: firestoreParentsRepository);
-      //   },
-      //   seed: () => AuthenticationState.unauthenticated(),
-      //   // wait: Duration(seconds: 2),
-      //   expect: () => [AuthenticationState.newParent(Parent(id: '-'))],
-      // );
+      blocTest<AuthenticationBloc, AuthenticationState>(
+        'emits AuthenticationState.parent when Parent is not empty',
+        build: () {
+          when(() => user.isNotEmpty).thenReturn(true);
+          when(() => user.isEmpty).thenReturn(false);
+          when(() => user.id).thenReturn('-');
+          when(() => authenticationRepository.user).thenAnswer(
+            (_) => Stream.value(user),
+          );
+          when(() => firestoreParentsRepository.getUserOrDefault('-'))
+              .thenAnswer((_) => new Future<Parent>(() => Parent(id: '-')));
+          return AuthenticationBloc(
+              authenticationRepository: authenticationRepository,
+              firestoreParentsRepository: firestoreParentsRepository);
+        },
+        seed: () => AuthenticationState.unauthenticated(),
+        // wait: Duration(seconds: 2),
+        expect: () => [AuthenticationState.parent(Parent(id: '-'))],
+      );
+      blocTest<AuthenticationBloc, AuthenticationState>(
+        'emits AuthenticationState.parent when Parent is parent is not empty',
+        build: () {
+          when(() => user.isNotEmpty).thenReturn(true);
+          when(() => user.isEmpty).thenReturn(false);
+          when(() => user.id).thenReturn('-');
+          when(() => authenticationRepository.user).thenAnswer(
+            (_) => Stream.value(user),
+          );
+          when(() => firestoreParentsRepository.getUserOrDefault('-'))
+              .thenAnswer((_) => new Future<Parent>(() => Parent.empty));
+          return AuthenticationBloc(
+              authenticationRepository: authenticationRepository,
+              firestoreParentsRepository: firestoreParentsRepository);
+        },
+        seed: () => AuthenticationState.unauthenticated(),
+        // wait: Duration(seconds: 2),
+        expect: () => [AuthenticationState.newParent(Parent(id: '-'))],
+      );
 
       blocTest<AuthenticationBloc, AuthenticationState>(
         'emits unauthenticated when user is empty',

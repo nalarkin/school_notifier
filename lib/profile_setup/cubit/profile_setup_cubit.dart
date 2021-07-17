@@ -41,18 +41,38 @@ class ProfileSetupCubit extends Cubit<ProfileSetupState> {
     ));
   }
 
+  // Future<void> signUpFormSubmitted() async {
+  //   if (!state.status.isValidated) return;
+  //   emit(state.copyWith(status: FormzStatus.submissionInProgress));
+  //   try {
+  //     // emit(state.copyWith(status: FormzStatus.submissionSuccess));
+  //     Parent curr = _parent.copyWith(
+  //       firstName: state.firstName.value,
+  //       lastName: state.lastName.value,
+  //     );
+  //     await _firestoreParentsRepository.addNewUser(curr);
+  //     emit(state.copyWith(status: FormzStatus.submissionSuccess));
+  //   } on Exception {
+  //     emit(state.copyWith(status: FormzStatus.submissionFailure));
+  //   }
+  // }
+
   Future<void> signUpFormSubmitted() async {
     if (!state.status.isValidated) return;
+    // emit(state.copyWith(status: FormzStatus.submissionInProgress));
+    // try {
+    // emit(state.copyWith(status: FormzStatus.submissionSuccess));
+    Parent curr = _parent.copyWith(
+      firstName: state.firstName.value,
+      lastName: state.lastName.value,
+    );
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
-    try {
-      await _firestoreParentsRepository.addNewUser(_parent.copyWith(
-        firstName: state.firstName.value,
-        lastName: state.lastName.value,
-      ));
-      emit(state.copyWith(status: FormzStatus.submissionSuccess));
-    } on Exception {
-      emit(state.copyWith(status: FormzStatus.submissionFailure));
-    }
+
+    await _firestoreParentsRepository.addNewUser(curr);
+    emit(state.copyWith(status: FormzStatus.submissionSuccess));
+    // } on Exception {
+    //   emit(state.copyWith(status: FormzStatus.submissionFailure));
+    // }
   }
 
   // Future<void> logInWithGoogle() async {
