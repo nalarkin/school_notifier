@@ -26,15 +26,26 @@ class ParentProfileBloc extends Bloc<ParentProfileEvent, ParentProfileState> {
   Stream<ParentProfileState> mapEventToState(
     ParentProfileEvent event,
   ) async* {
-    if (event is ParentProfileChanged) {}
+    if (event is ParentProfileChanged) {
+      yield _mapParentProfileChangedToState(event);
+    }
   }
 
   ParentProfileState _mapParentProfileChangedToState(
       ParentProfileChanged curr) {
+        
     return ParentProfileSuccess(curr.parent);
   }
 
   void _mapParentProfile(Parent currParent) {
     add(ParentProfileChanged(currParent));
+  }
+
+
+ 
+  @override
+  Future<void> close() {
+    _profileStream.cancel();
+    return super.close();
   }
 }

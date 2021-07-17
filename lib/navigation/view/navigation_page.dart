@@ -31,13 +31,15 @@ class NavigationPage extends StatelessWidget {
           Navigator.pushNamed(context, ProfileSetupPage.routeName);
         } else if (state is NavigationParentSignInSuccess) {
           Navigator.pushNamed(context, ParentProfilePage.routeName);
+          // Navigator.push(context, ParentProfilePage.route());
           // Navigator.pushNamed(context, HomePage.routeName);
         } else if (state is NavigationInitial) {
           Navigator.pushNamed(context, LoginPage.routeName);
         }
       },
       // child: Container(child: Text('loading...')),
-      child: LoadingIndicator(),
+      child: Builder(builder: (_) => Container()) ,
+
     );
   }
 }

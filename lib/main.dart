@@ -4,8 +4,10 @@ import 'package:flutter/widgets.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:school_notifier/app/app.dart';
 import 'package:users_repository/users_repository.dart';
+import 'package:flutter/rendering.dart';
 
 void main() async {
+  debugRepaintRainbowEnabled = true;
   Bloc.observer = AppBlocObserver();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
