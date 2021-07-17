@@ -41,49 +41,19 @@ class ProfileSetupCubit extends Cubit<ProfileSetupState> {
     ));
   }
 
-  // Future<void> signUpFormSubmitted() async {
-  //   if (!state.status.isValidated) return;
-  //   emit(state.copyWith(status: FormzStatus.submissionInProgress));
-  //   try {
-  //     // emit(state.copyWith(status: FormzStatus.submissionSuccess));
-  //     Parent curr = _parent.copyWith(
-  //       firstName: state.firstName.value,
-  //       lastName: state.lastName.value,
-  //     );
-  //     await _firestoreParentsRepository.addNewUser(curr);
-  //     emit(state.copyWith(status: FormzStatus.submissionSuccess));
-  //   } on Exception {
-  //     emit(state.copyWith(status: FormzStatus.submissionFailure));
-  //   }
-  // }
-
   Future<void> signUpFormSubmitted() async {
     if (!state.status.isValidated) return;
-    // emit(state.copyWith(status: FormzStatus.submissionInProgress));
-    // try {
-    // emit(state.copyWith(status: FormzStatus.submissionSuccess));
     Parent curr = _parent.copyWith(
       firstName: state.firstName.value,
       lastName: state.lastName.value,
+      children: {'profile_setup_form_creates_this': state.studentName.value},
+      joinDate: DateTime.now().toString(),
     );
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
 
     await _firestoreParentsRepository.addNewUser(curr);
-    emit(state.copyWith(status: FormzStatus.submissionSuccess));
-    // } on Exception {
-    //   emit(state.copyWith(status: FormzStatus.submissionFailure));
-    // }
+    emit(state.copyWith(status: FormzStatus.submissionSuccess, parent: curr));
   }
 
-  // Future<void> logInWithGoogle() async {
-  //   emit(state.copyWith(status: FormzStatus.submissionInProgress));
-  //   try {
-  //     await _authenticationRepository.logInWithGoogle();
-  //     emit(state.copyWith(status: FormzStatus.submissionSuccess));
-  //   } on Exception {
-  //     emit(state.copyWith(status: FormzStatus.submissionFailure));
-  //   } on NoSuchMethodError {
-  //     emit(state.copyWith(status: FormzStatus.pure));
-  //   }
-  // }
+  Parent get getParent => _parent;
 }
