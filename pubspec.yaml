@@ -13,6 +13,8 @@ dependencies:
     path: packages/authentication_repository
   users_repository:
     path: packages/users_repository
+  key_repository:
+    path: packages/key_repository
   bloc: ^7.0.0
   equatable: ^2.0.0
   flow_builder: ^0.0.2

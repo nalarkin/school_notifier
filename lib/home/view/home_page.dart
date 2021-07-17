@@ -4,6 +4,7 @@ import 'package:school_notifier/app/app.dart';
 import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/authentication/authentication.dart';
 import 'package:school_notifier/profile/profile.dart';
+import 'package:key_repository/key_repository.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -42,7 +43,8 @@ class HomePage extends StatelessWidget {
               onPressed: () =>
                   Navigator.pushNamed(context, ParentProfilePage.routeName),
               child: const Text('Profile Page'),
-            )
+            ),
+
           ],
         ),
       ),

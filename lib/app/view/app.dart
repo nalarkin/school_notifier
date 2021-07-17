@@ -10,6 +10,7 @@ import 'package:school_notifier/sign_up/view/view.dart';
 import 'package:school_notifier/theme.dart';
 import 'package:users_repository/users_repository.dart';
 import 'package:school_notifier/authentication/authentication.dart';
+import 'package:key_repository/key_repository.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -34,6 +35,9 @@ class App extends StatelessWidget {
           ),
           RepositoryProvider.value(
             value: _firestoreParentsRepository,
+          ),
+          RepositoryProvider(
+            create: (_) => KeyRepository(),
           ),
         ],
         child: MultiBlocProvider(
