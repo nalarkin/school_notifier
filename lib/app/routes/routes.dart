@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:school_notifier/app/app.dart';
+import 'package:school_notifier/event_repository_test/event_page.dart';
 import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/login/login.dart';
 import 'package:school_notifier/profile/profile.dart';
@@ -16,5 +17,6 @@ Map<String, WidgetBuilder> allRoutes = <String, WidgetBuilder>{
   LoginPage.routeName: (context) => LoginPage(),
   SignUpPage.routeName: (context) => SignUpPage(),
   ParentProfilePage.routeName: (context) => ParentProfilePage(),
+  EventPage.routeName: (context) => EventPage(),
 
 };

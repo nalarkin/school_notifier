@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/app/app.dart';
+import 'package:school_notifier/event_repository_test/event_page.dart';
 import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/authentication/authentication.dart';
 import 'package:school_notifier/profile/profile.dart';
@@ -42,6 +43,11 @@ class HomePage extends StatelessWidget {
               onPressed: () =>
                   Navigator.pushNamed(context, ParentProfilePage.routeName),
               child: const Text('Profile Page'),
+            ),
+            MaterialButton(
+              onPressed: () =>
+                  Navigator.pushNamed(context, EventPage.routeName),
+              child: const Text('Event Page'),
             ),
 
           ],
