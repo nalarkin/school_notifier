@@ -38,7 +38,7 @@ class NavigationPage extends StatelessWidget {
         }
       },
       // child: Container(child: Text('loading...')),
-      child: Builder(builder: (_) => Container()),
+      child: Builder(builder: (_) => LoginPage()),
     );
   }
 }

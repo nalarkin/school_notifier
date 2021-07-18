@@ -54,7 +54,7 @@ class EventEntity extends Equatable {
   static EventEntity fromJson(Map<String, Object> json) {
     return EventEntity(
       title: json['title'] as String,
-      description: json['id'] as String,
+      description: json['description'] as String,
       posterID: json['posterID'] as String,
       posterPhoto: json['posterPhoto'] as String,
       eventStartTime: (json['eventStartTime'] as Timestamp).toDate(),
@@ -71,7 +71,7 @@ class EventEntity extends Equatable {
     if (data == null) throw Exception();
     return EventEntity(
       title: data['title'] as String,
-      description: data['id'] as String,
+      description: data['description'] as String,
       posterID: data['posterID'] as String,
       posterPhoto: data['posterPhoto'] as String,
       eventStartTime: (data['eventStartTime'] as Timestamp).toDate(),
