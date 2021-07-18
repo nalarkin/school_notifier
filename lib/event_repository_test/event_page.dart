@@ -126,7 +126,7 @@ class EventList extends StatelessWidget {
       //     context
       //       .read<EventRepository>()
       //       .getAllSubscribedEvents(['eventSubId2', 'eventSubId'])),
-      stream: EventViewModel(database:  context.read<EventRepository>()).combineToStream(),
+      stream: EventViewModel(database:  context.read<EventRepository>()).combineAllStreams(),
       initialData: [],
       builder: (context, snapshot) {
         if (snapshot.hasError) {
