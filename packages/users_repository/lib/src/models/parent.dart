@@ -10,6 +10,7 @@ class Parent extends Equatable {
     this.lastName,
     this.joinDate,
     this.children,
+    this.subscriptions,
   });
 
   final String id;
@@ -18,6 +19,7 @@ class Parent extends Equatable {
   final String? lastName;
   final String? joinDate;
   final Map<String, dynamic>? children;
+  final Map<String, dynamic>? subscriptions;
 
   Parent copyWith(
       {String? email,
@@ -32,6 +34,7 @@ class Parent extends Equatable {
       lastName: lastName ?? this.lastName,
       joinDate: joinDate ?? this.joinDate,
       children: children ?? this.children,
+      subscriptions: subscriptions ?? this.subscriptions,
     );
   }
 
@@ -42,7 +45,8 @@ class Parent extends Equatable {
   @override
   String toString() {
     return '''Parent { id: $id, name: $firstName $lastName, 
-            children: $children, email: $email, joinDate: $joinDate}''';
+            children: $children, email: $email, joinDate: $joinDate,
+            subscriptions: $subscriptions}''';
   }
 
   ParentEntity toEntity() {
@@ -53,6 +57,7 @@ class Parent extends Equatable {
       lastName: lastName ?? '',
       joinDate: joinDate ?? '',
       children: children ?? {},
+      subscriptions: subscriptions ?? {},
     );
   }
 
@@ -64,6 +69,7 @@ class Parent extends Equatable {
       lastName: entity.lastName,
       joinDate: entity.joinDate,
       children: entity.children,
+      subscriptions: entity.subscriptions,
     );
   }
 

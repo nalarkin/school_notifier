@@ -13,6 +13,7 @@ class ParentEntity extends Equatable {
     required this.lastName,
     required this.joinDate,
     required this.children,
+    required this.subscriptions,
   });
 
   final String id;
@@ -21,6 +22,7 @@ class ParentEntity extends Equatable {
   final String lastName;
   final String joinDate;
   final Map<String, dynamic> children;
+  final Map<String, dynamic> subscriptions;
 
   Map<String, Object?> toJson() {
     return {
@@ -30,6 +32,7 @@ class ParentEntity extends Equatable {
       'lastName': lastName,
       'joinDate': joinDate,
       'children': children,
+      'subscriptions': subscriptions,
     };
   }
 
@@ -51,6 +54,7 @@ class ParentEntity extends Equatable {
       lastName: json['lastName'] as String,
       joinDate: json['joinDate'].toString(),
       children: json['children'] as Map<String, dynamic>,
+      subscriptions: json['subscriptions'] as Map<String, dynamic>,
     );
   }
 
@@ -64,6 +68,7 @@ class ParentEntity extends Equatable {
       lastName: data['lastName'] as String,
       joinDate: data['joinDate'] as String,
       children: data['children'] as Map<String, dynamic>,
+      subscriptions: data['subscriptions'] as Map<String, dynamic>,
     );
   }
 
@@ -75,6 +80,7 @@ class ParentEntity extends Equatable {
       'lastName': lastName,
       'joinDate': joinDate,
       'children': children,
+      'subscriptions': subscriptions,
     };
   }
 }
