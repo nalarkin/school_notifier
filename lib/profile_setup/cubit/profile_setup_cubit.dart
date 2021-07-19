@@ -11,7 +11,8 @@ part 'profile_setup_state.dart';
 
 class ProfileSetupCubit extends Cubit<ProfileSetupState> {
   ProfileSetupCubit(this._firestoreParentsRepository, this._parent)
-      : super(const ProfileSetupState());
+      : 
+      super(const ProfileSetupState());
 
   final FirestoreParentsRepository _firestoreParentsRepository;
   // final AuthenticationBloc _authenticationBloc;
@@ -42,17 +43,24 @@ class ProfileSetupCubit extends Cubit<ProfileSetupState> {
   }
 
   Future<void> signUpFormSubmitted() async {
+  // Future<void> signUpFormSubmitted(String id) async {
     if (!state.status.isValidated) return;
+    // Parent curr = Parent(id: id,
+    //   firstName: state.firstName.value,
+    //   lastName: state.lastName.value,
+    //   children: {'profile_setup_form_creates_this': state.studentName.value},
+    //   joinDate: DateTime.now().toString(),
+    // );
     Parent curr = _parent.copyWith(
       firstName: state.firstName.value,
       lastName: state.lastName.value,
       children: {'profile_setup_form_creates_this': state.studentName.value},
       joinDate: DateTime.now().toString(),
     );
-    emit(state.copyWith(status: FormzStatus.submissionInProgress));
+    emit(state.copyWith(status: FormzStatus.submissionInProgress, parent: curr));
 
     await _firestoreParentsRepository.addNewUser(curr);
-    emit(state.copyWith(status: FormzStatus.submissionSuccess, parent: curr));
+    emit(state.copyWith(status: FormzStatus.submissionSuccess));
   }
 
   Parent get getParent => _parent;

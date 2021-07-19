@@ -32,8 +32,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield await _mapProfileStartedToState(event);
     } else if (event is ProfileNewParent) {
       yield await _mapProfileNewParentState(event);
+    } else if (event is ProfileUnknown) {
+      yield ProfileState.unknown();
     } else if (event is ProfileFailed) {
       yield ProfileState.failure();
+    } else if (event is ProfileNewParentCompleted) {
+      
     }
   }
 
@@ -48,9 +52,25 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     return ProfileState.unknown();
   }
 
+  Future<ProfileState> _mapProfileParentCompletedToState(
+      ProfileNewParentCompleted event) async {
+    // await Future.delayed(Duration(seconds: 0));
+    Parent? currParent = event.parent;
+    if (currParent != null) {
+      await parentsRepository.addNewUser(event.parent as Parent);
+      return ProfileState.parent(currParent);
+    }
+    print('Parent after setup was null. Could not create Parent in firestore.');
+    return ProfileState.failure();
+  }
+
   Future<ProfileState> _mapProfileNewParentState(ProfileNewParent event) async {
     // await Future.delayed(Duration(seconds: 0));
-    return ProfileState.newParent(event.user ?? User.empty);
+    if (event.parent != null) {
+      return ProfileState.newParent(event.parent as Parent);
+    }
+    return ProfileState.newParent(Parent(id: 'FAILED TO PARENT'));
+    // return ProfileState.newParent(event.user ?? User.empty);
   }
 
   Future<void> _mapAuthenticationStateToProfileEvent(
@@ -58,7 +78,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     if (appState.status == AuthenticationStatus.authenticated) {
       _findUserRole(appState);
     }
-      
+
     if (appState.status == AuthenticationStatus.parent) {
       add(ProfileParentSignedIn(parent: appState.parent, user: appState.user));
     } else if (appState.status == AuthenticationStatus.newParent) {
@@ -70,6 +90,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   Future<void> _findUserRole(AuthenticationState appState) async {
     final userID = appState.user.id;
+
     Parent? possibleParent = await parentsRepository.getParentIfExists(userID);
     if (possibleParent != null) {
       add(ProfileParentSignedIn(parent: possibleParent));
@@ -81,7 +102,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       add(ProfileTeacherSignedIn(teacher: possibleTeacher));
       return null;
     }
-    add(ProfileFailed());
+    add(ProfileNewParent(
+        parent: Parent(id: userID, email: appState.user.email)));
   }
 
   @override

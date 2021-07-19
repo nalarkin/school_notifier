@@ -1,5 +1,6 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:school_notifier/navigation/bloc/profile_bloc.dart';
 import 'package:users_repository/users_repository.dart';
 import '../profile_setup.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,7 +30,7 @@ class ProfileSetupPage extends StatelessWidget {
         child: BlocProvider(
           create: (_) => ProfileSetupCubit(
             context.read<FirestoreParentsRepository>(),
-            context.read<AuthenticationBloc>().state.parent,
+            context.read<ProfileBloc>().state.parent ?? Parent.empty,
           ),
           child: const ProfileSetupForm(),
         ),

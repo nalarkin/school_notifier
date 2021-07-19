@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:formz/formz.dart';
 import 'package:school_notifier/app/app.dart';
 import 'package:school_notifier/authentication/authentication.dart';
+import 'package:school_notifier/navigation/bloc/profile_bloc.dart';
 import '../profile_setup.dart';
 
 class ProfileSetupForm extends StatelessWidget {
@@ -20,8 +21,8 @@ class ProfileSetupForm extends StatelessWidget {
           // BlocProvider.of<AuthenticationBloc>(context)
           //     .add();
           context
-              .read<AuthenticationBloc>()
-              .add(AuthenticationParentAuthenticated(state.parent));
+              .read<ProfileBloc>()
+              .add(ProfileParentSignedIn(parent: state.parent));
           // Navigator.pop(context);
         } else if (state.status.isSubmissionFailure) {
           ScaffoldMessenger.of(context)

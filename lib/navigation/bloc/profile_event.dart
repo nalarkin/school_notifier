@@ -30,6 +30,10 @@ class ProfileNewParent extends ProfileEvent {
   ProfileNewParent({required parent, user})
       : super(parent: parent, user: user);
 }
+class ProfileNewParentCompleted extends ProfileEvent {
+  ProfileNewParentCompleted({required parent, user})
+      : super(parent: parent, user: user);
+}
 class ProfileUnknown extends ProfileEvent {
   ProfileUnknown()
       : super();

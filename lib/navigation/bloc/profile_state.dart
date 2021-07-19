@@ -34,8 +34,10 @@ class ProfileState extends Equatable {
   const ProfileState.student(Student student)
       : this._(status: ProfileStatus.student, student: student);
   const ProfileState.unknown() : this._(status: ProfileStatus.unknown);
-  const ProfileState.newParent(User user)
-      : this._(status: ProfileStatus.newParent, user: user);
+  // const ProfileState.newParent(User user)
+  //     : this._(status: ProfileStatus.newParent, user: user);
+  const ProfileState.newParent(Parent parent)
+      : this._(status: ProfileStatus.newParent, parent: parent);
   const ProfileState.newTeacher(User user)
       : this._(status: ProfileStatus.newTeacher, user: user);
   const ProfileState.newStudent(User user)
