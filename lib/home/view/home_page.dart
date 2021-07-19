@@ -39,17 +39,16 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 4.0),
             // Text(user.name ?? '', style: textTheme.headline5),
             const SizedBox(height: 4.0),
-            // MaterialButton(
-            //   onPressed: () =>
-            //       Navigator.pushNamed(context, ParentProfilePage.routeName),
-            //   child: const Text('Profile Page'),
-            // ),
+            MaterialButton(
+              onPressed: () =>
+                  Navigator.pushNamed(context, ParentProfilePage.routeName),
+              child: const Text('Profile Page'),
+            ),
             MaterialButton(
               onPressed: () =>
                   Navigator.pushNamed(context, EventPage.routeName),
               child: const Text('Event Page'),
             ),
-
           ],
         ),
       ),

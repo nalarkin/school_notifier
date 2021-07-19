@@ -16,7 +16,7 @@ Map<String, WidgetBuilder> allRoutes = <String, WidgetBuilder>{
   HomePage.routeName: (context) => HomePage(),
   LoginPage.routeName: (context) => LoginPage(),
   SignUpPage.routeName: (context) => SignUpPage(),
-  // ParentProfilePage.routeName: (context) => ParentProfilePage(),
+  ParentProfilePage.routeName: (context) => ParentProfilePage(),
   EventPage.routeName: (context) => EventPage(),
 
 };
