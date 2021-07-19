@@ -1,11 +1,11 @@
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:event_repository/event_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/app/app.dart';
 import 'package:school_notifier/navigation/navigation.dart';
 import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/login/login.dart';
+import 'package:school_notifier/profile/profile.dart';
 import 'package:school_notifier/profile_setup/view/view.dart';
 import 'package:school_notifier/sign_up/view/view.dart';
 import 'package:school_notifier/theme.dart';
@@ -40,9 +40,6 @@ class App extends StatelessWidget {
           RepositoryProvider(
             create: (_) => KeyRepository(),
           ),
-          RepositoryProvider(
-            create: (_) => EventRepository(),
-          ),
         ],
         child: MultiBlocProvider(
           providers: [
@@ -56,8 +53,41 @@ class App extends StatelessWidget {
             //           postsRepository: _postsRepository,
             //         )),
           ],
-          child: const AppView(),
+          child: const InitializeProviders1(),
         ));
+  }
+}
+
+class InitializeProviders1 extends StatelessWidget {
+  const InitializeProviders1({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+            create: (context) =>
+                NavigationBloc(BlocProvider.of<AuthenticationBloc>(context))),
+      ],
+      child: InitializeProviders2(),
+    );
+  }
+}
+
+class InitializeProviders2 extends StatelessWidget {
+  const InitializeProviders2({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+            create: (_) => ParentProfileBloc(
+                parentId: context.read<NavigationBloc>().state.parent?.id ?? '',
+                parentsRepository: context.read<FirestoreParentsRepository>())),
+      ],
+      child: AppView(),
+    );
   }
 }
 
@@ -66,16 +96,12 @@ class AppView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          NavigationBloc(BlocProvider.of<AuthenticationBloc>(context)),
-      child: MaterialApp(
-        theme: theme,
-        darkTheme: darkTheme,
-        // themeMode: ThemeMode.dark,
-        home: NavigationPage(),
-        routes: allRoutes,
-      ),
+    return MaterialApp(
+      theme: theme,
+      darkTheme: darkTheme,
+      // themeMode: ThemeMode.dark,
+      home: NavigationPage(),
+      routes: allRoutes,
     );
     // return MaterialApp(
     //     theme: theme,
