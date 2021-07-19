@@ -1,2 +1,2 @@
 export 'view/view.dart';
-export 'bloc/navigation_bloc.dart';
+export 'bloc/profile_bloc.dart';

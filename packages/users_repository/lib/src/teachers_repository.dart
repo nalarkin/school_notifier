@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:users_repository/users_repository.dart';
 
-class FirestoreTeachersRepository implements UsersRepository<Teacher> {
+class TeachersRepository implements UsersRepository<Teacher> {
   final teachersCollection = FirebaseFirestore.instance
       .collection('exampleSchool')
       .doc('teachers')
@@ -46,7 +46,15 @@ class FirestoreTeachersRepository implements UsersRepository<Teacher> {
     }
   }
 
-  @override 
+  Future<Teacher?> getTeacherIfExists(String id) async {
+    final potentialUser = await teachersCollection.doc(id).get();
+    if (potentialUser.exists) {
+      return Teacher.fromEntity(TeacherEntity.fromSnapshot(potentialUser));
+    }
+    return null;
+  }
+
+  @override
   Stream<Teacher> liveProfileStream(String id) {
     return teachersCollection
         .doc(id)

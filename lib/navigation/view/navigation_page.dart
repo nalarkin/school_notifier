@@ -25,20 +25,37 @@ class NavigationPage extends StatelessWidget {
     //     return LoadingIndicator();
     //   },
     // );
-    return BlocListener<NavigationBloc, NavigationState>(
+    return BlocListener<ProfileBloc, ProfileState>(
       listener: (context, state) {
-        if (state is NavigationNewParentSetup) {
+        if (state.status == ProfileStatus.newParent) {
           Navigator.pushNamed(context, ProfileSetupPage.routeName);
-        } else if (state is NavigationParentSignInSuccess) {
+        } else if (state.status == ProfileStatus.parent) {
           // Navigator.pushNamed(context, ParentProfilePage.routeName);
           // Navigator.push(context, ParentProfilePage.route());
           Navigator.pushNamed(context, HomePage.routeName);
-        } else if (state is NavigationInitial) {
+        } else if (state.status == ProfileStatus.unknown) {
           Navigator.pushNamed(context, LoginPage.routeName);
+        } else if (state.status == ProfileStatus.failure) {
+          print("ERROR: ProfileStatus.FAILURE WITHIN navigation_page.dart");
         }
       },
       // child: Container(child: Text('loading...')),
       child: Builder(builder: (_) => LoginPage()),
     );
+    // return BlocListener<NavigationBloc, NavigationState>(
+    //   listener: (context, state) {
+    //     if (state is NavigationNewParentSetup) {
+    //       Navigator.pushNamed(context, ProfileSetupPage.routeName);
+    //     } else if (state is NavigationParentSignInSuccess) {
+    //       // Navigator.pushNamed(context, ParentProfilePage.routeName);
+    //       // Navigator.push(context, ParentProfilePage.route());
+    //       Navigator.pushNamed(context, HomePage.routeName);
+    //     } else if (state is NavigationInitial) {
+    //       Navigator.pushNamed(context, LoginPage.routeName);
+    //     }
+    //   },
+    //   // child: Container(child: Text('loading...')),
+    //   child: Builder(builder: (_) => LoginPage()),
+    // );
   }
 }

@@ -13,6 +13,7 @@ import 'package:users_repository/users_repository.dart';
 import 'package:school_notifier/authentication/authentication.dart';
 import 'package:key_repository/key_repository.dart';
 
+
 class App extends StatelessWidget {
   const App({
     Key? key,
@@ -40,6 +41,7 @@ class App extends StatelessWidget {
           RepositoryProvider(
             create: (_) => KeyRepository(),
           ),
+          RepositoryProvider(create: (_)=> TeachersRepository(),)
         ],
         child: MultiBlocProvider(
           providers: [
@@ -67,7 +69,10 @@ class InitializeProviders1 extends StatelessWidget {
       providers: [
         BlocProvider(
             create: (context) =>
-                NavigationBloc(BlocProvider.of<AuthenticationBloc>(context))),
+                ProfileBloc(
+                  BlocProvider.of<AuthenticationBloc>(context),
+                  context.read<FirestoreParentsRepository>() ,
+                  context.read<TeachersRepository>(), ),),
       ],
       child: InitializeProviders2(),
     );
@@ -83,7 +88,7 @@ class InitializeProviders2 extends StatelessWidget {
       providers: [
         BlocProvider(
             create: (_) => ParentProfileBloc(
-                parentId: context.read<NavigationBloc>().state.parent?.id ?? '',
+                parentId: context.read<ProfileBloc>().state.parent?.id ?? '',
                 parentsRepository: context.read<FirestoreParentsRepository>())),
       ],
       child: AppView(),
