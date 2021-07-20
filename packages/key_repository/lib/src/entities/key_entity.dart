@@ -9,6 +9,7 @@ class KeyEntity extends Equatable {
     required this.isStudent,
     required this.isTeacher,
     required this.isValid,
+    required this.linkedUser,
     required this.studentID,
   });
 
@@ -18,6 +19,7 @@ class KeyEntity extends Equatable {
   final bool isStudent;
   final bool isTeacher;
   final bool isValid;
+  final String linkedUser;
   final String studentID;
 
   Map<String, Object?> toJson() {
@@ -28,6 +30,7 @@ class KeyEntity extends Equatable {
       'isStudent': isStudent,
       'isTeacher': isTeacher,
       'isValid': isValid,
+      'linkedUser': linkedUser,
       'studentID': studentID,
     };
   }
@@ -49,6 +52,7 @@ class KeyEntity extends Equatable {
       isStudent: json['isStudent'] as bool,
       isTeacher: json['isTeacher'] as bool,
       isValid: json['isValid'] as bool,
+      linkedUser: json['linkedUser'] as String,
       studentID: json['studentID'] as String,
     );
   }
@@ -63,6 +67,7 @@ class KeyEntity extends Equatable {
       isStudent: data['isStudent'] as bool,
       isTeacher: data['isTeacher'] as bool,
       isValid: data['isValid'] as bool,
+      linkedUser: data['linkedUser'] as String,
       studentID: data['studentID'] as String,
     );
   }
@@ -76,6 +81,7 @@ class KeyEntity extends Equatable {
       'isTeacher': isTeacher,
       'isValid': isValid,
       'studentID': studentID,
+      'linkedUser': linkedUser,
     };
   }
 }

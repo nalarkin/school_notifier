@@ -7,21 +7,7 @@ class KeyRepository {
       .collection('exampleSchool')
       .doc('keys')
       .collection('keys');
-  // .withConverter(
-  //     fromFirestore: (snapshot, _) => KeyEntity.fromSnapshot(snapshot),
-  //     toFirestore: (entity, _) => entity.toJson());
 
-  /// final modelsRef = FirebaseFirestore
-  ///     .instance
-  ///     .collection('models')
-  ///     .withConverter<Model>(
-  ///       fromFirestore: (snapshot, _) => Model.fromJson(snapshot.data()!),
-  ///       toFirestore: (model, _) => model.toJson(),
-  ///     );
-  ///
-  ///
-
-  /// Returns null if key does not exist.
   Future<FirestoreKey?> getKey(String keyId) async {
     try {
       final potentialKeyDoc = await keyCollection.doc(keyId).get();
@@ -36,6 +22,10 @@ class KeyRepository {
       print('Error in key_repository.dart. $e');
     }
     return null;
+  }
+
+  Future<void> updateKey(FirestoreKey key) async {
+    await keyCollection.doc(key.id).update(key.toEntity().toDocument());
   }
 
   // Future<void> generateNewKeyFromStudentID(String studentID) async {
