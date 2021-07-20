@@ -21,14 +21,14 @@ class Teacher extends Equatable {
   final String? photoID;
   final Map<String, dynamic>? classes;
 
-  Teacher copyWith(
-      {String? email,
-      String? firstName,
-      String? lastName,
-      String? joinDate,
-      String? photoID,
-      Map<String, dynamic>? classes,
-      }) {
+  Teacher copyWith({
+    String? email,
+    String? firstName,
+    String? lastName,
+    String? joinDate,
+    String? photoID,
+    Map<String, dynamic>? classes,
+  }) {
     return Teacher(
       id: id,
       email: email ?? this.email,
@@ -59,7 +59,7 @@ class Teacher extends Equatable {
       lastName: lastName ?? '',
       joinDate: joinDate ?? '',
       photoID: photoID ?? '',
-      classes: classes ?? {'' : ''},
+      classes: classes ?? {},
     );
   }
 

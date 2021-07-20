@@ -9,8 +9,8 @@ class TeachersRepository implements UsersRepository<Teacher> {
       .collection('teachers');
 
   @override
-  Future<void> addNewUser(Teacher user) {
-    return teachersCollection.doc(user.id).set((user.toEntity().toDocument()));
+  Future<void> addNewUser(Teacher user) async {
+    await teachersCollection.doc(user.id).set(user.toEntity().toDocument());
   }
 
   @override

@@ -5,6 +5,7 @@ import 'package:school_notifier/event_repository_test/event_page.dart';
 import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/authentication/authentication.dart';
 import 'package:school_notifier/profile/profile.dart';
+import 'package:users_repository/users_repository.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
