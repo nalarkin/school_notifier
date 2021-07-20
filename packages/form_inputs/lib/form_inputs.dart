@@ -6,3 +6,4 @@ export './src/password.dart';
 export './src/last_name.dart';
 export './src/first_name.dart';
 export './src/student_name.dart';
+export './src/token.dart';

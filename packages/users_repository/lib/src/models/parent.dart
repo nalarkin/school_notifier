@@ -26,13 +26,14 @@ class Parent extends Equatable {
   Parent copyWith(
       {String? email,
       String? firstName,
+      String? id,
       String? lastName,
       String? joinDate,
       Map<String, dynamic>? children,
       Map<String, dynamic>? classes,
       }) {
     return Parent(
-      id: id,
+      id: id ?? this.id,
       email: email ?? this.email,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,

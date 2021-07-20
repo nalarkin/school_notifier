@@ -4,6 +4,7 @@ import 'package:school_notifier/login/login.dart';
 import 'package:school_notifier/sign_up/sign_up.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:formz/formz.dart';
+import 'package:school_notifier/token/token.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -37,6 +38,7 @@ class LoginForm extends StatelessWidget {
               const SizedBox(height: 8.0),
               _LoginButton(),
               const SizedBox(height: 8.0),
+              
               _SignUpButton(),
               const SizedBox(height: 4.0),
               _DebugLogin(),
@@ -122,17 +124,33 @@ class _SignUpButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return TextButton(
-      key: const Key('loginForm_createAccount_flatButton'),
+      key: const Key('loginForm_toTokenNavigation_flatButton'),
       // onPressed: () => Navigator.of(context).push<void>(SignUpPage.route()),
-      onPressed: () => Navigator.pushNamed(context, SignUpPage.routeName),
+      onPressed: () => Navigator.pushNamed(context, TokenPage.routeName),
       // onPressed: () => Navigator.of(context).push(SignUpPage.route()),
       child: Text(
-        'CREATE ACCOUNT',
+        'TOKEN PAGE',
         style: TextStyle(color: theme.primaryColor),
       ),
     );
   }
 }
+// class _SignUpButton extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     final theme = Theme.of(context);
+//     return TextButton(
+//       key: const Key('loginForm_createAccount_flatButton'),
+//       // onPressed: () => Navigator.of(context).push<void>(SignUpPage.route()),
+//       onPressed: () => Navigator.pushNamed(context, SignUpPage.routeName),
+//       // onPressed: () => Navigator.of(context).push(SignUpPage.route()),
+//       child: Text(
+//         'CREATE ACCOUNT',
+//         style: TextStyle(color: theme.primaryColor),
+//       ),
+//     );
+//   }
+// }
 
 class _DebugLogin extends StatelessWidget {
   final String debugEmail = 'abc@gmail.com';

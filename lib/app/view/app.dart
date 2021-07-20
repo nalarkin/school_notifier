@@ -77,6 +77,8 @@ class InitializeProviders1 extends StatelessWidget {
             BlocProvider.of<AuthenticationBloc>(context),
             context.read<FirestoreParentsRepository>(),
             context.read<TeachersRepository>(),
+            context.read<KeyRepository>(),
+
           ),
         ),
       ],
