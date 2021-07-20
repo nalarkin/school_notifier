@@ -18,11 +18,28 @@ class NavigationPage extends StatelessWidget {
       case NavigationStatus.unknown:
         return LoginPage();
       case NavigationStatus.newParent:
-        return ProfileSetupForm();
+        return SignUpPage();
       case NavigationStatus.newParent:
+        return SignUpPage();
+      case NavigationStatus.newParentAdditionalInfo:
+        return ProfileSetupForm();
+      case NavigationStatus.tokenAuthorized:
         return SignUpPage();
       default:
         return LoginPage();
     }
   }
 }
+
+// enum NavigationStatus {
+//   parent,
+//   newParent,
+//   newParentAdditionalInfo,
+//   teacher,
+//   newTeacher,
+//   student,
+//   newStudent,
+//   tokenAuthorized,
+//   unknown,
+//   failure,
+// }

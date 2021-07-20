@@ -8,6 +8,7 @@ import 'package:school_notifier/profile_setup/profile_setup.dart';
 import 'package:school_notifier/profile_setup/view/new_user_setup_page.dart';
 import 'package:school_notifier/authentication/authentication.dart';
 import 'package:school_notifier/sign_up/sign_up.dart';
+import 'package:school_notifier/token/token.dart';
 
 
 Map<String, WidgetBuilder> allRoutes = <String, WidgetBuilder>{
@@ -18,5 +19,6 @@ Map<String, WidgetBuilder> allRoutes = <String, WidgetBuilder>{
   SignUpPage.routeName: (context) => SignUpPage(),
   ParentProfilePage.routeName: (context) => ParentProfilePage(),
   EventPage.routeName: (context) => EventPage(),
+  TokenPage.routeName: (context) => TokenPage(),
 
 };
