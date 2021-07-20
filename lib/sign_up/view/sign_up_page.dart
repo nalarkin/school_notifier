@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:key_repository/key_repository.dart';
 import 'package:school_notifier/navigation/navigation.dart';
 import 'package:school_notifier/sign_up/sign_up.dart';
+import 'package:users_repository/users_repository.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -23,6 +24,7 @@ class SignUpPage extends StatelessWidget {
           create: (_) => SignUpCubit(
               context.read<AuthenticationRepository>(),
               context.read<KeyRepository>(),
+              context.read<FirestoreParentsRepository>(),
               context.read<NavigationBloc>().state.key),
           child: const SignUpForm(),
         ),

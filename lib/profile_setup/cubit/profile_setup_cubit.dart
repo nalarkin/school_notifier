@@ -43,14 +43,7 @@ class ProfileSetupCubit extends Cubit<ProfileSetupState> {
 
   Future<void> signUpFormSubmitted() async {
     try {
-      // Future<void> signUpFormSubmitted(String id) async {
       if (!state.status.isValidated) return;
-      // Parent curr = Parent(id: id,
-      //   firstName: state.firstName.value,
-      //   lastName: state.lastName.value,
-      //   children: {'profile_setup_form_creates_this': state.studentName.value},
-      //   joinDate: DateTime.now().toString(),
-      // );
       Parent curr = _parent.copyWith(
         firstName: state.firstName.value,
         lastName: state.lastName.value,

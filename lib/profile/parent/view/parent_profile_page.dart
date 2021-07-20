@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:school_notifier/authentication/authentication.dart';
 import 'package:school_notifier/home/home.dart';
+import 'package:school_notifier/login/login.dart';
 // import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/navigation/navigation.dart';
 import 'package:users_repository/users_repository.dart';
@@ -80,12 +81,15 @@ class ProfileView extends StatelessWidget {
           title: const Text('Profile'),
           actions: <Widget>[
             IconButton(
-              key: const Key('profilePage_logout_iconButton'),
-              icon: const Icon(Icons.exit_to_app),
-              onPressed: () => context
-                  .read<AuthenticationBloc>()
-                  .add(AuthenticationLogoutRequested()),
-            )
+                key: const Key('profilePage_logout_iconButton'),
+                icon: const Icon(Icons.exit_to_app),
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/', (Route<dynamic> route) => false);
+                  context
+                      .read<AuthenticationBloc>()
+                      .add(AuthenticationLogoutRequested());
+                })
           ],
         ),
         body: Align(
@@ -106,7 +110,10 @@ class ProfileView extends StatelessWidget {
                 _EmailDisplay(),
                 _JoinDateDisplay(),
                 debugButton(),
-                TextButton(onPressed: () => Navigator.pushNamed(context, HomePage.routeName), child: Text("Cycle Back to Home")),
+                TextButton(
+                    onPressed: () =>
+                        Navigator.pushNamed(context, HomePage.routeName),
+                    child: Text("Cycle Back to Home")),
               ],
             ),
           ),

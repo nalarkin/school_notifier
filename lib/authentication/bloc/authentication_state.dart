@@ -7,6 +7,7 @@ enum AuthenticationStatus {
   teacher,
   parent,
   newParent,
+  logOutFailure,
 }
 
 class AuthenticationState extends Equatable {
@@ -20,6 +21,7 @@ class AuthenticationState extends Equatable {
       : this._(status: AuthenticationStatus.authenticated, user: user);
 
   const AuthenticationState.unauthenticated() : this._(status: AuthenticationStatus.unauthenticated);
+  const AuthenticationState.logOutFailure() : this._(status: AuthenticationStatus.logOutFailure);
   const AuthenticationState.newParent(Parent parent)
       : this._(status: AuthenticationStatus.newParent, parent: parent);
   const AuthenticationState.parent(Parent parent)

@@ -4,16 +4,20 @@ import 'package:equatable/equatable.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
 import 'package:key_repository/key_repository.dart';
+import 'package:users_repository/users_repository.dart';
 
 part 'sign_up_state.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {
-  SignUpCubit(this._authenticationRepository, this._keyRepository, this._key)
+  SignUpCubit(this._authenticationRepository, this._keyRepository,
+      this._parentRepository, this._key)
       : super(const SignUpState());
 
   final AuthenticationRepository _authenticationRepository;
+  final FirestoreParentsRepository _parentRepository;
   final KeyRepository _keyRepository;
   final FirestoreKey? _key;
+  // final Parent _parent;
 
   void emailChanged(String value) {
     final email = Email.dirty(value);
@@ -59,6 +63,30 @@ class SignUpCubit extends Cubit<SignUpState> {
     ));
   }
 
+  void firstNameChanged(String value) {
+    final firstName = FirstName.dirty(value);
+    emit(state.copyWith(
+      firstName: firstName,
+      status: Formz.validate([firstName, state.lastName, state.studentName]),
+    ));
+  }
+
+  void lastNameChanged(String value) {
+    final lastName = LastName.dirty(value);
+    emit(state.copyWith(
+      lastName: lastName,
+      status: Formz.validate([state.firstName, lastName, state.studentName]),
+    ));
+  }
+
+  void studentNameChanged(String value) {
+    final studentName = StudentName.dirty(value);
+    emit(state.copyWith(
+      studentName: studentName,
+      status: Formz.validate([state.firstName, state.lastName, studentName]),
+    ));
+  }
+
   // Future<void> signUpFormSubmitted(FirestoreKey key) async {
   Future<void> signUpFormSubmitted() async {
     if (!state.status.isValidated) return;
@@ -77,11 +105,25 @@ class SignUpCubit extends Cubit<SignUpState> {
         email: state.email.value,
         password: state.password.value,
       );
-      
+      Parent curr = Parent(
+        id: _authenticationRepository.currentUser.id,
+        email: state.email.value,
+        firstName: state.firstName.value,
+        lastName: state.lastName.value,
+        children: {
+          _key?.studentID ?? 'sign_up_user_cubit_creates_this':
+              state.studentName.value
+        },
+        joinDate: DateTime.now().toString(),
+      );
+      await _parentRepository.addNewUser(curr);
       // await _keyRepository.updateKey(recentKey.copyWith(isValid: false, ))
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
-    } on Exception {
+    } catch (e) {
+      print('ERROR within sign_up_cubit.dart');
+      print("$e");
       emit(state.copyWith(status: FormzStatus.submissionFailure));
     }
   }
 }
+

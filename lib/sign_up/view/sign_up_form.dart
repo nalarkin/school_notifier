@@ -17,9 +17,8 @@ class SignUpForm extends StatelessWidget {
           FirestoreKey? key = context.read<NavigationBloc>().state.key;
           // Navigator.of(context).pop();
 
-          context
-              .read<NavigationBloc>()
-              .add(NavigationNewParentInfoRequested(key: key, 
+          context.read<NavigationBloc>().add(NavigationParentSignedIn(
+              parent: state.parent,
               user: context.read<AuthenticationRepository>().currentUser));
         } else if (state.status.isSubmissionFailure) {
           ScaffoldMessenger.of(context)
@@ -31,22 +30,32 @@ class SignUpForm extends StatelessWidget {
       },
       child: Align(
         alignment: const Alignment(0, -1 / 3),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _EmailInput(),
-            const SizedBox(height: 8.0),
-            _PasswordInput(),
-            const SizedBox(height: 8.0),
-            _ConfirmPasswordInput(),
-            const SizedBox(height: 8.0),
-            _SignUpButton(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _EmailInput(),
+              const SizedBox(height: 8.0),
+              _PasswordInput(),
+              const SizedBox(height: 8.0),
+              _ConfirmPasswordInput(),
+              const SizedBox(height: 8.0),
+              _FirstNameInput(),
+              const SizedBox(height: 8.0),
+              _LastNameInput(),
+              const SizedBox(height: 8.0),
+              _StudentNameInput(),
+              const SizedBox(height: 8.0),
+              _SignUpButton(),
+            ],
+          ),
         ),
       ),
     );
   }
 }
+
+
 
 class _EmailInput extends StatelessWidget {
   @override
@@ -111,6 +120,73 @@ class _ConfirmPasswordInput extends StatelessWidget {
             errorText: state.confirmedPassword.invalid
                 ? 'passwords do not match'
                 : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _FirstNameInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpCubit, SignUpState>(
+      buildWhen: (previous, current) => previous.firstName != current.firstName,
+      builder: (context, state) {
+        return TextField(
+          key: const Key('profileSetupForm_firstNameInput_textField'),
+          onChanged: (firstName) =>
+              context.read<SignUpCubit>().firstNameChanged(firstName),
+          keyboardType: TextInputType.text,
+          decoration: InputDecoration(
+            labelText: 'first name',
+            helperText: '',
+            errorText: state.firstName.invalid ? 'invalid first name' : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _LastNameInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpCubit, SignUpState>(
+      buildWhen: (previous, current) => previous.lastName != current.lastName,
+      builder: (context, state) {
+        return TextField(
+          key: const Key('profileSetupForm_lastNameInput_textField'),
+          onChanged: (lastName) =>
+              context.read<SignUpCubit>().lastNameChanged(lastName),
+          keyboardType: TextInputType.text,
+          decoration: InputDecoration(
+            labelText: 'last name',
+            helperText: '',
+            errorText: state.lastName.invalid ? 'invalid last name' : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _StudentNameInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpCubit, SignUpState>(
+      buildWhen: (previous, current) => previous.lastName != current.lastName,
+      builder: (context, state) {
+        return TextField(
+          key: const Key('profileSetupForm_studentNameInput_textField'),
+          onChanged: (studentName) =>
+              context.read<SignUpCubit>().studentNameChanged(studentName),
+          keyboardType: TextInputType.text,
+          decoration: InputDecoration(
+            labelText: 'student name',
+            helperText: '',
+            errorText:
+                state.studentName.invalid ? 'invalid student name' : null,
           ),
         );
       },
