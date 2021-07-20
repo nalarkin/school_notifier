@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:school_notifier/authentication/authentication.dart';
 // import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/navigation/navigation.dart';
+import 'package:school_notifier/profile/universal/bloc/profile2_bloc.dart';
 import 'package:users_repository/users_repository.dart';
 import '../../profile.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -101,9 +102,9 @@ class ProfileView extends StatelessWidget {
                   height: 8.0,
                 ),
                 _FirstNameDisplay(),
-                _LastNameDisplay(),
-                _EmailDisplay(),
-                _JoinDateDisplay(),
+                // _LastNameDisplay(),
+                // _EmailDisplay(),
+                // _JoinDateDisplay(),
               ],
             ),
           ),
@@ -111,12 +112,28 @@ class ProfileView extends StatelessWidget {
   }
 }
 
+// class _FirstNameDisplay extends StatelessWidget {
+//   const _FirstNameDisplay({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocBuilder<ParentProfileBloc, ParentProfileState>(
+//         buildWhen: (previous, current) =>
+//             previous.parent.firstName != current.parent.firstName,
+//         builder: (context, state) {
+//           return Container(
+//             color: Colors.red,
+//             child: Text(state.parent.firstName ?? ''),
+//           );
+//         });
+//   }
+// }
 class _FirstNameDisplay extends StatelessWidget {
   const _FirstNameDisplay({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ParentProfileBloc, ParentProfileState>(
+    return BlocBuilder<Profile2Bloc, Profile2State>(
         buildWhen: (previous, current) =>
             previous.parent.firstName != current.parent.firstName,
         builder: (context, state) {
