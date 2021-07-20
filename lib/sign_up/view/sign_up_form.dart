@@ -15,7 +15,7 @@ class SignUpForm extends StatelessWidget {
       listener: (context, state) {
         if (state.status.isSubmissionSuccess) {
           FirestoreKey? key = context.read<NavigationBloc>().state.key;
-          Navigator.of(context).pop();
+          // Navigator.of(context).pop();
 
           context
               .read<NavigationBloc>()

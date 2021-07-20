@@ -22,7 +22,7 @@ class NavigationPage extends StatelessWidget {
       case NavigationStatus.newParent:
         return SignUpPage();
       case NavigationStatus.newParentAdditionalInfo:
-        return ProfileSetupForm();
+        return ProfileSetupPage();
       case NavigationStatus.tokenAuthorized:
         return SignUpPage();
       default:

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:school_notifier/login/login.dart';
 import 'package:school_notifier/navigation/navigation.dart';
 import 'package:school_notifier/token/token.dart';
 
@@ -39,6 +40,8 @@ class TokenForm extends StatelessWidget {
             _TokenInput(),
             const SizedBox(height: 8.0),
             _SubmitTokenButton(),
+            const SizedBox(height: 8.0,),
+            _LoginPageButton(),
           ],
         ),
       ),
@@ -103,6 +106,24 @@ class _SubmitTokenButton extends StatelessWidget {
                 child: const Text('SUBMIT TOKEN'),
               );
       },
+    );
+  }
+}
+
+
+class _LoginPageButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return TextButton(
+      key: const Key('tokenForm_toSigninNavigation_flatButton'),
+      // onPressed: () => Navigator.of(context).push<void>(SignUpPage.route()),
+      onPressed: () => Navigator.pushNamed(context, LoginPage.routeName),
+      // onPressed: () => Navigator.of(context).push(SignUpPage.route()),
+      child: Text(
+        'LOGIN PAGE',
+        style: TextStyle(color: theme.primaryColor),
+      ),
     );
   }
 }

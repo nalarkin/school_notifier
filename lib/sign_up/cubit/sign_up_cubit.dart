@@ -64,16 +64,20 @@ class SignUpCubit extends Cubit<SignUpState> {
     if (!state.status.isValidated) return;
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
-      FirestoreKey? recentKey = await _keyRepository.getKey(_key.toString());
+      FirestoreKey? recentKey =
+          await _keyRepository.getKey(_key!.id.toString());
       if (recentKey != _key) {
         print("ERROR. (recentKey != _key), unable to continue signup");
+        print("recentKey = $recentKey");
+        print("_key = $_key");
         emit(state.copyWith(status: FormzStatus.submissionFailure));
         return null;
-      } 
+      }
       await _authenticationRepository.signUp(
         email: state.email.value,
         password: state.password.value,
       );
+      
       // await _keyRepository.updateKey(recentKey.copyWith(isValid: false, ))
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } on Exception {
