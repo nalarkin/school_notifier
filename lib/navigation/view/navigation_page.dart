@@ -4,6 +4,7 @@ import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/login/view/view.dart';
 import 'package:school_notifier/profile/profile.dart';
 import 'package:school_notifier/profile_setup/view/view.dart';
+import 'package:school_notifier/sign_up/sign_up.dart';
 import '../navigation.dart';
 
 class NavigationPage extends StatelessWidget {
@@ -18,6 +19,8 @@ class NavigationPage extends StatelessWidget {
         return LoginPage();
       case NavigationStatus.newParent:
         return ProfileSetupForm();
+      case NavigationStatus.newParent:
+        return SignUpPage();
       default:
         return LoginPage();
     }
