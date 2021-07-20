@@ -49,6 +49,7 @@ class HomePage extends StatelessWidget {
                   Navigator.pushNamed(context, EventPage.routeName),
               child: const Text('Event Page'),
             ),
+            // debugButton(),
           ],
         ),
       ),

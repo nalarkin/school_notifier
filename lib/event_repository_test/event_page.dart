@@ -6,6 +6,7 @@ import 'package:school_notifier/authentication/authentication.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/event_repository_test/EventViewModel.dart';
 import 'package:school_notifier/home/home.dart';
+import 'package:school_notifier/widgets/widgets.dart';
 // import 'package:school_notifier/navigation/bloc/navigation_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -126,7 +127,8 @@ class EventList extends StatelessWidget {
       //     context
       //       .read<EventRepository>()
       //       .getAllSubscribedEvents(['eventSubId2', 'eventSubId'])),
-      stream: EventViewModel(database:  context.read<EventRepository>()).combineAllStreams(),
+      stream: EventViewModel(database: context.read<EventRepository>())
+          .combineAllStreams(),
       initialData: [],
       builder: (context, snapshot) {
         if (snapshot.hasError) {
@@ -147,7 +149,6 @@ class EventList extends StatelessWidget {
           return ListView.builder(
             itemCount: data?.length,
             itemBuilder: (context, index) {
-              
               return buildTile(
                   context,
                   index,

@@ -3,12 +3,13 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:school_notifier/authentication/authentication.dart';
+import 'package:school_notifier/home/home.dart';
 // import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/navigation/navigation.dart';
 import 'package:users_repository/users_repository.dart';
 import '../../profile.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../widgets/widgets.dart';
+import 'package:school_notifier/widgets/widgets.dart';
 import 'dart:developer';
 import 'package:flutter/widgets.dart';
 
@@ -22,32 +23,32 @@ class ParentProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ProfileLoader1(),
+      child: ProfileLoader(),
     );
   }
 }
 // }
 
-class ProfileLoader1 extends StatelessWidget {
-  const ProfileLoader1({Key? key}) : super(key: key);
+// class ProfileLoader1 extends StatelessWidget {
+//   const ProfileLoader1({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    // Parent currentParent =
-    //     context.watch<NavigationBloc>().state.parent ?? Parent.empty;
-    // NavigationBloc bloc = context.select((NavigationBloc bloc) => bloc);
-    Parent currentParent =
-        context.select((NavigationBloc bloc) => bloc.state.parent) ??
-            Parent.empty;
-    // Parent currentParent = bloc.state.parent ?? Parent.empty;
-    return BlocProvider(
-      create: (_) => ParentProfileBloc(
-          parentsRepository: context.read<FirestoreParentsRepository>(),
-          parentId: currentParent.id),
-      child: ProfileLoader(),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     // Parent currentParent =
+//     //     context.watch<NavigationBloc>().state.parent ?? Parent.empty;
+//     // NavigationBloc bloc = context.select((NavigationBloc bloc) => bloc);
+//     Parent currentParent =
+//         context.select((NavigationBloc bloc) => bloc.state.parent) ??
+//             Parent.empty;
+//     // Parent currentParent = bloc.state.parent ?? Parent.empty;
+//     return BlocProvider(
+//       create: (_) => ParentProfileBloc(
+//           parentsRepository: context.read<FirestoreParentsRepository>(),
+//           parentId: currentParent.id),
+//       child: ProfileLoader(),
+//     );
+//   }
+// }
 
 class ProfileLoader extends StatelessWidget {
   const ProfileLoader({Key? key}) : super(key: key);
@@ -104,6 +105,8 @@ class ProfileView extends StatelessWidget {
                 _LastNameDisplay(),
                 _EmailDisplay(),
                 _JoinDateDisplay(),
+                debugButton(),
+                TextButton(onPressed: () => Navigator.pushNamed(context, HomePage.routeName), child: Text("Cycle Back to Home")),
               ],
             ),
           ),
