@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:school_notifier/authentication/authentication.dart';
 // import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/navigation/navigation.dart';
-import 'package:school_notifier/profile/universal/bloc/profile2_bloc.dart';
 import 'package:users_repository/users_repository.dart';
 import '../../profile.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,7 +37,7 @@ class ProfileLoader1 extends StatelessWidget {
     //     context.watch<NavigationBloc>().state.parent ?? Parent.empty;
     // NavigationBloc bloc = context.select((NavigationBloc bloc) => bloc);
     Parent currentParent =
-        context.select((ProfileBloc bloc) => bloc.state.parent) ??
+        context.select((NavigationBloc bloc) => bloc.state.parent) ??
             Parent.empty;
     // Parent currentParent = bloc.state.parent ?? Parent.empty;
     return BlocProvider(
@@ -102,9 +101,9 @@ class ProfileView extends StatelessWidget {
                   height: 8.0,
                 ),
                 _FirstNameDisplay(),
-                // _LastNameDisplay(),
-                // _EmailDisplay(),
-                // _JoinDateDisplay(),
+                _LastNameDisplay(),
+                _EmailDisplay(),
+                _JoinDateDisplay(),
               ],
             ),
           ),
@@ -112,28 +111,12 @@ class ProfileView extends StatelessWidget {
   }
 }
 
-// class _FirstNameDisplay extends StatelessWidget {
-//   const _FirstNameDisplay({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<ParentProfileBloc, ParentProfileState>(
-//         buildWhen: (previous, current) =>
-//             previous.parent.firstName != current.parent.firstName,
-//         builder: (context, state) {
-//           return Container(
-//             color: Colors.red,
-//             child: Text(state.parent.firstName ?? ''),
-//           );
-//         });
-//   }
-// }
 class _FirstNameDisplay extends StatelessWidget {
   const _FirstNameDisplay({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<Profile2Bloc, Profile2State>(
+    return BlocBuilder<ParentProfileBloc, ParentProfileState>(
         buildWhen: (previous, current) =>
             previous.parent.firstName != current.parent.firstName,
         builder: (context, state) {

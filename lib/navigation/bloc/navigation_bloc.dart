@@ -8,12 +8,13 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:school_notifier/app/app.dart';
 import 'package:school_notifier/authentication/authentication.dart';
 
-part 'profile_event.dart';
-part 'profile_state.dart';
+part 'navigation_event.dart';
+part 'navigation_state.dart';
 
-class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  ProfileBloc(this._authBloc, this.parentsRepository, this.teachersRepository)
-      : super(ProfileState.unknown()) {
+class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
+  NavigationBloc(
+      this._authBloc, this.parentsRepository, this.teachersRepository)
+      : super(NavigationState.unknown()) {
     _authBlocSubscription =
         _authBloc.stream.listen(_mapAuthenticationStateToProfileEvent);
   }
@@ -25,52 +26,52 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   // final StudentsRepository studentRepository;
 
   @override
-  Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
-    if (event is ProfileParentSignedIn) {
+  Stream<NavigationState> mapEventToState(NavigationEvent event) async* {
+    if (event is NavigationParentSignedIn) {
       yield await _mapProfileParentSignedInToState(event);
-    } else if (event is ProfileStarted) {
+    } else if (event is NavigationStarted) {
       yield await _mapProfileStartedToState(event);
-    } else if (event is ProfileNewParent) {
+    } else if (event is NavigationNewParent) {
       yield await _mapProfileNewParentState(event);
-    } else if (event is ProfileUnknown) {
-      yield ProfileState.unknown();
-    } else if (event is ProfileFailed) {
-      yield ProfileState.failure();
-    } else if (event is ProfileNewParentCompleted) {
-      
-    }
+    } else if (event is NavigationUnknown) {
+      yield NavigationState.unknown();
+    } else if (event is NavigationFailed) {
+      yield NavigationState.failure();
+    } else if (event is NavigationNewParentCompleted) {}
   }
 
-  Future<ProfileState> _mapProfileParentSignedInToState(
-      ProfileParentSignedIn event) async {
+  Future<NavigationState> _mapProfileParentSignedInToState(
+      NavigationParentSignedIn event) async {
     // await Future.delayed(Duration(seconds: 0));
-    return ProfileState.parent(event.parent ?? Parent.empty);
+    return NavigationState.parent(event.parent ?? Parent.empty);
   }
 
-  Future<ProfileState> _mapProfileStartedToState(ProfileStarted event) async {
+  Future<NavigationState> _mapProfileStartedToState(
+      NavigationStarted event) async {
     // await Future.delayed(Duration(seconds: 0));
-    return ProfileState.unknown();
+    return NavigationState.unknown();
   }
 
-  Future<ProfileState> _mapProfileParentCompletedToState(
-      ProfileNewParentCompleted event) async {
+  Future<NavigationState> _mapProfileParentCompletedToState(
+      NavigationNewParentCompleted event) async {
     // await Future.delayed(Duration(seconds: 0));
     Parent? currParent = event.parent;
     if (currParent != null) {
       await parentsRepository.addNewUser(event.parent as Parent);
-      return ProfileState.parent(currParent);
+      return NavigationState.parent(currParent);
     }
     print('Parent after setup was null. Could not create Parent in firestore.');
-    return ProfileState.failure();
+    return NavigationState.failure();
   }
 
-  Future<ProfileState> _mapProfileNewParentState(ProfileNewParent event) async {
+  Future<NavigationState> _mapProfileNewParentState(
+      NavigationNewParent event) async {
     // await Future.delayed(Duration(seconds: 0));
     if (event.parent != null) {
-      return ProfileState.newParent(event.parent as Parent);
+      return NavigationState.newParent(event.parent as Parent);
     }
-    return ProfileState.newParent(Parent(id: 'FAILED TO PARENT'));
-    // return ProfileState.newParent(event.user ?? User.empty);
+    return NavigationState.newParent(Parent(id: 'FAILED TO PARENT'));
+    // return NavigationState.newParent(event.user ?? User.empty);
   }
 
   Future<void> _mapAuthenticationStateToProfileEvent(
@@ -80,11 +81,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
 
     if (appState.status == AuthenticationStatus.parent) {
-      add(ProfileParentSignedIn(parent: appState.parent, user: appState.user));
+      add(NavigationParentSignedIn(
+          parent: appState.parent, user: appState.user));
     } else if (appState.status == AuthenticationStatus.newParent) {
-      add(ProfileNewParent(parent: appState.parent, user: appState.user));
+      add(NavigationNewParent(parent: appState.parent, user: appState.user));
     } else if (appState.status == AuthenticationStatus.unauthenticated) {
-      add(ProfileUnknown());
+      add(NavigationUnknown());
     }
   }
 
@@ -93,16 +95,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
     Parent? possibleParent = await parentsRepository.getParentIfExists(userID);
     if (possibleParent != null) {
-      add(ProfileParentSignedIn(parent: possibleParent));
+      add(NavigationParentSignedIn(parent: possibleParent));
       return null;
     }
     Teacher? possibleTeacher =
         await teachersRepository.getTeacherIfExists(userID);
     if (possibleTeacher != null) {
-      add(ProfileTeacherSignedIn(teacher: possibleTeacher));
+      add(NavigationTeacherSignedIn(teacher: possibleTeacher));
       return null;
     }
-    add(ProfileNewParent(
+    add(NavigationNewParent(
         parent: Parent(id: userID, email: appState.user.email)));
   }
 

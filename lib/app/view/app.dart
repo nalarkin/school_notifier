@@ -1,4 +1,5 @@
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:event_repository/event_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/app/app.dart';
@@ -13,7 +14,6 @@ import 'package:school_notifier/theme.dart';
 import 'package:users_repository/users_repository.dart';
 import 'package:school_notifier/authentication/authentication.dart';
 import 'package:key_repository/key_repository.dart';
-
 
 class App extends StatelessWidget {
   const App({
@@ -42,7 +42,12 @@ class App extends StatelessWidget {
           RepositoryProvider(
             create: (_) => KeyRepository(),
           ),
-          RepositoryProvider(create: (_)=> TeachersRepository(),)
+          RepositoryProvider(
+            create: (_) => TeachersRepository(),
+          ),
+          RepositoryProvider(
+            create: (_) => EventRepository(),
+          )
         ],
         child: MultiBlocProvider(
           providers: [
@@ -69,11 +74,12 @@ class InitializeProviders1 extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-            create: (context) =>
-                ProfileBloc(
-                  BlocProvider.of<AuthenticationBloc>(context),
-                  context.read<FirestoreParentsRepository>() ,
-                  context.read<TeachersRepository>(), ),),
+          create: (context) => NavigationBloc(
+            BlocProvider.of<AuthenticationBloc>(context),
+            context.read<FirestoreParentsRepository>(),
+            context.read<TeachersRepository>(),
+          ),
+        ),
       ],
       child: InitializeProviders2(),
     );
@@ -89,9 +95,13 @@ class InitializeProviders2 extends StatelessWidget {
       providers: [
         BlocProvider(
             create: (_) => ParentProfileBloc(
-                parentId: context.read<ProfileBloc>().state.parent?.id ?? '',
+                parentId: context.read<NavigationBloc>().state.parent?.id ?? '',
                 parentsRepository: context.read<FirestoreParentsRepository>())),
-        BlocProvider(create: (_) => Profile2Bloc(profileBloc: context.read<ProfileBloc>(), parentsRepository: context.read<FirestoreParentsRepository>()),)
+        BlocProvider(
+          create: (_) => Profile2Bloc(
+              profileBloc: context.read<NavigationBloc>(),
+              parentsRepository: context.read<FirestoreParentsRepository>()),
+        )
       ],
       child: AppView(),
     );

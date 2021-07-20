@@ -31,14 +31,7 @@ class AuthenticationBloc
   // final FirestoreParentsRepository _firestoreParentsRepository;
   late final StreamSubscription<User> _userSubscription;
 
-  // void _onUserChanged(User user) async {
-  //   if (user.isEmpty) {
-  //     add(AuthenticationUserChanged(user));
-  //   } else {
-  //     unawaited(_convertToFirestoreUser(user));
-  //   }
-  // }
-  // add(AppUserChanged(user));
+
 
   @override
   Stream<AuthenticationState> mapEventToState(

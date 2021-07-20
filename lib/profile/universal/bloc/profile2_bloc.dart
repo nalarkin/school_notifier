@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:school_notifier/navigation/bloc/profile_bloc.dart';
+import 'package:school_notifier/navigation/bloc/navigation_bloc.dart';
 import 'package:school_notifier/profile/universal/stream_grabber/stream_grabber.dart';
 import 'package:users_repository/users_repository.dart';
 
@@ -11,7 +11,7 @@ part 'profile2_state.dart';
 
 class Profile2Bloc extends Bloc<Profile2Event, Profile2State> {
   Profile2Bloc({
-    required ProfileBloc profileBloc,
+    required NavigationBloc profileBloc,
     required FirestoreParentsRepository parentsRepository,
   })  : _parentsRepository = parentsRepository,
         _profileBloc = profileBloc,
@@ -25,12 +25,12 @@ class Profile2Bloc extends Bloc<Profile2Event, Profile2State> {
   // late StreamSubscription _profileStream;
   // final String _parentId;
   late StreamSubscription _profileBlocStream;
-  late ProfileBloc _profileBloc;
+  late NavigationBloc _profileBloc;
   var _profile2Stream;
   // var StreamGrabber _streamGrabber;
 
-  Future<void> _mapProfileToStream(ProfileState profState) async {
-    if (profState.status == ProfileStatus.parent) {
+  Future<void> _mapProfileToStream(NavigationState profState) async {
+    if (profState.status == NavigationStatus.parent) {
       final id = profState.parent?.id;
       if (id != null) {
         // _streamGrabber = StreamGrabber.parent(parentsRepository: _parentsRepository, id: id);

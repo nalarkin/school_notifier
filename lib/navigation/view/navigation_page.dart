@@ -11,51 +11,15 @@ class NavigationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return BlocBuilder<NavigationBloc, NavigationState>(
-
-    //   builder: (context, state) {
-    //     if (state is NavigationNewParentSetup) {
-    //       return ProfileSetupPage();
-    //     } else if (state is NavigationParentSignInSuccess) {
-    //       return HomePage();
-    //     } else if (state is NavigationInitial) {
-    //       Navigator.pushNamed(context, LoginPage.routeName);
-    //       return LoginPage();
-    //     }
-    //     return LoadingIndicator();
-    //   },
-    // );
-    return BlocListener<ProfileBloc, ProfileState>(
-      listener: (context, state) {
-        if (state.status == ProfileStatus.newParent) {
-          Navigator.pushNamed(context, ProfileSetupPage.routeName);
-        } else if (state.status == ProfileStatus.parent) {
-          // Navigator.pushNamed(context, ParentProfilePage.routeName);
-          // Navigator.push(context, ParentProfilePage.route());
-          Navigator.pushNamed(context, HomePage.routeName);
-        } else if (state.status == ProfileStatus.unknown) {
-          Navigator.pushNamed(context, LoginPage.routeName);
-        } else if (state.status == ProfileStatus.failure) {
-          print("ERROR: ProfileStatus.FAILURE WITHIN navigation_page.dart");
-        }
-      },
-      // child: Container(child: Text('loading...')),
-      child: Builder(builder: (_) => LoginPage()),
-    );
-    // return BlocListener<NavigationBloc, NavigationState>(
-    //   listener: (context, state) {
-    //     if (state is NavigationNewParentSetup) {
-    //       Navigator.pushNamed(context, ProfileSetupPage.routeName);
-    //     } else if (state is NavigationParentSignInSuccess) {
-    //       // Navigator.pushNamed(context, ParentProfilePage.routeName);
-    //       // Navigator.push(context, ParentProfilePage.route());
-    //       Navigator.pushNamed(context, HomePage.routeName);
-    //     } else if (state is NavigationInitial) {
-    //       Navigator.pushNamed(context, LoginPage.routeName);
-    //     }
-    //   },
-    //   // child: Container(child: Text('loading...')),
-    //   child: Builder(builder: (_) => LoginPage()),
-    // );
+    switch (context.watch<NavigationBloc>().state.status) {
+      case NavigationStatus.parent:
+        return HomePage();
+      case NavigationStatus.unknown:
+        return LoginPage();
+      case NavigationStatus.newParent:
+        return ProfileSetupForm();
+      default:
+        return LoginPage();
+    }
   }
 }
