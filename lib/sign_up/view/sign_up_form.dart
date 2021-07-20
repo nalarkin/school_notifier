@@ -1,5 +1,8 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:key_repository/key_repository.dart';
+import 'package:school_notifier/navigation/navigation.dart';
 import 'package:school_notifier/sign_up/sign_up.dart';
 import 'package:formz/formz.dart';
 
@@ -11,7 +14,13 @@ class SignUpForm extends StatelessWidget {
     return BlocListener<SignUpCubit, SignUpState>(
       listener: (context, state) {
         if (state.status.isSubmissionSuccess) {
+          FirestoreKey? key = context.read<NavigationBloc>().state.key;
           Navigator.of(context).pop();
+
+          context
+              .read<NavigationBloc>()
+              .add(NavigationNewParentInfoRequested(key: key, 
+              user: context.read<AuthenticationRepository>().currentUser));
         } else if (state.status.isSubmissionFailure) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()

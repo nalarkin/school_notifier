@@ -9,7 +9,7 @@ class Teacher extends Equatable {
     this.firstName,
     this.lastName,
     this.joinDate,
-    this.students,
+    this.photoID,
     this.classes,
   });
 
@@ -18,36 +18,37 @@ class Teacher extends Equatable {
   final String? firstName;
   final String? lastName;
   final String? joinDate;
+  final String? photoID;
   final Map<String, dynamic>? classes;
-  final Map<String, dynamic>? students;
 
-  Teacher copyWith(
-      {String? email,
-      String? firstName,
-      String? lastName,
-      String? joinDate,
-      Map<String, dynamic>? classes,
-      Map<String, dynamic>? students}) {
+  Teacher copyWith({
+    String? email,
+    String? firstName,
+    String? lastName,
+    String? joinDate,
+    String? photoID,
+    Map<String, dynamic>? classes,
+  }) {
     return Teacher(
       id: id,
       email: email ?? this.email,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       joinDate: joinDate ?? this.joinDate,
-      students: students ?? this.students,
+      photoID: photoID ?? this.photoID,
       classes: classes ?? this.classes,
     );
   }
 
   @override
   List<Object?> get props =>
-      [id, students, email, firstName, lastName, joinDate, classes, students];
+      [id, photoID, email, firstName, lastName, joinDate, classes];
 
   @override
   String toString() {
     return 'Teacher { id: $id, name: $firstName $lastName, '
-        'students: $students, email: $email, joinDate: $joinDate, '
-        'classes: $classes, students: $students}';
+        'students: $photoID, email: $email, joinDate: $joinDate, '
+        'classes: $classes}';
   }
 
   TeacherEntity toEntity() {
@@ -57,8 +58,8 @@ class Teacher extends Equatable {
       firstName: firstName ?? '',
       lastName: lastName ?? '',
       joinDate: joinDate ?? '',
-      students: students ?? {'' : ''},
-      classes: students ?? {'' : ''},
+      photoID: photoID ?? '',
+      classes: classes ?? {},
     );
   }
 
@@ -69,7 +70,7 @@ class Teacher extends Equatable {
       firstName: entity.firstName,
       lastName: entity.lastName,
       joinDate: entity.joinDate,
-      students: entity.students,
+      photoID: entity.photoID,
       classes: entity.classes,
     );
   }

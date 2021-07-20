@@ -45,4 +45,20 @@ class FirestoreParentsRepository implements UsersRepository<Parent> {
       throw Exception(e);
     }
   }
+
+  Future<Parent?> getParentIfExists(String id) async {
+    final potentialUser = await parentsCollection.doc(id).get();
+    if (potentialUser.exists) {
+      return Parent.fromEntity(ParentEntity.fromSnapshot(potentialUser));
+    }
+    return null;
+  }
+
+  @override
+  Stream<Parent> liveProfileStream(String id) {
+    return parentsCollection
+        .doc(id)
+        .snapshots()
+        .map((doc) => Parent.fromEntity(ParentEntity.fromSnapshot(doc)));
+  }
 }
