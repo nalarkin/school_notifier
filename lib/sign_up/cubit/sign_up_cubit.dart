@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
+import 'package:key_repository/key_repository.dart';
 
 part 'sign_up_state.dart';
 
@@ -55,6 +56,7 @@ class SignUpCubit extends Cubit<SignUpState> {
     ));
   }
 
+  // Future<void> signUpFormSubmitted(FirestoreKey key) async {
   Future<void> signUpFormSubmitted() async {
     if (!state.status.isValidated) return;
     emit(state.copyWith(status: FormzStatus.submissionInProgress));

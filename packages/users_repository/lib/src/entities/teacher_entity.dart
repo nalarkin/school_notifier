@@ -13,7 +13,8 @@ class TeacherEntity extends Equatable {
     required this.lastName,
     required this.joinDate,
     required this.classes,
-    required this.students,
+    required this.photoID,
+    // required this.students,
   });
 
   final String id;
@@ -21,8 +22,8 @@ class TeacherEntity extends Equatable {
   final String firstName;
   final String lastName;
   final String joinDate;
+  final String photoID;
   final Map<String, dynamic> classes;
-  final Map<String, dynamic> students;
 
   Map<String, Object?> toJson() {
     return {
@@ -32,12 +33,13 @@ class TeacherEntity extends Equatable {
       'lastName': lastName,
       'joinDate': joinDate,
       'classes': classes,
-      'students': students,
+      'photoID': photoID,
     };
   }
 
   @override
-  List<Object> get props => [id, classes, email, firstName, lastName, joinDate, students];
+  List<Object> get props =>
+      [id, classes, email, firstName, lastName, joinDate, photoID];
 
   @override
   String toString() {
@@ -53,7 +55,7 @@ class TeacherEntity extends Equatable {
       lastName: json['lastName'] as String,
       joinDate: json['joinDate'].toString(),
       classes: json['classes'] as Map<String, dynamic>,
-      students: json['students'] as Map<String, dynamic>,
+      photoID: json['photoID'] as String,
     );
   }
 
@@ -67,7 +69,7 @@ class TeacherEntity extends Equatable {
       lastName: data['lastName'] as String,
       joinDate: data['joinDate'].toString(),
       classes: data['classes'] as Map<String, dynamic>,
-      students: data['students'] as Map<String, dynamic>,
+      photoID: data['photoID'] as String,
     );
   }
 
@@ -79,7 +81,7 @@ class TeacherEntity extends Equatable {
       'lastName': lastName,
       'joinDate': joinDate,
       'classes': classes,
-      'students': students,
+      'photoID': photoID,
     };
   }
 }

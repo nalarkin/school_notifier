@@ -11,6 +11,7 @@ class FirestoreKey extends Equatable {
     this.isStudent = false,
     this.isTeacher = false,
     required this.studentID,
+    this.linkedUser = '', 
   });
 
   final String? creationDate;
@@ -19,6 +20,7 @@ class FirestoreKey extends Equatable {
   final bool isParent;
   final bool isStudent;
   final bool isTeacher;
+  final String linkedUser;
   final String studentID;
 
   FirestoreKey copyWith({
@@ -28,6 +30,7 @@ class FirestoreKey extends Equatable {
     bool? isTeacher,
     bool? isValid,
     String? studentID,
+    String? linkedUser,
   }) {
     return FirestoreKey(
       creationDate: creationDate ?? this.creationDate,
@@ -37,6 +40,7 @@ class FirestoreKey extends Equatable {
       isTeacher: isTeacher ?? this.isTeacher,
       isValid: isValid ?? this.isValid,
       studentID: studentID ?? this.studentID,
+      linkedUser: linkedUser ?? this.linkedUser,
     );
   }
 
@@ -46,7 +50,7 @@ class FirestoreKey extends Equatable {
   @override
   String toString() {
     return '''FirestoreKey { id: $id, studentId: $studentID isValid: $isValid, 
-            isParent: $isParent, isStudent: $isStudent, isTeacher: $isTeacher, creationDate: $creationDate}''';
+            isParent: $isParent, isStudent: $isStudent, isTeacher: $isTeacher, creationDate: $creationDate, linkedUser: $linkedUser}''';
   }
 
   KeyEntity toEntity() {
@@ -57,6 +61,7 @@ class FirestoreKey extends Equatable {
       isStudent: isStudent,
       isTeacher: isTeacher,
       isValid: isValid,
+      linkedUser: linkedUser,
       studentID: studentID,
     );
   }
@@ -69,6 +74,7 @@ class FirestoreKey extends Equatable {
       isStudent: entity.isStudent,
       isTeacher: entity.isTeacher,
       isValid: entity.isValid,
+      linkedUser: entity.linkedUser,
       studentID: entity.studentID,
     );
   }

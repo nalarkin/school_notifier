@@ -1,16 +1,15 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:school_notifier/navigation/bloc/navigation_bloc.dart';
 import 'package:users_repository/users_repository.dart';
 import '../profile_setup.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/app/app.dart';
 import 'package:school_notifier/authentication/authentication.dart';
 
-
 class ProfileSetupPage extends StatelessWidget {
   const ProfileSetupPage({Key? key}) : super(key: key);
   static const routeName = '/profile_setup_page';
-
 
   static Page page() => MaterialPage<void>(child: ProfileSetupPage());
   static Route route() {
@@ -29,7 +28,7 @@ class ProfileSetupPage extends StatelessWidget {
         child: BlocProvider(
           create: (_) => ProfileSetupCubit(
             context.read<FirestoreParentsRepository>(),
-            context.read<AuthenticationBloc>().state.parent,
+            context.read<NavigationBloc>().state.parent ?? Parent.empty,
           ),
           child: const ProfileSetupForm(),
         ),
@@ -37,4 +36,3 @@ class ProfileSetupPage extends StatelessWidget {
     );
   }
 }
-

@@ -10,6 +10,8 @@ class Parent extends Equatable {
     this.lastName,
     this.joinDate,
     this.children,
+    this.subscriptions,
+    this.classes,
   });
 
   final String id;
@@ -18,13 +20,17 @@ class Parent extends Equatable {
   final String? lastName;
   final String? joinDate;
   final Map<String, dynamic>? children;
+  final Map<String, dynamic>? subscriptions;
+  final Map<String, dynamic>? classes;
 
   Parent copyWith(
       {String? email,
       String? firstName,
       String? lastName,
       String? joinDate,
-      Map<String, dynamic>? children}) {
+      Map<String, dynamic>? children,
+      Map<String, dynamic>? classes,
+      }) {
     return Parent(
       id: id,
       email: email ?? this.email,
@@ -32,17 +38,20 @@ class Parent extends Equatable {
       lastName: lastName ?? this.lastName,
       joinDate: joinDate ?? this.joinDate,
       children: children ?? this.children,
+      subscriptions: subscriptions ?? this.subscriptions,
+      classes: classes ?? this.classes,
     );
   }
 
   @override
   List<Object?> get props =>
-      [id, children, email, firstName, lastName, joinDate];
+      [id, children, email, firstName, lastName, joinDate, classes, subscriptions];
 
   @override
   String toString() {
     return '''Parent { id: $id, name: $firstName $lastName, 
-            children: $children, email: $email, joinDate: $joinDate}''';
+            children: $children, email: $email, joinDate: $joinDate,
+            subscriptions: $subscriptions, classes $classes}''';
   }
 
   ParentEntity toEntity() {
@@ -53,6 +62,8 @@ class Parent extends Equatable {
       lastName: lastName ?? '',
       joinDate: joinDate ?? '',
       children: children ?? {},
+      subscriptions: subscriptions ?? {},
+      classes: classes ?? {},
     );
   }
 
@@ -64,6 +75,8 @@ class Parent extends Equatable {
       lastName: entity.lastName,
       joinDate: entity.joinDate,
       children: entity.children,
+      subscriptions: entity.subscriptions,
+      classes: entity.classes,
     );
   }
 
