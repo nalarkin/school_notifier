@@ -3,16 +3,18 @@ import 'package:equatable/equatable.dart';
 
 class ConversationEntity extends Equatable {
   const ConversationEntity(
-      {required this.id, required this.userIds, required this.lastMessage});
+      {required this.id,
+      required this.participants,
+      required this.lastMessage});
 
   final String id;
-  final List<dynamic> userIds;
+  final List<dynamic> participants;
   final Map<String, dynamic> lastMessage;
 
   Map<String, Object?> toJson() {
     return {
       'id': id,
-      'userIds': userIds,
+      'participants': participants,
       'lastMessage': lastMessage,
     };
   }
@@ -20,7 +22,7 @@ class ConversationEntity extends Equatable {
   Map<String, Object?> toDocument() {
     return {
       'id': id,
-      'userIds': userIds,
+      'participants': participants,
       'lastMessage': lastMessage,
     };
   }
@@ -28,7 +30,7 @@ class ConversationEntity extends Equatable {
   static ConversationEntity fromJson(Map<String, Object?> json) {
     return ConversationEntity(
       id: json['id'] as String,
-      userIds: json['userIds'] as List<String>,
+      participants: json['participants'] as List<String>,
       lastMessage: json['lastMessage'] as Map<String, dynamic>,
     );
   }
@@ -38,19 +40,20 @@ class ConversationEntity extends Equatable {
     if (data == null) throw Exception();
     return ConversationEntity(
       id: snap.id,
-      userIds: data['userIds'] as List<String>,
+      participants: data['participants'] as List<dynamic>,
       lastMessage: data['lastMessage'] as Map<String, dynamic>,
     );
   }
 
   @override
   String toString() {
-    return 'ConversationEntity { id: $id, userIds: $userIds, lastMessage:'
+    return 'ConversationEntity { id: $id, participants: $participants, lastMessage:'
         ' $lastMessage}';
   }
 
   @override
-  List<Object> get props => [id, userIds, lastMessage];
+  List<Object> get props => [id, participants, lastMessage];
 
-  static const empty = ConversationEntity(id: '', userIds: [], lastMessage: {});
+  static const empty =
+      ConversationEntity(id: '', participants: [], lastMessage: {});
 }

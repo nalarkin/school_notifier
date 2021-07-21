@@ -5,6 +5,8 @@ import 'package:school_notifier/event_repository_test/event_page.dart';
 import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/authentication/authentication.dart';
 import 'package:school_notifier/login/login.dart';
+import 'package:school_notifier/messages/conversations/view/conversation_debug.dart';
+import 'package:school_notifier/messages/message.dart';
 import 'package:school_notifier/navigation/navigation.dart';
 import 'package:school_notifier/profile/profile.dart';
 import 'package:users_repository/users_repository.dart';
@@ -46,6 +48,16 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 4.0),
             // Text(user.name ?? '', style: textTheme.headline5),
             const SizedBox(height: 4.0),
+            MaterialButton(
+              onPressed: () =>
+                  Navigator.pushNamed(context, ConversationDebug.routeName),
+              child: const Text('Convo Debug'),
+            ),
+            MaterialButton(
+              onPressed: () =>
+                  Navigator.pushNamed(context, ConversationPage.routeName),
+              child: const Text('Convo Page'),
+            ),
             MaterialButton(
               onPressed: () =>
                   Navigator.pushNamed(context, ParentProfilePage.routeName),

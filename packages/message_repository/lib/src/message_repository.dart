@@ -59,6 +59,29 @@ class MessageRepository {
     }
   }
 
+  // Stream<List<Conversation>> streamAsyncAllConversations(String uid) {
+  //   final collection = messageCollection
+  //       .orderBy('lastMessage.timestamp', descending: true)
+  //       .where('participants', arrayContains: uid);
+
+  //   return collection
+  //       .snapshots()
+  //       .asyncMap((query) => _processConversationQuery(uid, query));
+  // }
+
+  // Future<List<Conversation>> _processConversationQuery(
+  //     String uid, QuerySnapshot<Map<String, dynamic>> query) async {
+  //   return await Future.wait(
+  //       query.docs.map((doc) => _processIndividualConversation(uid, doc)));
+  // }
+
+  // Future<Conversation> _processIndividualConversation(
+  //     String uid, QueryDocumentSnapshot<Map<String, dynamic>> doc) async {
+  //   Conversation conversation =
+  //       Conversation.fromEntity(ConversationEntity.fromSnapshot(doc));
+    
+  // }
+
   Stream<List<Message>> streamSingleConversation(Conversation conversation) {
     assert(conversation.id.isNotEmpty);
     try {
@@ -107,7 +130,9 @@ class MessageRepository {
 
   Future<void> updateLastMessage(Message message) async {
     final conversation = Conversation(
-        id: message.conversationId, lastMessage: message, userIds: []);
+        id: message.conversationId,
+        lastMessage: message,
+        participants: [message.idTo, message.idFrom]);
     await updateConversationPreview(conversation);
   }
 

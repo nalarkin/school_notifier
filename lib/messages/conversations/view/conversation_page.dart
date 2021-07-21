@@ -1,3 +1,4 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:message_repository/message_repository.dart';
@@ -21,21 +22,21 @@ class ConversationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     // final user = context.select((AuthenticationBloc bloc) => bloc.state.user);
-    NavigationStatus status = context.watch<NavigationBloc>().state.status;
-    String uid = '';
-    switch (status) {
-      case NavigationStatus.parent:
-        uid = context.read<NavigationBloc>().state.parent!.id;
-        break;
-      case NavigationStatus.teacher:
-        uid = context.read<NavigationBloc>().state.teacher!.id;
-        break;
-      case NavigationStatus.student:
-        uid = context.read<NavigationBloc>().state.teacher!.id;
-        break;
-      default:
-        throw Exception('User was not a parent, teacher, or student.');
-    }
+    // NavigationStatus status = context.watch<NavigationBloc>().state.status;
+    // String uid = '';
+    // switch (status) {
+    //   case NavigationStatus.parent:
+    //     uid = context.read<NavigationBloc>().state.parent!.id;
+    //     break;
+    //   case NavigationStatus.teacher:
+    //     uid = context.read<NavigationBloc>().state.teacher!.id;
+    //     break;
+    //   case NavigationStatus.student:
+    //     uid = context.read<NavigationBloc>().state.teacher!.id;
+    //     break;
+    //   default:
+    //     throw Exception('User was not a parent, teacher, or student.');
+    // }
     return Scaffold(
         appBar: AppBar(
           title: const Text('Conversations'),
@@ -55,7 +56,9 @@ class ConversationPage extends StatelessWidget {
         ),
         body: BlocProvider(
           create: (_) =>
-              ConversationBloc(context.read<MessageRepository>(), uid),
+              ConversationBloc(context.read<MessageRepository>(),
+              context.read<FirestoreParentsRepository>(),
+              context.read<AuthenticationRepository>().currentUser.id),
           child: ConversationBuilder(),
         ));
   }

@@ -54,6 +54,23 @@ class FirestoreParentsRepository implements UsersRepository<Parent> {
     return null;
   }
 
+  Future<String?> getParentFirstLastName(String id) async {
+    final potentialUser = await parentsCollection.doc(id).get();
+    if (potentialUser.exists) {
+      Parent curr = Parent.fromEntity(ParentEntity.fromSnapshot(potentialUser));
+      return '${curr.firstName} ${curr.lastName}';
+    }
+    return null;
+  }
+  // Future<String> getParentFirstLastName(String id) async {
+  //   final potentialUser = await parentsCollection.doc(id).get();
+  //   if (potentialUser.exists) {
+  //     Parent curr = Parent.fromEntity(ParentEntity.fromSnapshot(potentialUser));
+  //     return '${curr.firstName} ${curr.lastName}';
+  //   }
+  //   return '';
+  // }
+
   @override
   Stream<Parent> liveProfileStream(String id) {
     return parentsCollection
