@@ -9,10 +9,12 @@ import '../navigation.dart';
 
 class NavigationPage extends StatelessWidget {
   const NavigationPage({Key? key}) : super(key: key);
+  // static const String routeName = '/nav';
 
   @override
   Widget build(BuildContext context) {
-    switch (context.watch<NavigationBloc>().state.status) {
+    final currentState = context.watch<NavigationBloc>().state.status;
+    switch (currentState) {
       case NavigationStatus.parent:
         return HomePage();
       case NavigationStatus.unknown:
@@ -22,7 +24,7 @@ class NavigationPage extends StatelessWidget {
       case NavigationStatus.newParent:
         return SignUpPage();
       case NavigationStatus.newParentAdditionalInfo:
-        return ProfileSetupForm();
+        return ProfileSetupPage();
       case NavigationStatus.tokenAuthorized:
         return SignUpPage();
       default:

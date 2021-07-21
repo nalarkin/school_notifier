@@ -15,11 +15,10 @@ class SignUpForm extends StatelessWidget {
       listener: (context, state) {
         if (state.status.isSubmissionSuccess) {
           FirestoreKey? key = context.read<NavigationBloc>().state.key;
-          Navigator.of(context).pop();
+          // Navigator.of(context).pop();
 
-          context
-              .read<NavigationBloc>()
-              .add(NavigationNewParentInfoRequested(key: key, 
+          context.read<NavigationBloc>().add(NavigationParentSignedIn(
+              parent: state.parent,
               user: context.read<AuthenticationRepository>().currentUser));
         } else if (state.status.isSubmissionFailure) {
           ScaffoldMessenger.of(context)
@@ -31,20 +30,46 @@ class SignUpForm extends StatelessWidget {
       },
       child: Align(
         alignment: const Alignment(0, -1 / 3),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _EmailInput(),
-            const SizedBox(height: 8.0),
-            _PasswordInput(),
-            const SizedBox(height: 8.0),
-            _ConfirmPasswordInput(),
-            const SizedBox(height: 8.0),
-            _SignUpButton(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 16.0),
+              _LoginInfomationText(),
+              const SizedBox(height: 8.0),
+              _EmailInput(),
+              const SizedBox(height: 8.0),
+              _PasswordInput(),
+              const SizedBox(height: 8.0),
+              _ConfirmPasswordInput(),
+              const SizedBox(
+                height: 8.0,
+              ),
+              _ProfileInfoText(),
+              const SizedBox(height: 8.0),
+              _FirstNameInput(),
+              const SizedBox(height: 8.0),
+              _LastNameInput(),
+              const SizedBox(height: 8.0),
+              _StudentNameInput(),
+              const SizedBox(height: 8.0),
+              _SignUpButton(),
+            ],
+          ),
         ),
       ),
     );
+  }
+}
+
+class _LoginInfomationText extends StatelessWidget {
+  const _LoginInfomationText({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Text("create your login info",
+        style: theme.textTheme.bodyText1?.copyWith(color: theme.primaryColor));
   }
 }
 
@@ -111,6 +136,84 @@ class _ConfirmPasswordInput extends StatelessWidget {
             errorText: state.confirmedPassword.invalid
                 ? 'passwords do not match'
                 : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _ProfileInfoText extends StatelessWidget {
+  const _ProfileInfoText({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Text("add your profile info",
+        style: theme.textTheme.bodyText1?.copyWith(color: theme.primaryColor));
+  }
+}
+
+class _FirstNameInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpCubit, SignUpState>(
+      buildWhen: (previous, current) => previous.firstName != current.firstName,
+      builder: (context, state) {
+        return TextField(
+          key: const Key('signUpPage_firstNameInput_textField'),
+          onChanged: (firstName) =>
+              context.read<SignUpCubit>().firstNameChanged(firstName),
+          keyboardType: TextInputType.text,
+          decoration: InputDecoration(
+            labelText: 'first name',
+            helperText: '',
+            errorText: state.firstName.invalid ? 'invalid first name' : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _LastNameInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpCubit, SignUpState>(
+      buildWhen: (previous, current) => previous.lastName != current.lastName,
+      builder: (context, state) {
+        return TextField(
+          key: const Key('profileSetupForm_lastNameInput_textField'),
+          onChanged: (lastName) =>
+              context.read<SignUpCubit>().lastNameChanged(lastName),
+          keyboardType: TextInputType.text,
+          decoration: InputDecoration(
+            labelText: 'last name',
+            helperText: '',
+            errorText: state.lastName.invalid ? 'invalid last name' : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _StudentNameInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpCubit, SignUpState>(
+      buildWhen: (previous, current) => previous.lastName != current.lastName,
+      builder: (context, state) {
+        return TextField(
+          key: const Key('profileSetupForm_studentNameInput_textField'),
+          onChanged: (studentName) =>
+              context.read<SignUpCubit>().studentNameChanged(studentName),
+          keyboardType: TextInputType.text,
+          decoration: InputDecoration(
+            labelText: 'student name',
+            helperText: '',
+            errorText:
+                state.studentName.invalid ? 'invalid student name' : null,
           ),
         );
       },

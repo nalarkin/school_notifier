@@ -23,15 +23,14 @@ class AuthenticationBloc
                   authenticationRepository.currentUser)
               : const AuthenticationState.unauthenticated(),
         ) {
-    _userSubscription = _authenticationRepository.user.listen((user) => add(AuthenticationUserChanged(user)));
+    _userSubscription = _authenticationRepository.user
+        .listen((user) => add(AuthenticationUserChanged(user)));
     // _userSubscription = _authenticationRepository.user.listen(_onUserChanged);
   }
 
   final AuthenticationRepository _authenticationRepository;
   // final FirestoreParentsRepository _firestoreParentsRepository;
   late final StreamSubscription<User> _userSubscription;
-
-
 
   @override
   Stream<AuthenticationState> mapEventToState(
@@ -40,13 +39,23 @@ class AuthenticationBloc
       // yield _mapUserChangedToState(event, state);
       yield _mapUserChangedToState(event, state);
     } else if (event is AuthenticationLogoutRequested) {
-      unawaited(_authenticationRepository.logOut());
-    } 
+      yield await _mapLogOutToState(event);
+    }
     // else if (event is AuthenticationParentAuthenticated) {
     //   yield AuthenticationState.parent(event.parent);
     // } else if (event is AuthenticationNewParentJoined) {
     //   yield AuthenticationState.newParent(event.parent);
     // }
+  }
+
+  Future<AuthenticationState> _mapLogOutToState(
+      AuthenticationLogoutRequested event) async {
+    try {
+      await _authenticationRepository.logOut();
+      return AuthenticationState.unauthenticated();
+    } on LogOutFailure {
+      return AuthenticationState.logOutFailure();
+    }
   }
 
   AuthenticationState _mapUserChangedToState(

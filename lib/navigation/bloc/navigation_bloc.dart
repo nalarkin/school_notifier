@@ -76,17 +76,19 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
         FirestoreKey updatedKey = key.copyWith(linkedUser: event.user!.id);
         await _keyRepository.updateKey(updatedKey);
         if (parent == null) {
-          return NavigationState.newParentAdditionalInfo(
-              Parent(id: user!.id, email: user.email, children: {
+          final newParent = Parent(id: user!.id, email: user.email, children: {
             key.studentID.isNotEmpty ? key.studentID : 'no-attached-student-id':
                 "Edit Your Child's Name"
-          }));
+          });
+          await parentsRepository.addNewUser(newParent);
+          return NavigationState.newParentAdditionalInfo(newParent);
         }
         Parent updatedParent =
             parent.copyWith(id: user!.id, email: user.email, children: {
           key.studentID.isNotEmpty ? key.studentID : 'no-attached-student-id':
               "Edit Your Child's Name"
         });
+        await parentsRepository.addNewUser(updatedParent);
         return NavigationState.newParentAdditionalInfo(updatedParent);
       }
     } catch (e) {
@@ -94,10 +96,8 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
           'ERROR Occured in navigation_bloc within _mapNewParentAdditionalInfoToState');
       print('key is $key');
       print(e);
-
-     
     }
-    return NavigationState.failure();     
+    return NavigationState.failure();
   }
 
   Future<NavigationState> _mapNewTokenToState(

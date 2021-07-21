@@ -16,10 +16,9 @@ class ProfileSetupState extends Equatable {
   final Parent parent;
 
   @override
-  List<Object> get props => [firstName, lastName, studentName, status];
+  List<Object> get props => [firstName, lastName, studentName, status, parent];
 
   ProfileSetupState copyWith({
-    String? id,
     FirstName? firstName,
     LastName? lastName,
     StudentName? studentName,
@@ -27,7 +26,6 @@ class ProfileSetupState extends Equatable {
     Parent? parent,
   }) {
     return ProfileSetupState(
-
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       studentName: studentName ?? this.studentName,
