@@ -7,8 +7,7 @@ class ConversationEntity extends Equatable {
 
   final String id;
   final List<dynamic> userIds;
-  final Map<dynamic, dynamic> lastMessage;
-
+  final Map<String, dynamic> lastMessage;
 
   Map<String, Object?> toJson() {
     return {
@@ -17,6 +16,7 @@ class ConversationEntity extends Equatable {
       'lastMessage': lastMessage,
     };
   }
+
   Map<String, Object?> toDocument() {
     return {
       'id': id,
@@ -25,13 +25,14 @@ class ConversationEntity extends Equatable {
     };
   }
 
-  static ConversationEntity fromJson(Map<String, Object> json) {
+  static ConversationEntity fromJson(Map<String, Object?> json) {
     return ConversationEntity(
       id: json['id'] as String,
       userIds: json['userIds'] as List<String>,
       lastMessage: json['lastMessage'] as Map<String, dynamic>,
     );
   }
+
   static ConversationEntity fromSnapshot(DocumentSnapshot snap) {
     final data = snap.data() as Map<String, dynamic>?;
     if (data == null) throw Exception();

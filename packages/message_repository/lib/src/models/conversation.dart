@@ -7,12 +7,13 @@ class Conversation extends Equatable {
 
   final String id;
   final List<dynamic> userIds;
-  final Map<dynamic, dynamic> lastMessage;
+  // final Map<dynamic, dynamic> lastMessage;
+  final Message lastMessage;
 
   Conversation copyWith({
     String? id,
     List<dynamic>? userIds,
-    Map<dynamic, dynamic>? lastMessage,
+    Message? lastMessage,
   }) {
     return Conversation(
       id: id ?? this.id,
@@ -31,7 +32,7 @@ class Conversation extends Equatable {
     return ConversationEntity(
       id: id,
       userIds: userIds,
-      lastMessage: lastMessage,
+      lastMessage: lastMessage.toEntity().toJson(),
     );
   }
 
@@ -39,7 +40,8 @@ class Conversation extends Equatable {
     return Conversation(
       id: entity.id,
       userIds: entity.userIds,
-      lastMessage: entity.lastMessage,
+      lastMessage:
+          Message.fromEntity(MessageEntity.fromJson(entity.lastMessage)),
     );
   }
 
@@ -49,5 +51,6 @@ class Conversation extends Equatable {
   @override
   List<Object> get props => [id, userIds, lastMessage];
 
-  static const empty = Conversation(id: '', userIds: [], lastMessage: {});
+  static final empty =
+      Conversation(id: '', userIds: [], lastMessage: Message.empty);
 }
