@@ -7,22 +7,75 @@ class MessageRepository {
       .doc('conversations')
       .collection('conversations');
 
-  Future<void> addNewMessage(Message message) {
-    return messageCollection
-        .doc(message.id)
-        .set((message.toEntity().toDocument()));
+  Future<void> addNewMessage(Message message) async {
+    assert(message.conversationId.isNotEmpty);
+    final docRef = messageCollection
+        .doc(message.conversationId)
+        .collection(message.conversationId)
+        .doc();
+    Message messageWithNewId = message.copyWith(id: docRef.id);
+    docRef.set(messageWithNewId.toEntity().toDocument());
   }
 
   Future<void> deleteMessage(Message message) async {
+    assert(message.conversationId.isNotEmpty);
+    assert(message.id.isNotEmpty);
+    try {
+      await messageCollection
+          .doc(message.conversationId)
+          .collection(message.conversationId)
+          .doc(message.id)
+          .delete();
+    } catch (e) {
+      print('ERROR in message_repository.dart');
+      print('message was $message');
+      print(e);
+      throw (e);
+    }
+
     return messageCollection.doc(message.id).delete();
   }
 
-  Stream<List<Message>> users() {
-    return messageCollection.snapshots().map((snapshot) {
-      return snapshot.docs
-          .map((doc) => Message.fromEntity(MessageEntity.fromSnapshot(doc)))
-          .toList();
-    });
+  Stream<List<Conversation>> streamAllConversations(String uid) {
+    try {
+      if (uid.isEmpty) {
+        print("ERROR. streamConverations(String uid) UID IS EMPTY");
+        throw (StackTrace.current);
+      }
+      return messageCollection
+          .orderBy('lastMessage.timestamp', descending: true)
+          .where('participants', arrayContains: uid)
+          .snapshots()
+          .map((QuerySnapshot queryResults) => queryResults.docs
+              .map((DocumentSnapshot snap) => Conversation.fromEntity(
+                  ConversationEntity.fromSnapshot(snap)))
+              .toList());
+    } catch (e) {
+      print("ERROR Occured in message_repository.dart");
+      print("String uid: $uid");
+      print(StackTrace.current);
+      print(e);
+      throw (e);
+    }
+  }
+
+  Stream<List<Message>> streamSingleConversation(Conversation conversation) {
+    assert(conversation.id.isNotEmpty);
+    try {
+      return messageCollection
+          .doc(conversation.id)
+          .collection(conversation.id)
+          .snapshots()
+          .map((allMessages) => allMessages.docs
+              .map((snap) =>
+                  Message.fromEntity(MessageEntity.fromSnapshot(snap)))
+              .toList());
+    } catch (e) {
+      print('ERROR within message_repository.dart');
+      print('conversation was $conversation');
+      print(e);
+      throw (e);
+    }
   }
 
   Future<void> updateMessage(Message message) async {
