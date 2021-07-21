@@ -49,6 +49,8 @@ class ConversationDebug extends StatelessWidget {
             const SizedBox(height: 4.0),
             const _SendMessage(),
             const SizedBox(height: 4.0),
+            const _SendMessage2(),
+            const SizedBox(height: 4.0),
             MaterialButton(
               onPressed: () =>
                   Navigator.pushNamed(context, ParentProfilePage.routeName),
@@ -127,6 +129,29 @@ class _SendMessage extends StatelessWidget {
               id: '',
               conversationId: convoID,
               content: 'message content 2',
+              idFrom: idFrom,
+              idTo: idTo,
+              mediaUrl: 'mediaUrl',
+              timestamp: DateTime.now()));
+        },
+        child: Text('_SendMessage'));
+  }
+}
+
+class _SendMessage2 extends StatelessWidget {
+  const _SendMessage2({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+        onPressed: () {
+          final idTo = '2nWOi9m2zsg2eDlRYRqXzTatZrU2';
+          final idFrom = 'AtQtsdVkaxR7v3czZN7sn6kTQuD3';
+          final convoID = Message.getConvoID(idTo, idFrom);
+          context.read<MessageRepository>().sendMessage(Message(
+              id: '',
+              conversationId: convoID,
+              content: 'message content 3999999999999999999999999999999999',
               idFrom: idFrom,
               idTo: idTo,
               mediaUrl: 'mediaUrl',

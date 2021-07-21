@@ -41,11 +41,22 @@ class ConversationPage extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Conversations'),
           centerTitle: true,
-          actions: <Widget>[],
+          actions: <Widget>[
+            IconButton(
+                key: const Key('conversation_logout_iconButton'),
+                icon: const Icon(Icons.exit_to_app),
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/', (Route<dynamic> route) => false);
+                  context
+                      .read<AuthenticationBloc>()
+                      .add(AuthenticationLogoutRequested());
+                })
+          ],
         ),
         body: BlocProvider(
-          create: (_) => ConversationBloc(
-              context.read<MessageRepository>(),
+          create: (_) =>
+              ConversationBloc(context.read<MessageRepository>(),
               context.read<FirestoreParentsRepository>(),
               context.read<AuthenticationRepository>().currentUser.id),
           child: ConversationBuilder(),

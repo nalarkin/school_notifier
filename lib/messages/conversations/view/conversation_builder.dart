@@ -49,16 +49,49 @@ GestureDetector _buildConversationTile(Conversation conversation) {
       // );
     },
     child: Container(
+      // clipBehavior: Clip.hardEdge,
+      // decoration: BoxDecoration(),
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
         vertical: 8,
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // _buildAvatar(room),
-          Text(conversation.lastMessage.content),
+
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(conversation.lastMessage.idFrom),
+                Text(
+                  conversation.lastMessage.content,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Text(_formatDateString(
+                conversation.lastMessage.timestamp, DateTime.now())),
+          )
         ],
       ),
     ),
   );
+}
+
+String _formatDateString(DateTime date, DateTime currentDate) {
+  const weekdays = ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'];
+  final difference = currentDate.difference(date);
+  if (difference > Duration(days: 7)) {
+    return '${date.day}/${date.month}';
+  } else if (difference >= Duration(days: 1)) {
+    return '${weekdays[date.day]}';
+  }
+
+  return '${date.hour}:${date.minute}';
 }
