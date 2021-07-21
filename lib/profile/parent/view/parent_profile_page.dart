@@ -79,6 +79,7 @@ class ProfileView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Profile'),
+          centerTitle: true,
           actions: <Widget>[
             IconButton(
                 key: const Key('profilePage_logout_iconButton'),

@@ -9,7 +9,7 @@ class NewUserWelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Additional Info')),
+      appBar: AppBar(title: const Text('Additional Info'), centerTitle: true,),
       body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(

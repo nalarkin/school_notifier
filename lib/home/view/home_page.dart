@@ -21,6 +21,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
+        centerTitle: true,
         actions: <Widget>[
           IconButton(
               key: const Key('homePage_logout_iconButton'),

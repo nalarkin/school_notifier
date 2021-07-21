@@ -34,11 +34,17 @@ class SignUpForm extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              _LoginInfomationText(),
+              const SizedBox(height: 8.0),
               _EmailInput(),
               const SizedBox(height: 8.0),
               _PasswordInput(),
               const SizedBox(height: 8.0),
               _ConfirmPasswordInput(),
+              const SizedBox(
+                height: 8.0,
+              ),
+              _ProfileInfoText(),
               const SizedBox(height: 8.0),
               _FirstNameInput(),
               const SizedBox(height: 8.0),
@@ -55,7 +61,16 @@ class SignUpForm extends StatelessWidget {
   }
 }
 
+class _LoginInfomationText extends StatelessWidget {
+  const _LoginInfomationText({Key? key}) : super(key: key);
 
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Text("create your login info",
+        style: theme.textTheme.bodyText1?.copyWith(color: theme.primaryColor));
+  }
+}
 
 class _EmailInput extends StatelessWidget {
   @override
@@ -127,6 +142,17 @@ class _ConfirmPasswordInput extends StatelessWidget {
   }
 }
 
+class _ProfileInfoText extends StatelessWidget {
+  const _ProfileInfoText({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Text("add your profile info",
+        style: theme.textTheme.bodyText1?.copyWith(color: theme.primaryColor));
+  }
+}
+
 class _FirstNameInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -134,7 +160,7 @@ class _FirstNameInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.firstName != current.firstName,
       builder: (context, state) {
         return TextField(
-          key: const Key('profileSetupForm_firstNameInput_textField'),
+          key: const Key('signUpPage_firstNameInput_textField'),
           onChanged: (firstName) =>
               context.read<SignUpCubit>().firstNameChanged(firstName),
           keyboardType: TextInputType.text,
