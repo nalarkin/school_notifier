@@ -2,6 +2,7 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:event_repository/event_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:message_repository/message_repository.dart';
 import 'package:school_notifier/app/app.dart';
 import 'package:school_notifier/navigation/navigation.dart';
 import 'package:school_notifier/home/home.dart';
@@ -46,7 +47,10 @@ class App extends StatelessWidget {
           ),
           RepositoryProvider(
             create: (_) => EventRepository(),
-          )
+          ),
+          RepositoryProvider(
+            create: (_) => MessageRepository(),
+          ),
         ],
         child: MultiBlocProvider(
           providers: [

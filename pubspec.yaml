@@ -17,6 +17,8 @@ dependencies:
     path: packages/key_repository
   event_repository:
     path: packages/event_repository
+  message_repository:
+    path: packages/message_repository
   bloc: ^7.0.0
   equatable: ^2.0.0
   flow_builder: ^0.0.2
