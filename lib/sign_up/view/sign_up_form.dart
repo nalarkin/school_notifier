@@ -34,6 +34,7 @@ class SignUpForm extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              const SizedBox(height: 16.0),
               _LoginInfomationText(),
               const SizedBox(height: 8.0),
               _EmailInput(),
