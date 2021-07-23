@@ -48,10 +48,15 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
       var _unreadMessages = <Message>[];
       for (var i = event.messages.length - 1; i >= 0; i--) {
         if (event.messages[i].read) break;
-        _unreadMessages.add(event.messages[i]);
+        if (event.messages[i].idTo == _viewerUid) {
+          _unreadMessages.add(event.messages[i]);
+        }
       }
+
       // batch write
-      _messageRepository.updateMessagesRead(_unreadMessages);
+      if (_unreadMessages.length > 0) {
+        _messageRepository.updateMessagesRead(_unreadMessages);
+      }
     }
 
     return MessageState(
@@ -59,7 +64,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
   }
 
   Future<void> _mapMessageSent(MessageSentText event) async {
-    final content = event.content;
+    final content = event.content.trim();
     final Message _newMessage = Message(
       idFrom: _viewerUid,
       idTo: _otherParticipant,

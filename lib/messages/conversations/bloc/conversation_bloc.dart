@@ -41,23 +41,23 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     var updatedConversations = <Conversation>[];
 
     for (Conversation conversation in event.conversations) {
-      final names = await _parentsRepository
-          .convertParticipantListToNames(conversation.participants);
+      // final names = await _parentsRepository
+      //     .convertParticipantListToNames(conversation.participants);
       // final idFrom = await _parentsRepository
       //     .getParentFirstLastName(conversation.lastMessage.idFrom);
       // final idTo = await _parentsRepository
       //     .getParentFirstLastName(conversation.lastMessage.idTo);
-      final _otherParticipant =
-          conversation.participants.firstWhere((id) => id != uid);
+      // final _otherParticipant =
+      //     conversation.participants.firstWhere((id) => id != uid);
       // final idFrom = names[conversation.lastMessage.idFrom];
-      updatedConversations.add(conversation.copyWith(
-          lastMessage: conversation.lastMessage.copyWith(
-        id: names[_otherParticipant],
-        idFrom: names[conversation.lastMessage.idFrom],
-        idTo: names[conversation.lastMessage.idTo],
-      )));
+      // updatedConversations.add(conversation.copyWith(
+      //     lastMessage: conversation.lastMessage.copyWith(
+      //   id: names[_otherParticipant],
+      //   idFrom: names[conversation.lastMessage.idFrom],
+      //   idTo: names[conversation.lastMessage.idTo],
+      // )));
     }
-    return ConversationSuccess(updatedConversations);
+    return ConversationSuccess(event.conversations);
   }
 
   // ConversationState _mapConversationRead(ConversationRead event) {

@@ -1,3 +1,4 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:message_repository/message_repository.dart';
@@ -26,11 +27,13 @@ class ConversationBuilder extends StatelessWidget {
           final _conversations = state.conversations;
           print("conversations $_conversations");
           print("length of conversations = ${_conversations.length}");
+          final _viewerUid =
+              context.read<AuthenticationRepository>().currentUser.id;
           return ListView.builder(
             itemCount: _conversations.length,
             itemBuilder: (context, index) {
               return _buildConversationTile(
-                  context, _conversations[index], index);
+                  context, _conversations[index], index, _viewerUid);
             },
           );
         }
@@ -41,7 +44,7 @@ class ConversationBuilder extends StatelessWidget {
 }
 
 GestureDetector _buildConversationTile(
-    context, Conversation conversation, int index) {
+    context, Conversation conversation, int index, String _viewerUid) {
   final theme = Theme.of(context);
   return GestureDetector(
     onTap: () {
@@ -51,8 +54,10 @@ GestureDetector _buildConversationTile(
       // context.read<ConversationBloc>().add(conversation, index);
     },
     child: Container(
-      color:
-          conversation.lastMessage.read ? Colors.grey.shade300 : Colors.white,
+      color: (conversation.lastMessage.idTo == _viewerUid &&
+              !conversation.lastMessage.read)
+          ? Colors.white
+          : Colors.grey.shade300,
       height: 70,
       padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: Row(
@@ -64,7 +69,7 @@ GestureDetector _buildConversationTile(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  conversation.lastMessage.id,
+                  _getOtherParticipantNames(conversation, _viewerUid),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
@@ -72,7 +77,7 @@ GestureDetector _buildConversationTile(
                       theme.textTheme.bodyText1?.copyWith(color: Colors.black),
                 ),
                 Text(
-                  '${conversation.lastMessage.idFrom}: ${conversation.lastMessage.content}',
+                  _getLastMessage(conversation),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
@@ -90,6 +95,28 @@ GestureDetector _buildConversationTile(
       ),
     ),
   );
+}
+
+String _getOtherParticipantNames(Conversation convo, String _viewerUid) {
+  final _otherUsers = [
+    for (String id in convo.participants)
+      if (id != _viewerUid) id
+  ];
+  var _userNames = [
+    for (String userID in _otherUsers) convo.participantsMap![userID]
+  ];
+  _userNames.sort();
+  var res = '${_userNames[0]}';
+  for (int i = 1; i < _userNames.length; i++) {
+    res += ', ${_userNames[i]}';
+  }
+  return res;
+  // conversation.participantsMap[conversation.participants[0]] == _viewerUid,
+}
+
+String _getLastMessage(Conversation convo) {
+  return '${convo.participantsMap![convo.lastMessage.idFrom]}: ${convo.lastMessage.content}';
+  // conversation.participantsMap[conversation.participants[0]] == _viewerUid,
 }
 
 String _formatDateString(DateTime date, DateTime currentDate) {
