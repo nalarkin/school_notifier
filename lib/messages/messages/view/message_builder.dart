@@ -18,11 +18,17 @@ class MessageBuilder extends StatelessWidget {
           return LoadingIndicator();
         } else if (state.status == MessageStatus.success) {
           final _messages = state.messages;
-          return ListView.builder(
-            itemCount: _messages.length,
-            itemBuilder: (context, index) {
-              return _buildConversationTile(context, _messages[index], _uid);
-            },
+          return Stack(
+            children: [
+              ListView.builder(
+                itemCount: _messages.length,
+                itemBuilder: (context, index) {
+                  return _buildConversationTile(
+                      context, _messages[index], _uid);
+                },
+              ),
+              _BuildInputContainer(),
+            ],
           );
         }
         return Container();
@@ -80,3 +86,69 @@ const styleMe = BubbleStyle(
   margin: BubbleEdges.only(top: 8, left: 50),
   alignment: Alignment.topRight,
 );
+
+class _BuildInputContainer extends StatelessWidget {
+  _BuildInputContainer({Key? key}) : super(key: key);
+  final TextEditingController _controller = TextEditingController();
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Align(
+  //     alignment: Alignment.bottomLeft,
+  //     child: Container(
+  //       // height: MediaQuery.of(context).size.height * .1,
+  //       width: MediaQuery.of(context).size.width * 0.8,
+  //       // color: Colors.black,
+  //       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+  //       child: Stack(
+  //         children: [
+  //           TextFormField(
+  //             controller: _controller,
+  //           ),
+  //           // Align(
+  //           //   alignment: Alignment.centerRight,
+  //           //   child: Icon(Icons.send),
+  //           // ),
+  //           Icon(Icons.send),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.bottomCenter,
+      // height: MediaQuery.of(context).size.height * .1,
+      // width: MediaQuery.of(context).size.width * 0.8,
+      // color: Colors.black,
+      margin: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: TextFormField(
+              controller: _controller,
+            ),
+          ),
+          // Align(
+          //   alignment: Alignment.centerRight,
+          //   child: Icon(Icons.send),
+          // ),
+          Container(
+              // alignment: Align,
+              child: IconButton(
+                  onPressed: () {
+                    context
+                        .read<MessageBloc>()
+                        .add(MessageSentText(_controller.text));
+                    _controller.clear();
+                  },
+                  icon: Icon(Icons.send))),
+        ],
+      ),
+    );
+  }
+}
