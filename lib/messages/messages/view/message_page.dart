@@ -9,6 +9,7 @@ import 'package:school_notifier/authentication/authentication.dart';
 import 'package:school_notifier/login/login.dart';
 import 'package:school_notifier/messages/conversations/view/conversation_builder.dart';
 import 'package:school_notifier/messages/message.dart';
+import 'package:school_notifier/messages/messages/view/message_builder.dart';
 import 'package:school_notifier/navigation/navigation.dart';
 import 'package:school_notifier/profile/profile.dart';
 import 'package:users_repository/users_repository.dart';
@@ -22,22 +23,6 @@ class MessagePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final convo = ModalRoute.of(context)!.settings.arguments as Conversation;
-    // final user = context.select((AuthenticationBloc bloc) => bloc.state.user);
-    // NavigationStatus status = context.watch<NavigationBloc>().state.status;
-    // String uid = '';
-    // switch (status) {
-    //   case NavigationStatus.parent:
-    //     uid = context.read<NavigationBloc>().state.parent!.id;
-    //     break;
-    //   case NavigationStatus.teacher:
-    //     uid = context.read<NavigationBloc>().state.teacher!.id;
-    //     break;
-    //   case NavigationStatus.student:
-    //     uid = context.read<NavigationBloc>().state.teacher!.id;
-    //     break;
-    //   default:
-    //     throw Exception('User was not a parent, teacher, or student.');
-    // }
     return Scaffold(
         appBar: AppBar(
           title: const Text('Messages'),
@@ -61,7 +46,7 @@ class MessagePage extends StatelessWidget {
             convo,
             context.read<AuthenticationRepository>().currentUser.id,
           ),
-          child: ConversationBuilder(),
+          child: MessageBuilder(),
         ));
   }
 }

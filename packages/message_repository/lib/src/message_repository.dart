@@ -79,7 +79,7 @@ class MessageRepository {
   //     String uid, QueryDocumentSnapshot<Map<String, dynamic>> doc) async {
   //   Conversation conversation =
   //       Conversation.fromEntity(ConversationEntity.fromSnapshot(doc));
-    
+
   // }
 
   Stream<List<Message>> streamSingleConversation(Conversation conversation) {
@@ -115,6 +115,28 @@ class MessageRepository {
         .collection(message.conversationId)
         .doc(message.id)
         .set(<String, bool>{'read': true}, SetOptions(merge: true));
+  }
+
+  Future<void> updateMessagesRead(List<Message> messages) async {
+    assert(messages.length > 0);
+    WriteBatch batch = FirebaseFirestore.instance.batch();
+
+    for (Message message in messages) {
+      batch.set(
+          messageCollection
+              .doc(message.conversationId)
+              .collection(message.conversationId)
+              .doc(message.id),
+          <String, bool>{'read': true},
+          SetOptions(merge: true));
+    }
+    batch.set(
+        messageCollection.doc(messages[0].conversationId),
+        {
+          'lastMessage': {'read': true}
+        },
+        SetOptions(merge: true));
+    batch.commit();
   }
 
   Future<void> sendMessage(Message message) async {

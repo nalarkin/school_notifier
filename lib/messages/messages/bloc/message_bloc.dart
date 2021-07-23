@@ -33,11 +33,29 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     MessageEvent event,
   ) async* {
     if (event is MessageLoaded) {
-      yield MessageState(
-          status: MessageStatus.success, messages: event.messages);
+      yield _mapMessageLoadedToState(event);
     } else if (event is MessageSentText) {
       unawaited(_mapMessageSent(event));
     }
+  }
+
+  MessageState _mapMessageLoadedToState(MessageLoaded event) {
+    assert(event.messages.length > 0);
+
+    // if most recent message hasn't been read, update all messages that
+    // are marked as unread.
+    if (!event.messages.last.read) {
+      var _unreadMessages = <Message>[];
+      for (var i = event.messages.length - 1; i >= 0; i--) {
+        if (event.messages[i].read) break;
+        _unreadMessages.add(event.messages[i]);
+      }
+      // batch write
+      _messageRepository.updateMessagesRead(_unreadMessages);
+    }
+
+    return MessageState(
+        status: MessageStatus.success, messages: event.messages);
   }
 
   Future<void> _mapMessageSent(MessageSentText event) async {

@@ -5,8 +5,8 @@ import 'package:school_notifier/messages/message.dart';
 import 'package:school_notifier/widgets/loading_indicator.dart';
 import 'package:bubble/bubble.dart';
 
-class ConversationBuilder extends StatelessWidget {
-  const ConversationBuilder({Key? key}) : super(key: key);
+class MessageBuilder extends StatelessWidget {
+  const MessageBuilder({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ GestureDetector _buildConversationTile(context, Message message) {
       },
       child: Bubble(
         child: Text(message.content),
-        style: styleMe,
+        style: message.read ? styleMe : styleSomebody,
       ));
 }
 
@@ -60,21 +60,21 @@ String _formatDateString(DateTime date, DateTime currentDate) {
 }
 
 const styleSomebody = BubbleStyle(
-  nip: BubbleNip.leftCenter,
+  nip: BubbleNip.leftTop,
   color: Colors.white,
   borderColor: Colors.blue,
   borderWidth: 1,
-  elevation: 4,
+  elevation: 1,
   margin: BubbleEdges.only(top: 8, right: 50),
   alignment: Alignment.topLeft,
 );
 
 const styleMe = BubbleStyle(
-  nip: BubbleNip.rightCenter,
+  nip: BubbleNip.rightBottom,
   color: Color.fromARGB(255, 225, 255, 199),
   borderColor: Colors.blue,
   borderWidth: 1,
-  elevation: 4,
+  elevation: 1,
   margin: BubbleEdges.only(top: 8, left: 50),
   alignment: Alignment.topRight,
 );

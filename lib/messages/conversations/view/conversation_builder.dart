@@ -24,6 +24,8 @@ class ConversationBuilder extends StatelessWidget {
           );
         } else if (state is ConversationSuccess) {
           final _conversations = state.conversations;
+          print("conversations $_conversations");
+          print("length of conversations = ${_conversations.length}");
           return ListView.builder(
             itemCount: _conversations.length,
             itemBuilder: (context, index) {
@@ -41,21 +43,14 @@ GestureDetector _buildConversationTile(context, Conversation conversation) {
   final theme = Theme.of(context);
   return GestureDetector(
     onTap: () {
-      // Navigator.of(context).push(
-      //   MaterialPageRoute(
-      //     builder: (context) => ChatPage(
-      //       room: room,
-      //     ),
-      //   ),
-      // );
+      Navigator.pushNamed(context, MessagePage.routeName,
+          arguments: conversation);
     },
     child: Container(
-      // clipBehavior: Clip.hardEdge,
-      // decoration: BoxDecoration(),
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 8,
-      ),
+      color:
+          conversation.lastMessage.read ? Colors.grey.shade300 : Colors.white,
+      height: 70,
+      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -97,10 +92,11 @@ GestureDetector _buildConversationTile(context, Conversation conversation) {
 String _formatDateString(DateTime date, DateTime currentDate) {
   const weekdays = ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'];
   final difference = currentDate.difference(date);
-  if (difference > Duration(days: 7)) {
+  print(difference.inDays);
+  if (difference >= Duration(days: 7)) {
     return '${date.day}/${date.month}';
   } else if (difference >= Duration(days: 1)) {
-    return '${weekdays[date.day]}';
+    return '${weekdays[date.weekday - 1]}';
   }
 
   return '${date.hour}:${date.minute}';
