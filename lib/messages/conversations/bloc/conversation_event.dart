@@ -1,7 +1,7 @@
 part of 'conversation_bloc.dart';
 
 abstract class ConversationEvent extends Equatable {
-  const ConversationEvent({required this.conversations});
+  const ConversationEvent({this.conversations = const <Conversation>[]});
   final List<Conversation> conversations;
 
   @override
@@ -26,3 +26,14 @@ class ConversationLoaded extends ConversationEvent {
     return 'ConversationLoaded { conversations: ${this.conversations}}';
   }
 }
+
+// class ConversationRead extends ConversationEvent {
+//   const ConversationRead(this.singleConversation, this.index) : super();
+//   final Conversation singleConversation;
+//   final int index;
+
+//   @override
+//   String toString() {
+//     return 'ConversationRead { singleConversation: ${this.singleConversation}}';
+//   }
+// }

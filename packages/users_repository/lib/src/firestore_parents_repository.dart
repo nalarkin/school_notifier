@@ -62,6 +62,21 @@ class FirestoreParentsRepository implements UsersRepository<Parent> {
     }
     return null;
   }
+
+  Future<Map<String, String>> convertParticipantListToNames(
+      List<String> partiticpants) async {
+    assert(partiticpants.length >= 0);
+    var names = <String, String>{};
+    for (String id in partiticpants) {
+      final user = await parentsCollection.doc(id).get();
+      if (user.exists) {
+        Parent curr = Parent.fromEntity(ParentEntity.fromSnapshot(user));
+        names[id] = '${curr.firstName} ${curr.lastName}';
+      }
+    }
+    assert(names.length > 0);
+    return names;
+  }
   // Future<String> getParentFirstLastName(String id) async {
   //   final potentialUser = await parentsCollection.doc(id).get();
   //   if (potentialUser.exists) {

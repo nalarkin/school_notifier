@@ -39,21 +39,38 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   Future<ConversationState> _convertConversationsLoadedToState(
       ConversationLoaded event) async {
     var updatedConversations = <Conversation>[];
-    for (Conversation conversation in event.conversations) {
-      final idFrom = await _parentsRepository
-          .getParentFirstLastName(conversation.lastMessage.idFrom);
-      final idTo = await _parentsRepository
-          .getParentFirstLastName(conversation.lastMessage.idTo);
 
+    for (Conversation conversation in event.conversations) {
+      final names = await _parentsRepository
+          .convertParticipantListToNames(conversation.participants);
+      // final idFrom = await _parentsRepository
+      //     .getParentFirstLastName(conversation.lastMessage.idFrom);
+      // final idTo = await _parentsRepository
+      //     .getParentFirstLastName(conversation.lastMessage.idTo);
+      final _otherParticipant =
+          conversation.participants.firstWhere((id) => id != uid);
+      // final idFrom = names[conversation.lastMessage.idFrom];
       updatedConversations.add(conversation.copyWith(
           lastMessage: conversation.lastMessage.copyWith(
-        idFrom: idFrom,
-        idTo: idTo,
+        id: names[_otherParticipant],
+        idFrom: names[conversation.lastMessage.idFrom],
+        idTo: names[conversation.lastMessage.idTo],
       )));
     }
-
     return ConversationSuccess(updatedConversations);
   }
+
+  // ConversationState _mapConversationRead(ConversationRead event) {
+  //   assert(state.conversations.length > event.index);
+  //   Conversation convoToUpdate = state.conversations[event.index];
+  //   var _updatedConvoList = <Conversation>[
+  //     for (Conversation convo in state.conversations) convo
+  //   ];
+  //   _updatedConvoList[event.index] = _updatedConvoList[event.index].copyWith(
+  //       lastMessage:
+  //           _updatedConvoList[event.index].lastMessage.copyWith(read: true));
+  //   return ConversationSuccess(_updatedConvoList);
+  // }
 
   @override
   Future<void> close() {

@@ -29,7 +29,8 @@ class ConversationBuilder extends StatelessWidget {
           return ListView.builder(
             itemCount: _conversations.length,
             itemBuilder: (context, index) {
-              return _buildConversationTile(context, _conversations[index]);
+              return _buildConversationTile(
+                  context, _conversations[index], index);
             },
           );
         }
@@ -39,12 +40,15 @@ class ConversationBuilder extends StatelessWidget {
   }
 }
 
-GestureDetector _buildConversationTile(context, Conversation conversation) {
+GestureDetector _buildConversationTile(
+    context, Conversation conversation, int index) {
   final theme = Theme.of(context);
   return GestureDetector(
     onTap: () {
+      // context.read<ConversationBloc>().add(conversation, index);
       Navigator.pushNamed(context, MessagePage.routeName,
           arguments: conversation);
+      // context.read<ConversationBloc>().add(conversation, index);
     },
     child: Container(
       color:
@@ -55,21 +59,20 @@ GestureDetector _buildConversationTile(context, Conversation conversation) {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // _buildAvatar(room),
-
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  conversation.lastMessage.idFrom,
+                  conversation.lastMessage.id,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
                   style:
-                      theme.textTheme.bodyText2?.copyWith(color: Colors.black),
+                      theme.textTheme.bodyText1?.copyWith(color: Colors.black),
                 ),
                 Text(
-                  conversation.lastMessage.content,
+                  '${conversation.lastMessage.idFrom}: ${conversation.lastMessage.content}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,

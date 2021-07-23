@@ -1,3 +1,4 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:message_repository/message_repository.dart';
@@ -10,6 +11,7 @@ class MessageBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String _uid = context.watch<AuthenticationRepository>().currentUser.id;
     return BlocBuilder<MessageBloc, MessageState>(
       builder: (context, state) {
         if (state.status == MessageStatus.initial) {
@@ -19,7 +21,7 @@ class MessageBuilder extends StatelessWidget {
           return ListView.builder(
             itemCount: _messages.length,
             itemBuilder: (context, index) {
-              return _buildConversationTile(context, _messages[index]);
+              return _buildConversationTile(context, _messages[index], _uid);
             },
           );
         }
@@ -29,7 +31,7 @@ class MessageBuilder extends StatelessWidget {
   }
 }
 
-GestureDetector _buildConversationTile(context, Message message) {
+GestureDetector _buildConversationTile(context, Message message, String _uid) {
   final theme = Theme.of(context);
   return GestureDetector(
       onTap: () {
@@ -43,7 +45,7 @@ GestureDetector _buildConversationTile(context, Message message) {
       },
       child: Bubble(
         child: Text(message.content),
-        style: message.read ? styleMe : styleSomebody,
+        style: message.idFrom == _uid ? styleMe : styleSomebody,
       ));
 }
 

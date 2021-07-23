@@ -25,7 +25,7 @@ class MessagePage extends StatelessWidget {
     final convo = ModalRoute.of(context)!.settings.arguments as Conversation;
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Messages'),
+          title: Text('${convo.lastMessage.id}'),
           centerTitle: true,
           actions: <Widget>[
             IconButton(
