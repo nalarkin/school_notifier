@@ -13,14 +13,15 @@ import 'package:school_notifier/navigation/navigation.dart';
 import 'package:school_notifier/profile/profile.dart';
 import 'package:users_repository/users_repository.dart';
 
-class ConversationPage extends StatelessWidget {
-  const ConversationPage({Key? key}) : super(key: key);
-  static const String routeName = '/conversations';
-  static Page page() => const MaterialPage<void>(child: ConversationPage());
+class MessagePage extends StatelessWidget {
+  const MessagePage({Key? key}) : super(key: key);
+  static const String routeName = '/messages';
+  static Page page() => const MaterialPage<void>(child: MessagePage());
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final convo = ModalRoute.of(context)!.settings.arguments as Conversation;
     // final user = context.select((AuthenticationBloc bloc) => bloc.state.user);
     // NavigationStatus status = context.watch<NavigationBloc>().state.status;
     // String uid = '';
@@ -39,7 +40,7 @@ class ConversationPage extends StatelessWidget {
     // }
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Conversations'),
+          title: const Text('Messages'),
           centerTitle: true,
           actions: <Widget>[
             IconButton(
@@ -55,10 +56,11 @@ class ConversationPage extends StatelessWidget {
           ],
         ),
         body: BlocProvider(
-          create: (_) =>
-              ConversationBloc(context.read<MessageRepository>(),
-              context.read<FirestoreParentsRepository>(),
-              context.read<AuthenticationRepository>().currentUser.id),
+          create: (_) => MessageBloc(
+            context.read<MessageRepository>(),
+            convo,
+            context.read<AuthenticationRepository>().currentUser.id,
+          ),
           child: ConversationBuilder(),
         ));
   }

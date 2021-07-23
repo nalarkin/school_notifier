@@ -3,12 +3,12 @@ import 'package:message_repository/message_repository.dart';
 
 class Message extends Equatable {
   const Message(
-      {required this.id,
-      required this.conversationId,
+      {this.id = '',
+      this.conversationId = '',
       required this.content,
       required this.idFrom,
       required this.idTo,
-      required this.mediaUrl,
+      this.mediaUrl = '',
       required this.timestamp,
       this.read = false});
 
