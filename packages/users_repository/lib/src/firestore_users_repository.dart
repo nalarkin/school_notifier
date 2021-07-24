@@ -22,7 +22,8 @@ class FirestoreUsersRepository implements UsersRepository<FirestoreUser> {
   Stream<List<FirestoreUser>> users() {
     return usersCollection.snapshots().map((snapshot) {
       return snapshot.docs
-          .map((doc) => FirestoreUser.fromEntity(FirestoreUserEntity.fromSnapshot(doc)))
+          .map((doc) =>
+              FirestoreUser.fromEntity(FirestoreUserEntity.fromSnapshot(doc)))
           .toList();
     });
   }
@@ -37,7 +38,8 @@ class FirestoreUsersRepository implements UsersRepository<FirestoreUser> {
     try {
       final potentialUser = await usersCollection.doc(id).get();
       if (potentialUser.exists) {
-        return FirestoreUser.fromEntity(FirestoreUserEntity.fromSnapshot(potentialUser));
+        return FirestoreUser.fromEntity(
+            FirestoreUserEntity.fromSnapshot(potentialUser));
       } else {
         return FirestoreUser.empty;
       }
@@ -49,7 +51,8 @@ class FirestoreUsersRepository implements UsersRepository<FirestoreUser> {
   Future<FirestoreUser?> getFirestoreUserIfExists(String id) async {
     final potentialUser = await usersCollection.doc(id).get();
     if (potentialUser.exists) {
-      return FirestoreUser.fromEntity(FirestoreUserEntity.fromSnapshot(potentialUser));
+      return FirestoreUser.fromEntity(
+          FirestoreUserEntity.fromSnapshot(potentialUser));
     }
     return null;
   }
@@ -57,7 +60,8 @@ class FirestoreUsersRepository implements UsersRepository<FirestoreUser> {
   Future<String?> getFirestoreUserFirstLastName(String id) async {
     final potentialUser = await usersCollection.doc(id).get();
     if (potentialUser.exists) {
-      FirestoreUser curr = FirestoreUser.fromEntity(FirestoreUserEntity.fromSnapshot(potentialUser));
+      FirestoreUser curr = FirestoreUser.fromEntity(
+          FirestoreUserEntity.fromSnapshot(potentialUser));
       return '${curr.firstName} ${curr.lastName}';
     }
     return null;
@@ -70,27 +74,27 @@ class FirestoreUsersRepository implements UsersRepository<FirestoreUser> {
     for (String id in partiticpants) {
       final user = await usersCollection.doc(id).get();
       if (user.exists) {
-        FirestoreUser curr = FirestoreUser.fromEntity(FirestoreUserEntity.fromSnapshot(user));
+        FirestoreUser curr =
+            FirestoreUser.fromEntity(FirestoreUserEntity.fromSnapshot(user));
         names[id] = '${curr.firstName} ${curr.lastName}';
       }
     }
     assert(names.length > 0);
     return names;
   }
-  // Future<String> getFirestoreUserFirstLastName(String id) async {
-  //   final potentialUser = await usersCollection.doc(id).get();
-  //   if (potentialUser.exists) {
-  //     FirestoreUser curr = FirestoreUser.fromEntity(FirestoreUserEntity.fromSnapshot(potentialUser));
-  //     return '${curr.firstName} ${curr.lastName}';
-  //   }
-  //   return '';
-  // }
 
   @override
   Stream<FirestoreUser> liveProfileStream(String id) {
-    return usersCollection
-        .doc(id)
-        .snapshots()
-        .map((doc) => FirestoreUser.fromEntity(FirestoreUserEntity.fromSnapshot(doc)));
+    return usersCollection.doc(id).snapshots().map((doc) =>
+        FirestoreUser.fromEntity(FirestoreUserEntity.fromSnapshot(doc)));
+  }
+
+  /// TODO: Also Create meethod in message repository to update name stored
+  /// in conversation
+  Future<void> updateFirstLastName(FirestoreUser user) async {
+    await usersCollection.doc(user.id).set(<String, String>{
+      'firstName': user.firstName ?? '',
+      'lastName': user.lastName ?? ''
+    }, SetOptions(merge: true));
   }
 }

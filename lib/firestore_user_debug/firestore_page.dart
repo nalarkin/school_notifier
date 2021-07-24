@@ -45,6 +45,8 @@ class FirestorePage extends StatelessWidget {
             const SizedBox(height: 4.0),
             const _AddFirestoreUser(),
             const _PrintFirestoreUser(),
+            const _GetFirstLastName(),
+            const _UpdateFirstLastName(),
 
             // const SizedBox(height: 4.0),
             // const _UpdateLastMessage(),
@@ -115,71 +117,48 @@ class _PrintFirestoreUser extends StatelessWidget {
   }
 }
 
-class _UpdateLastMessage extends StatelessWidget {
-  const _UpdateLastMessage({Key? key}) : super(key: key);
+class _GetFirstLastName extends StatelessWidget {
+  const _GetFirstLastName({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-        onPressed: () {
-          final idTo = 'AtQtsdVkaxR7v3czZN7sn6kTQuD3';
-          final idFrom = 'UIk17Rc1EeQsJxn3DWh3EkuVZfp1';
-          final convoID = Message.getConvoID(idTo, idFrom);
-          context.read<MessageRepository>().updateLastMessage(Message(
-              id: '',
-              conversationId: convoID,
-              content: 'message content',
-              idFrom: idFrom,
-              idTo: idTo,
-              mediaUrl: 'mediaUrl',
-              timestamp: DateTime.now()));
+        onPressed: () async {
+          final newUser = FirestoreUser(
+            id: 'AtQtsdVkaxR7v3czZN7sn6kTQuD3',
+            email: 'abc@gmail.com',
+            role: UserRole.parent,
+            lastName: 'Johnson',
+            firstName: 'Dwayne',
+          );
+
+          print(await context
+              .read<FirestoreUsersRepository>()
+              .getFirestoreUserFirstLastName(newUser.id));
         },
-        child: Text('_UpdateLastMessage'));
+        child: Text('_GetFirstLastName'));
   }
 }
 
-class _SendMessage extends StatelessWidget {
-  const _SendMessage({Key? key}) : super(key: key);
+class _UpdateFirstLastName extends StatelessWidget {
+  const _UpdateFirstLastName({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-        onPressed: () {
-          final idTo = 'AtQtsdVkaxR7v3czZN7sn6kTQuD3';
-          final idFrom = 'UIk17Rc1EeQsJxn3DWh3EkuVZfp1';
-          final convoID = Message.getConvoID(idTo, idFrom);
-          context.read<MessageRepository>().sendMessage(Message(
-              id: '',
-              conversationId: convoID,
-              content: 'message content 2',
-              idFrom: idFrom,
-              idTo: idTo,
-              mediaUrl: 'mediaUrl',
-              timestamp: DateTime.now()));
-        },
-        child: Text('_SendMessage'));
-  }
-}
+        onPressed: () async {
+          final newUser = FirestoreUser(
+            id: 'AtQtsdVkaxR7v3czZN7sn6kTQuD3',
+            email: 'abc@gmail.com',
+            role: UserRole.parent,
+            lastName: 'Willy',
+            firstName: 'Dakota',
+          );
 
-class _SendMessage2 extends StatelessWidget {
-  const _SendMessage2({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-        onPressed: () {
-          final idTo = '2nWOi9m2zsg2eDlRYRqXzTatZrU2';
-          final idFrom = 'AtQtsdVkaxR7v3czZN7sn6kTQuD3';
-          final convoID = Message.getConvoID(idTo, idFrom);
-          context.read<MessageRepository>().sendMessage(Message(
-              id: '',
-              conversationId: convoID,
-              content: 'message content 3999999999999999999999999999999999',
-              idFrom: idFrom,
-              idTo: idTo,
-              mediaUrl: 'mediaUrl',
-              timestamp: DateTime.now()));
+          await context
+              .read<FirestoreUsersRepository>()
+              .updateFirstLastName(newUser);
         },
-        child: Text('_SendMessage'));
+        child: Text('_UpdateFirstLastName'));
   }
 }
