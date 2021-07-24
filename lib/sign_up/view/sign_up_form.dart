@@ -19,7 +19,7 @@ class SignUpForm extends StatelessWidget {
 
           context.read<NavigationBloc>().add(NavigationParentSignedIn(
               // parent: state.parent,
-              user: context.read<AuthenticationRepository>().currentUser));
+              context.read<AuthenticationRepository>().currentUser));
         } else if (state.status.isSubmissionFailure) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()

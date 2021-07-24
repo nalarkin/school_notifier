@@ -172,7 +172,10 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
       AuthenticationState appState) async {
     if (appState.status == AuthenticationStatus.authenticated) {
       // _findUserRole(appState);
-      add(NavigationUserSignedIn(user: appState.user));
+      User? authUser = appState.user;
+
+
+      add(NavigationUserSignedIn(FirestoreUser(id: authUser.id, email: authUser.email)));
     }
 
     // if (appState.status == AuthenticationStatus.parent) {
@@ -199,11 +202,11 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
       return null;
     }
     if (_currUser.role == UserRole.parent) {
-      add(NavigationParentSignedIn(user: _currUser));
+      add(NavigationParentSignedIn(_currUser));
     } else if (_currUser.role == UserRole.teacher) {
-      add(NavigationTeacherSignedIn(user: _currUser));
+      add(NavigationTeacherSignedIn(_currUser));
     } else if (_currUser.role == UserRole.student) {
-      add(NavigationStudentSignedIn(user: _currUser));
+      add(NavigationStudentSignedIn(_currUser));
     }
   }
 
@@ -216,15 +219,15 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
         await _userRepository.getFirestoreUserIfExists(_userID);
     if (_currUser == null) {
       // add(NavigationFailed('failed to find user in firestore'));
-      return  NavigationState.failure();
-    } else  if (_currUser.role == UserRole.parent) {
+      return NavigationState.failure();
+    } else if (_currUser.role == UserRole.parent) {
       return NavigationState.parent(_currUser);
     } else if (_currUser.role == UserRole.teacher) {
       return NavigationState.teacher(_currUser);
     } else if (_currUser.role == UserRole.student) {
       return NavigationState.student(_currUser);
-    } 
-    return  NavigationState.failure();
+    }
+    return NavigationState.failure();
   }
 
   @override

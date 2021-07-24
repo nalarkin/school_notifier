@@ -16,7 +16,7 @@ class TokenForm extends StatelessWidget {
           Navigator.of(context).pop();
           context
               .read<NavigationBloc>()
-              .add(NavigationTokenAuthorized(key: state.key));
+              .add(NavigationTokenAuthorized(state.key));
         } else if (state.status.isSubmissionFailure) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()

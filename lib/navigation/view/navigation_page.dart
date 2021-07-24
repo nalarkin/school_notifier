@@ -30,16 +30,3 @@ class NavigationPage extends StatelessWidget {
     }
   }
 }
-
-// enum NavigationStatus {
-//   parent,
-//   newParent,
-//   newParentAdditionalInfo,
-//   teacher,
-//   newTeacher,
-//   student,
-//   newStudent,
-//   tokenAuthorized,
-//   unknown,
-//   failure,
-// }

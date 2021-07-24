@@ -11,21 +11,21 @@ abstract class NavigationEvent extends Equatable {
 }
 
 class NavigationTeacherSignedIn extends NavigationEvent {
-  const NavigationTeacherSignedIn({required user}) : super(user: user);
+  const NavigationTeacherSignedIn(user) : super(user: user);
 }
 
 class NavigationParentSignedIn extends NavigationEvent {
-  const NavigationParentSignedIn({required user}) : super(user: user);
+  const NavigationParentSignedIn(user) : super(user: user);
 }
 class NavigationStudentSignedIn extends NavigationEvent {
-  const NavigationStudentSignedIn({required user}) : super(user: user);
+  const NavigationStudentSignedIn(user) : super(user: user);
 }
 class NavigationUserSignedIn extends NavigationEvent {
-  const NavigationUserSignedIn({required user}) : super(user: user);
+  const NavigationUserSignedIn(user) : super(user: user);
 }
 
 class NavigationTokenAuthorized extends NavigationEvent {
-  const NavigationTokenAuthorized({required key}) : super(key: key);
+  const NavigationTokenAuthorized(key) : super(key: key);
 }
 
 class NavigationFailed extends NavigationEvent {
@@ -55,7 +55,7 @@ class NavigationUnknown extends NavigationEvent {
 }
 
 class NavigationStarted extends NavigationEvent {
-  const NavigationStarted({required user}) : super(user: user);
+  const NavigationStarted(user) : super(user: user);
 }
 
 class NavigationLogoutRequested extends NavigationEvent {
