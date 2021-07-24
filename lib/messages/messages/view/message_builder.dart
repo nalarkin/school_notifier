@@ -80,6 +80,7 @@ class _BuildInputContainer extends StatelessWidget {
   final TextEditingController _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       alignment: Alignment.bottomCenter,
       // height: MediaQuery.of(context).size.height * .1,
@@ -104,12 +105,17 @@ class _BuildInputContainer extends StatelessWidget {
               // alignment: Align,
               child: IconButton(
                   onPressed: () {
+                    if (_controller.text.trim().isEmpty) return null;
                     context
                         .read<MessageBloc>()
                         .add(MessageSentText(_controller.text));
                     _controller.clear();
                   },
-                  icon: Icon(Icons.send))),
+                  icon: Icon(
+                    Icons.send,
+                    size: 30,
+                    color: theme.accentColor,
+                  ))),
         ],
       ),
     );
