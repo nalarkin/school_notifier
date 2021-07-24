@@ -8,7 +8,7 @@ import 'package:school_notifier/navigation/navigation.dart';
 import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/login/login.dart';
 import 'package:school_notifier/profile/profile.dart';
-import 'package:school_notifier/profile_setup/view/view.dart';
+// import 'package:school_notifier/profile_setup/view/view.dart';
 import 'package:school_notifier/sign_up/view/view.dart';
 import 'package:school_notifier/theme.dart';
 import 'package:users_repository/users_repository.dart';
@@ -100,8 +100,14 @@ class InitializeProviders2 extends StatelessWidget {
       providers: [
         BlocProvider(
             create: (_) => ParentProfileBloc(
-                parentId: context.read<NavigationBloc>().state.parent?.id ?? '',
+                parentId: context.read<NavigationBloc>().state.user.id,
                 parentsRepository: context.read<FirestoreParentsRepository>())),
+        BlocProvider(
+          create: (_) => ProfileBloc(
+            context.read<FirestoreUserRepository>(),
+            context.read<NavigationBloc>(),
+          ),
+        ),
       ],
       child: AppView(),
     );

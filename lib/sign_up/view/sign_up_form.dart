@@ -18,7 +18,7 @@ class SignUpForm extends StatelessWidget {
           // Navigator.of(context).pop();
 
           context.read<NavigationBloc>().add(NavigationParentSignedIn(
-              parent: state.parent,
+              // parent: state.parent,
               user: context.read<AuthenticationRepository>().currentUser));
         } else if (state.status.isSubmissionFailure) {
           ScaffoldMessenger.of(context)

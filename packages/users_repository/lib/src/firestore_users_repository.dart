@@ -85,6 +85,7 @@ class FirestoreUserRepository implements UsersRepository<FirestoreUser> {
 
   @override
   Stream<FirestoreUser> liveProfileStream(String id) {
+    assert(id.isNotEmpty);
     return usersCollection.doc(id).snapshots().map((doc) =>
         FirestoreUser.fromEntity(FirestoreUserEntity.fromSnapshot(doc)));
   }
