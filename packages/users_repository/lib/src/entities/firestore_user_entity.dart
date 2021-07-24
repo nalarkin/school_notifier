@@ -22,7 +22,7 @@ class FirestoreUserEntity extends Equatable {
   final String email;
   final String firstName;
   final String lastName;
-  final String joinDate;
+  final DateTime joinDate;
   final String avatarImage;
   final Map<String, dynamic> children;
   final Map<String, dynamic> subscriptions;
@@ -105,7 +105,7 @@ class FirestoreUserEntity extends Equatable {
       firstName: data['firstName'] as String,
       lastName: data['lastName'] as String,
       avatarImage: data['avatarImage'] as String,
-      joinDate: data['joinDate'] as String,
+      joinDate: (data['joinDate'] as Timestamp).toDate(),
       children: data['children'] as Map<String, dynamic>,
       subscriptions: data['subscriptions'] as Map<String, dynamic>,
       classes: data['classes'] as Map<String, dynamic>,

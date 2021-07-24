@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/app/app.dart';
 import 'package:school_notifier/event_repository_test/event_page.dart';
+import 'package:school_notifier/firestore_user_debug/firestore_page.dart';
 import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/authentication/authentication.dart';
 import 'package:school_notifier/login/login.dart';
@@ -72,6 +73,11 @@ class HomePage extends StatelessWidget {
               onPressed: () =>
                   Navigator.pushNamed(context, MessagePage.routeName),
               child: const Text('Message Page'),
+            ),
+            MaterialButton(
+              onPressed: () =>
+                  Navigator.pushNamed(context, FirestorePage.routeName),
+              child: const Text('Firestore Page'),
             ),
             // debugButton(),
           ],

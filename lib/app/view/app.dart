@@ -51,6 +51,9 @@ class App extends StatelessWidget {
           RepositoryProvider(
             create: (_) => MessageRepository(),
           ),
+          RepositoryProvider(
+            create: (_) => FirestoreUsersRepository(),
+          ),
         ],
         child: MultiBlocProvider(
           providers: [
@@ -82,7 +85,6 @@ class InitializeProviders1 extends StatelessWidget {
             context.read<FirestoreParentsRepository>(),
             context.read<TeachersRepository>(),
             context.read<KeyRepository>(),
-
           ),
         ),
       ],

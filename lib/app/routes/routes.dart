@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:school_notifier/app/app.dart';
 import 'package:school_notifier/event_repository_test/event_page.dart';
+import 'package:school_notifier/firestore_user_debug/firestore_page.dart';
 import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/login/login.dart';
 import 'package:school_notifier/messages/conversations/conversations.dart';
@@ -27,6 +28,7 @@ Map<String, WidgetBuilder> allRoutes = <String, WidgetBuilder>{
   ConversationPage.routeName: (context) => ConversationPage(),
   ConversationDebug.routeName: (context) => ConversationDebug(),
   MessagePage.routeName: (context) => MessagePage(),
+  FirestorePage.routeName: (context) => FirestorePage(),
   // NavigationPage.routeName: (context) => NavigationPage(),
 
 };

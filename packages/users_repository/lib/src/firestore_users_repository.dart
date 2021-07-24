@@ -1,48 +1,96 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-// import 'package:users_repository/users_repository.dart';
+import 'package:users_repository/users_repository.dart';
 
+class FirestoreUsersRepository implements UsersRepository<FirestoreUser> {
+  final usersCollection = FirebaseFirestore.instance
+      .collection('exampleSchool')
+      .doc('users')
+      .collection('users');
 
-// class FirestoreUsersRepository implements UsersRepository<FirestoreUser> {
-//   final usersCollection = FirebaseFirestore.instance.collection('exampleSchool');
+  @override
+  Future<void> addNewUser(FirestoreUser user) {
+    return usersCollection.doc(user.id).set((user.toEntity().toDocument()));
+  }
 
-//   @override
-//   Future<void> addNewUser(FirestoreUser user) {
-//     return usersCollection.doc(user.id).set((user.toEntity().toDocument()));
-//   }
+  @override
+  Future<void> deleteUser(FirestoreUser user) async {
+    return usersCollection.doc(user.id).delete();
+  }
 
-//   @override
-//   Future<void> deleteUser(FirestoreUser user) async {
-//     return usersCollection.doc(user.id).delete();
-//   }
+  @override
+  Stream<List<FirestoreUser>> users() {
+    return usersCollection.snapshots().map((snapshot) {
+      return snapshot.docs
+          .map((doc) => FirestoreUser.fromEntity(FirestoreUserEntity.fromSnapshot(doc)))
+          .toList();
+    });
+  }
 
-//   @override
-//   Stream<List<FirestoreUser>> users() {
-//     return usersCollection.snapshots().map((snapshot) {
-//       return snapshot.docs
-//           .map((doc) => FirestoreUser.fromEntity(UserEntity.fromSnapshot(doc)))
-//           .toList();
-//     });
-//   }
+  @override
+  Future<void> updateUser(FirestoreUser user) {
+    return usersCollection.doc(user.id).update(user.toEntity().toDocument());
+  }
 
-//   @override
-//   Future<void> updateUser(FirestoreUser user) {
-//     return usersCollection.doc(user.id).update(user.toEntity().toDocument());
-//   }
+  @override
+  Future<FirestoreUser> getUserOrDefault(String id) async {
+    try {
+      final potentialUser = await usersCollection.doc(id).get();
+      if (potentialUser.exists) {
+        return FirestoreUser.fromEntity(FirestoreUserEntity.fromSnapshot(potentialUser));
+      } else {
+        return FirestoreUser.empty;
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 
-//   @override
-//   Future<FirestoreUser> getUserOrDefault(String id) async {
-//     try {
-//       final potentialUser = await usersCollection.doc(id).get();
-//       if (potentialUser.exists) {
-//         return FirestoreUser.fromEntity(UserEntity.fromSnapshot(potentialUser));
-//       } else {
-//         return FirestoreUser.empty;
-//       }
-//     } catch (e) {
-//       throw Exception(e);
-//     }
-//   }
+  Future<FirestoreUser?> getFirestoreUserIfExists(String id) async {
+    final potentialUser = await usersCollection.doc(id).get();
+    if (potentialUser.exists) {
+      return FirestoreUser.fromEntity(FirestoreUserEntity.fromSnapshot(potentialUser));
+    }
+    return null;
+  }
 
+  Future<String?> getFirestoreUserFirstLastName(String id) async {
+    final potentialUser = await usersCollection.doc(id).get();
+    if (potentialUser.exists) {
+      FirestoreUser curr = FirestoreUser.fromEntity(FirestoreUserEntity.fromSnapshot(potentialUser));
+      return '${curr.firstName} ${curr.lastName}';
+    }
+    return null;
+  }
 
-// }
+  Future<Map<String, String>> convertParticipantListToNames(
+      List<String> partiticpants) async {
+    assert(partiticpants.length >= 0);
+    var names = <String, String>{};
+    for (String id in partiticpants) {
+      final user = await usersCollection.doc(id).get();
+      if (user.exists) {
+        FirestoreUser curr = FirestoreUser.fromEntity(FirestoreUserEntity.fromSnapshot(user));
+        names[id] = '${curr.firstName} ${curr.lastName}';
+      }
+    }
+    assert(names.length > 0);
+    return names;
+  }
+  // Future<String> getFirestoreUserFirstLastName(String id) async {
+  //   final potentialUser = await usersCollection.doc(id).get();
+  //   if (potentialUser.exists) {
+  //     FirestoreUser curr = FirestoreUser.fromEntity(FirestoreUserEntity.fromSnapshot(potentialUser));
+  //     return '${curr.firstName} ${curr.lastName}';
+  //   }
+  //   return '';
+  // }
+
+  @override
+  Stream<FirestoreUser> liveProfileStream(String id) {
+    return usersCollection
+        .doc(id)
+        .snapshots()
+        .map((doc) => FirestoreUser.fromEntity(FirestoreUserEntity.fromSnapshot(doc)));
+  }
+}

@@ -23,7 +23,7 @@ class FirestoreUser extends Equatable {
   final String? email;
   final String? firstName;
   final String? lastName;
-  final String? joinDate;
+  final DateTime? joinDate;
   final String? avatarImage;
   final Map<String, dynamic>? children;
   final Map<String, dynamic>? subscriptions;
@@ -37,7 +37,7 @@ class FirestoreUser extends Equatable {
     String? email,
     String? firstName,
     String? lastName,
-    String? joinDate,
+    DateTime? joinDate,
     Map<String, dynamic>? children,
     Map<String, dynamic>? classes,
     Map<String, dynamic>? students,
@@ -85,7 +85,7 @@ class FirestoreUser extends Equatable {
       email: email ?? '',
       firstName: firstName ?? '',
       lastName: lastName ?? '',
-      joinDate: joinDate ?? '',
+      joinDate: joinDate ?? DateTime.now(),
       avatarImage: avatarImage ?? '',
       children: children ?? {},
       subscriptions: subscriptions ?? {},
