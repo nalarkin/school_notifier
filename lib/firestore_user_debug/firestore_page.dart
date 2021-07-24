@@ -88,7 +88,7 @@ class _AddFirestoreUser extends StatelessWidget {
             firstName: 'Dwayne',
           );
 
-          context.read<FirestoreUsersRepository>().addNewUser(newUser);
+          context.read<FirestoreUserRepository>().addNewUser(newUser);
         },
         child: Text('add firestore user'));
   }
@@ -110,7 +110,7 @@ class _PrintFirestoreUser extends StatelessWidget {
           );
 
           print(await context
-              .read<FirestoreUsersRepository>()
+              .read<FirestoreUserRepository>()
               .getFirestoreUserIfExists(newUser.id));
         },
         child: Text('_PrintFirestoreUser'));
@@ -133,7 +133,7 @@ class _GetFirstLastName extends StatelessWidget {
           );
 
           print(await context
-              .read<FirestoreUsersRepository>()
+              .read<FirestoreUserRepository>()
               .getFirestoreUserFirstLastName(newUser.id));
         },
         child: Text('_GetFirstLastName'));
@@ -156,7 +156,7 @@ class _UpdateFirstLastName extends StatelessWidget {
           );
 
           await context
-              .read<FirestoreUsersRepository>()
+              .read<FirestoreUserRepository>()
               .updateFirstLastName(newUser);
         },
         child: Text('_UpdateFirstLastName'));

@@ -52,7 +52,7 @@ class App extends StatelessWidget {
             create: (_) => MessageRepository(),
           ),
           RepositoryProvider(
-            create: (_) => FirestoreUsersRepository(),
+            create: (_) => FirestoreUserRepository(),
           ),
         ],
         child: MultiBlocProvider(
@@ -60,7 +60,6 @@ class App extends StatelessWidget {
             BlocProvider(
                 create: (_) => AuthenticationBloc(
                       authenticationRepository: _authenticationRepository,
-                      firestoreParentsRepository: _firestoreParentsRepository,
                     )),
             // BlocProvider(
             //     create: (_) => PostBloc(
@@ -82,8 +81,7 @@ class InitializeProviders1 extends StatelessWidget {
         BlocProvider(
           create: (context) => NavigationBloc(
             BlocProvider.of<AuthenticationBloc>(context),
-            context.read<FirestoreParentsRepository>(),
-            context.read<TeachersRepository>(),
+            context.read<FirestoreUserRepository>(),
             context.read<KeyRepository>(),
           ),
         ),

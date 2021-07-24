@@ -16,6 +16,7 @@ class FirestoreUser extends Equatable {
     this.children,
     this.subscriptions,
     this.classes,
+    this.parents,
     this.role,
   });
 
@@ -29,6 +30,7 @@ class FirestoreUser extends Equatable {
   final Map<String, dynamic>? subscriptions;
   final Map<String, dynamic>? classes;
   final Map<String, dynamic>? students;
+  final Map<String, dynamic>? parents;
   final UserRole? role;
 
   FirestoreUser copyWith({
@@ -41,6 +43,7 @@ class FirestoreUser extends Equatable {
     Map<String, dynamic>? children,
     Map<String, dynamic>? classes,
     Map<String, dynamic>? students,
+    Map<String, dynamic>? parents,
     UserRole? role,
   }) {
     return FirestoreUser(
@@ -54,6 +57,7 @@ class FirestoreUser extends Equatable {
       subscriptions: subscriptions ?? this.subscriptions,
       classes: classes ?? this.classes,
       students: students ?? this.students,
+      parents: parents ?? this.parents,
       role: role ?? this.role,
     );
   }
@@ -69,6 +73,7 @@ class FirestoreUser extends Equatable {
         classes,
         subscriptions,
         students,
+        parents,
         avatarImage
       ];
 
@@ -76,7 +81,8 @@ class FirestoreUser extends Equatable {
   String toString() {
     return '''FirestoreUser { id: $id, name: $firstName $lastName, 
             children: $children, email: $email, joinDate: $joinDate,
-            subscriptions: $subscriptions, classes $classes, role: $role}''';
+            subscriptions: $subscriptions, classes $classes, role: $role, 
+            parents: $parents}''';
   }
 
   FirestoreUserEntity toEntity() {
@@ -91,6 +97,7 @@ class FirestoreUser extends Equatable {
       subscriptions: subscriptions ?? {},
       classes: classes ?? {},
       students: students ?? {},
+      parents: parents ?? {},
       role: userRoleToString(role) ?? '',
     );
   }
@@ -107,6 +114,7 @@ class FirestoreUser extends Equatable {
       subscriptions: entity.subscriptions,
       classes: entity.classes,
       students: entity.students,
+      parents: entity.parents,
       role: stringToUserRole(entity.role),
     );
   }

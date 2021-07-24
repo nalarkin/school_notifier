@@ -15,6 +15,7 @@ class FirestoreUserEntity extends Equatable {
     required this.children,
     required this.subscriptions,
     required this.classes,
+    required this.parents,
     required this.role,
   });
 
@@ -27,35 +28,9 @@ class FirestoreUserEntity extends Equatable {
   final Map<String, dynamic> children;
   final Map<String, dynamic> subscriptions;
   final Map<String, dynamic> classes;
+  final Map<String, dynamic> parents;
   final Map<String, dynamic> students;
   final String role;
-
-  // FirestoreUserEntity copyWith({
-  //   String? id,
-  //   String? avatarImage,
-  //   String? email,
-  //   String? firstName,
-  //   String? lastName,
-  //   String? joinDate,
-  //   Map<String, dynamic>? children,
-  //   Map<String, dynamic>? classes,
-  //   Map<String, dynamic>? students,
-  //   UserRole? role,
-  // }) {
-  //   return FirestoreUserEntity(
-  //     id: id ?? this.id,
-  //     email: email ?? this.email,
-  //     firstName: firstName ?? this.firstName,
-  //     lastName: lastName ?? this.lastName,
-  //     avatarImage: avatarImage ?? this.avatarImage,
-  //     joinDate: joinDate ?? this.joinDate,
-  //     children: children ?? this.children,
-  //     subscriptions: subscriptions ?? this.subscriptions,
-  //     classes: classes ?? this.classes,
-  //     students: students ?? this.students,
-  //     role: role ?? this.role,
-  //   );
-  // }
 
   @override
   List<Object?> get props => [
@@ -68,6 +43,7 @@ class FirestoreUserEntity extends Equatable {
         classes,
         subscriptions,
         students,
+        parents,
         avatarImage,
         role,
       ];
@@ -91,6 +67,7 @@ class FirestoreUserEntity extends Equatable {
       'subscriptions': subscriptions ,
       'classes': classes ,
       'students': students ,
+      'parents': parents ,
       'role': role ,
       
     };
@@ -110,16 +87,8 @@ class FirestoreUserEntity extends Equatable {
       subscriptions: data['subscriptions'] as Map<String, dynamic>,
       classes: data['classes'] as Map<String, dynamic>,
       students: data['students'] as Map<String, dynamic>,
+      parents: data['parents'] as Map<String, dynamic>,
       role: data['role'] as String,
     );
   }
-
-  /// Empty user which represents an parent placeholder.
-  // static const empty = FirestoreUserEntity(id: '');
-
-  /// Convenience getter
-  // bool get isEmpty => this == FirestoreUserEntity.empty;
-
-  /// Convenience getter
-  // bool get isNotEmpty => this != FirestoreUserEntity.empty;
 }

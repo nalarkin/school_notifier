@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:users_repository/users_repository.dart';
 
-class FirestoreUsersRepository implements UsersRepository<FirestoreUser> {
+class FirestoreUserRepository implements UsersRepository<FirestoreUser> {
   final usersCollection = FirebaseFirestore.instance
       .collection('exampleSchool')
       .doc('users')
