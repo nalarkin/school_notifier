@@ -57,7 +57,7 @@ class FirestorePage extends StatelessWidget {
             // const SizedBox(height: 4.0),
             MaterialButton(
               onPressed: () =>
-                  Navigator.pushNamed(context, ParentProfilePage.routeName),
+                  Navigator.pushNamed(context, ProfilePage.routeName),
               child: const Text('Profile Page'),
             ),
             MaterialButton(

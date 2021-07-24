@@ -61,8 +61,8 @@ class HomePage extends StatelessWidget {
             ),
             MaterialButton(
               onPressed: () =>
-                  Navigator.pushNamed(context, ParentProfilePage.routeName),
-              child: const Text('Profile Page'),
+                  Navigator.pushNamed(context, ProfilePage.routeName),
+              child: const Text('Universal Profile Page'),
             ),
             MaterialButton(
               onPressed: () =>
