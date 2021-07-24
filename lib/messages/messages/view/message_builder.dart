@@ -37,22 +37,30 @@ class MessageBuilder extends StatelessWidget {
   }
 }
 
-GestureDetector _buildConversationTile(context, Message message, String _uid) {
+Column _buildConversationTile(context, Message message, String _uid) {
   final theme = Theme.of(context);
-  return GestureDetector(
-      onTap: () {
-        // Navigator.of(context).push(
-        //   MaterialPageRoute(
-        //     builder: (context) => ChatPage(
-        //       room: room,
-        //     ),
-        //   ),
-        // );
-      },
-      child: Bubble(
-        child: Text(message.content),
-        style: message.idFrom == _uid ? styleMe : styleSomebody,
-      ));
+  return Column(
+    crossAxisAlignment: message.idFrom == _uid
+        ? CrossAxisAlignment.end
+        : CrossAxisAlignment.start,
+    children: [
+      GestureDetector(
+          onTap: () {},
+          child: Bubble(
+            child: Text(message.content),
+            style: message.idFrom == _uid ? styleMe : styleSomebody,
+          )),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Text(
+          _formatDateString(message.timestamp, DateTime.now()),
+          style: theme.textTheme.subtitle1
+              ?.copyWith(color: Colors.grey, fontSize: 10),
+          // textAlign: TextAlign.right,
+        ),
+      ),
+    ],
+  );
 }
 
 String _formatDateString(DateTime date, DateTime currentDate) {
@@ -61,60 +69,15 @@ String _formatDateString(DateTime date, DateTime currentDate) {
   if (difference > Duration(days: 7)) {
     return '${date.day}/${date.month}';
   } else if (difference >= Duration(days: 1)) {
-    return '${weekdays[date.day]}';
+    return '${weekdays[date.weekday]}';
   }
 
   return '${date.hour}:${date.minute}';
 }
 
-const styleSomebody = BubbleStyle(
-  nip: BubbleNip.leftTop,
-  color: Colors.white,
-  borderColor: Colors.blue,
-  borderWidth: 1,
-  elevation: 1,
-  margin: BubbleEdges.only(top: 8, right: 50),
-  alignment: Alignment.topLeft,
-);
-
-const styleMe = BubbleStyle(
-  nip: BubbleNip.rightBottom,
-  color: Color.fromARGB(255, 225, 255, 199),
-  borderColor: Colors.blue,
-  borderWidth: 1,
-  elevation: 1,
-  margin: BubbleEdges.only(top: 8, left: 50),
-  alignment: Alignment.topRight,
-);
-
 class _BuildInputContainer extends StatelessWidget {
   _BuildInputContainer({Key? key}) : super(key: key);
   final TextEditingController _controller = TextEditingController();
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Align(
-  //     alignment: Alignment.bottomLeft,
-  //     child: Container(
-  //       // height: MediaQuery.of(context).size.height * .1,
-  //       width: MediaQuery.of(context).size.width * 0.8,
-  //       // color: Colors.black,
-  //       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-  //       child: Stack(
-  //         children: [
-  //           TextFormField(
-  //             controller: _controller,
-  //           ),
-  //           // Align(
-  //           //   alignment: Alignment.centerRight,
-  //           //   child: Icon(Icons.send),
-  //           // ),
-  //           Icon(Icons.send),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
   @override
   Widget build(BuildContext context) {
     return Container(

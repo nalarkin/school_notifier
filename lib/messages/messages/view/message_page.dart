@@ -25,7 +25,8 @@ class MessagePage extends StatelessWidget {
     final convo = ModalRoute.of(context)!.settings.arguments as Conversation;
     return Scaffold(
         appBar: AppBar(
-          title: Text('${convo.lastMessage.id}'),
+          title: Text(_getOtherParticipantNames(
+              convo, context.read<AuthenticationRepository>().currentUser.id)),
           centerTitle: true,
           actions: <Widget>[
             IconButton(
@@ -49,4 +50,21 @@ class MessagePage extends StatelessWidget {
           child: MessageBuilder(),
         ));
   }
+}
+
+String _getOtherParticipantNames(Conversation convo, String _viewerUid) {
+  final _otherUsers = [
+    for (String id in convo.participants)
+      if (id != _viewerUid) id
+  ];
+  var _userNames = [
+    for (String userID in _otherUsers) convo.participantsMap![userID]
+  ];
+  _userNames.sort();
+  var res = '${_userNames[0]}';
+  for (int i = 1; i < _userNames.length; i++) {
+    res += ', ${_userNames[i]}';
+  }
+  return res;
+  // conversation.participantsMap[conversation.participants[0]] == _viewerUid,
 }
