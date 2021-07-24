@@ -81,11 +81,11 @@ class _AddFirestoreUser extends StatelessWidget {
     return TextButton(
         onPressed: () {
           final newUser = FirestoreUser(
-            id: 'AtQtsdVkaxR7v3czZN7sn6kTQuD3',
-            email: 'abc@gmail.com',
+            id: 'UIk17Rc1EeQsJxn3DWh3EkuVZfp1',
+            email: '432@gmail.com',
             role: UserRole.parent,
-            lastName: 'Johnson',
-            firstName: 'Dwayne',
+            lastName: 'Mikey',
+            firstName: 'Smith',
           );
 
           context.read<FirestoreUserRepository>().addNewUser(newUser);

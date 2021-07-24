@@ -14,7 +14,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     _profileStream = _userRepository
         .liveProfileStream(_navigationBloc.state.user.id)
         .listen(_mapProfile);
-    _profileStream =
+    _navigationStream =
         _navigationBloc.stream.listen(_mapNavigationStateToProfileEvent);
   }
 
@@ -40,7 +40,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     add(ProfileChanged(currUser));
   }
 
-  void _mapNavigationStateToProfileEvent(NavigationState navState) {
+  Future<void> _mapNavigationStateToProfileEvent(
+      NavigationState navState) async {
+    _profileStream.cancel();
+    if (navState.user.id.isNotEmpty) {
+      _profileStream = _userRepository
+          .liveProfileStream(navState.user.id)
+          .listen(_mapProfile);
+    }
     return null;
   }
 
