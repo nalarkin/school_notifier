@@ -159,7 +159,7 @@ class _UserRoleDisplay extends StatelessWidget {
         builder: (context, state) {
           return Container(
             color: Colors.yellow,
-            child: Text('role: ${state.user.userRoleShortString}'),
+            child: Text('role: ${state.user.roleString}'),
           );
         });
   }

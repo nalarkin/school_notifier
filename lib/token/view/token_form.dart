@@ -178,7 +178,7 @@ class _DebugCreateStudent extends StatelessWidget {
         primary: Colors.orangeAccent,
       ),
       onPressed: () {
-        context.read<TokenCubit>().tokenChanged('NpkP9mDw5RCaGMXtiVgj');
+        context.read<TokenCubit>().tokenChanged('qPPRwy6OsmNpiLn1jEEN');
         context.read<TokenCubit>().tokenSubmitted();
       },
       child: const Text('Use Debug Student Token'),
