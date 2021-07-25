@@ -3,6 +3,7 @@ import 'package:school_notifier/app/app.dart';
 import 'package:school_notifier/event_repository_test/event_page.dart';
 import 'package:school_notifier/firestore_user_debug/firestore_page.dart';
 import 'package:school_notifier/home/home.dart';
+import 'package:school_notifier/key_stuff/key_page.dart';
 import 'package:school_notifier/login/login.dart';
 import 'package:school_notifier/messages/conversations/conversations.dart';
 import 'package:school_notifier/messages/conversations/view/conversation_debug.dart';
@@ -30,5 +31,6 @@ Map<String, WidgetBuilder> allRoutes = <String, WidgetBuilder>{
   MessagePage.routeName: (context) => MessagePage(),
   FirestorePage.routeName: (context) => FirestorePage(),
   DirectoryPage.routeName: (context) => DirectoryPage(),
+  KeyPage.routeName: (context) => KeyPage(),
   // NavigationPage.routeName: (context) => NavigationPage(),
 };

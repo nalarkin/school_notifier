@@ -27,22 +27,30 @@ class TokenForm extends StatelessWidget {
       },
       child: Align(
         alignment: const Alignment(0, -1 / 3),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Image.asset(
-              'assets/bloc_logo_small.png',
-              height: 120,
-            ),
-            const SizedBox(height: 16.0),
-            _TokenPageDescription(),
-            const SizedBox(height: 16.0),
-            _TokenInput(),
-            const SizedBox(height: 8.0),
-            _SubmitTokenButton(),
-            const SizedBox(height: 8.0,),
-            _LoginPageButton(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                'assets/bloc_logo_small.png',
+                height: 120,
+              ),
+              const SizedBox(height: 16.0),
+              _TokenPageDescription(),
+              const SizedBox(height: 16.0),
+              _TokenInput(),
+              const SizedBox(height: 8.0),
+              _SubmitTokenButton(),
+              const SizedBox(
+                height: 8.0,
+              ),
+              _LoginPageButton(),
+              const SizedBox(
+                height: 25,
+              ),
+              _DebugCreateParent(),
+            ],
+          ),
         ),
       ),
     );
@@ -110,6 +118,25 @@ class _SubmitTokenButton extends StatelessWidget {
   }
 }
 
+class _DebugCreateParent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      key: const Key('signUpForm_continue_raisedButton'),
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        primary: Colors.orangeAccent,
+      ),
+      onPressed: () {
+        context.read<TokenCubit>().tokenChanged('MFqeALmMrCsWwYjaRdgC');
+        context.read<TokenCubit>().tokenSubmitted();
+      },
+      child: const Text('Use Debug Parent Token'),
+    );
+  }
+}
 
 class _LoginPageButton extends StatelessWidget {
   @override

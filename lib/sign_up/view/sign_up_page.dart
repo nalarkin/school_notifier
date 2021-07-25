@@ -34,14 +34,10 @@ class SignUpPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'Login',
+                    'Cancel',
                     style: theme.textTheme.bodyText1
                         ?.copyWith(color: Colors.black),
                   ),
-                  Icon(
-                    Icons.login_sharp,
-                    color: Colors.black,
-                  )
                 ],
               )),
         ],
