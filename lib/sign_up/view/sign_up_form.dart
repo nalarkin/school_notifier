@@ -14,12 +14,7 @@ class SignUpForm extends StatelessWidget {
     return BlocListener<SignUpCubit, SignUpState>(
       listener: (context, state) {
         if (state.status.isSubmissionSuccess) {
-          FirestoreKey? key = context.read<NavigationBloc>().state.key;
-          // Navigator.of(context).pop();
-
-          context.read<NavigationBloc>().add(NavigationParentSignedIn(
-              // parent: state.parent,
-              context.read<AuthenticationRepository>().currentUser));
+          /// can show success message if desired
         } else if (state.status.isSubmissionFailure) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()

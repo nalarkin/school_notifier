@@ -48,7 +48,7 @@ class SignUpPage extends StatelessWidget {
           create: (_) => SignUpCubit(
               context.read<AuthenticationRepository>(),
               context.read<KeyRepository>(),
-              context.read<FirestoreParentsRepository>(),
+              context.read<FirestoreUserRepository>(),
               context.read<NavigationBloc>().state.key),
           child: const SignUpForm(),
         ),
