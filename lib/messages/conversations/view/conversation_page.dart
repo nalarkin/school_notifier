@@ -8,6 +8,7 @@ import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/authentication/authentication.dart';
 import 'package:school_notifier/login/login.dart';
 import 'package:school_notifier/messages/conversations/view/conversation_builder.dart';
+import 'package:school_notifier/messages/directory/view/view.dart';
 import 'package:school_notifier/messages/message.dart';
 import 'package:school_notifier/navigation/navigation.dart';
 import 'package:school_notifier/profile/profile.dart';
@@ -41,7 +42,12 @@ class ConversationPage extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Conversations'),
           centerTitle: true,
-          actions: <Widget>[],
+          actions: <Widget>[
+            IconButton(
+                onPressed: () =>
+                    Navigator.pushNamed(context, DirectoryPage.routeName),
+                icon: Icon(Icons.add))
+          ],
         ),
         body: BlocProvider(
           create: (_) => ConversationBloc(

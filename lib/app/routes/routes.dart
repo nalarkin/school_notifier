@@ -6,6 +6,7 @@ import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/login/login.dart';
 import 'package:school_notifier/messages/conversations/conversations.dart';
 import 'package:school_notifier/messages/conversations/view/conversation_debug.dart';
+import 'package:school_notifier/messages/directory/view/directory_page.dart';
 import 'package:school_notifier/messages/message.dart';
 import 'package:school_notifier/navigation/navigation.dart';
 import 'package:school_notifier/profile/profile.dart';
@@ -30,5 +31,6 @@ Map<String, WidgetBuilder> allRoutes = <String, WidgetBuilder>{
   ConversationDebug.routeName: (context) => ConversationDebug(),
   MessagePage.routeName: (context) => MessagePage(),
   FirestorePage.routeName: (context) => FirestorePage(),
+  DirectoryPage.routeName: (context) => DirectoryPage(),
   // NavigationPage.routeName: (context) => NavigationPage(),
 };

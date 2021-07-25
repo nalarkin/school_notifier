@@ -8,24 +8,23 @@ import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/authentication/authentication.dart';
 import 'package:school_notifier/login/login.dart';
 import 'package:school_notifier/messages/conversations/view/conversation_builder.dart';
-import 'package:school_notifier/messages/create_conversation/view/user_directory.dart';
+import 'package:school_notifier/messages/directory/view/directory_builder.dart';
 import 'package:school_notifier/messages/message.dart';
 import 'package:school_notifier/messages/messages/view/message_builder.dart';
 import 'package:school_notifier/navigation/navigation.dart';
 import 'package:school_notifier/profile/profile.dart';
 import 'package:users_repository/users_repository.dart';
 
-import '../create_conversation.dart';
+import '../directory.dart';
 
-class CreateConversationPage extends StatelessWidget {
-  const CreateConversationPage({Key? key}) : super(key: key);
-  static const String routeName = '/create_conversation';
-  static Page page() => const MaterialPage<void>(child: CreateConversationPage());
+class DirectoryPage extends StatelessWidget {
+  const DirectoryPage({Key? key}) : super(key: key);
+  static const String routeName = '/directory_page';
+  static Page page() => const MaterialPage<void>(child: DirectoryPage());
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final convo = ModalRoute.of(context)!.settings.arguments as Conversation;
     return Scaffold(
         appBar: AppBar(
           title: Text('Start a Conversation'),
@@ -48,8 +47,7 @@ class CreateConversationPage extends StatelessWidget {
             context.read<FirestoreUserRepository>(),
             context.read<AuthenticationRepository>().currentUser.id,
           ),
-          child: UserDirectory(),
+          child: DirectoryBuilder(),
         ));
   }
 }
-

@@ -9,13 +9,6 @@ abstract class DirectoryEvent extends Equatable {
 
 class DirectoryStarted extends DirectoryEvent {}
 
-class DirectorySentText extends DirectoryEvent {
-  const DirectorySentText(this.content) : super();
-  final String content;
-
-  @override
-  List<Object> get props => [content];
-}
 
 class DirectoryLoaded extends DirectoryEvent {
   const DirectoryLoaded(this.users) : super();
