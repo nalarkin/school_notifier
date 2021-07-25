@@ -68,11 +68,15 @@ GestureDetector _BuildUserTile(
             children: [
               Row(
                 children: [
-                  Text(
-                    '${userRoleToString(user.role)!.toUpperCase()}',
-                    style:
-                        theme.textTheme.caption?.copyWith(color: Colors.black),
-                  ),
+                  // Text(
+                  //   '${userRoleToString(user.role)!.toUpperCase()}',
+                  //   style: theme.textTheme.caption
+                  //       ?.copyWith(color: Colors.grey, fontSize: 10),
+                  // ),
+                  if (user.role == UserRole.teacher) Icon(Icons.school),
+                  if (user.role == UserRole.student)
+                    Icon(Icons.child_care_sharp),
+                  if (user.role == UserRole.parent) Icon(Icons.person),
                   Expanded(
                     child: Container(),
                   ),
@@ -80,7 +84,9 @@ GestureDetector _BuildUserTile(
               ),
               Text(
                 '${user.firstName} ${user.lastName}',
-                style: theme.textTheme.headline6?.copyWith(color: Colors.black),
+                style: theme.textTheme.bodyText1?.copyWith(
+                  color: Colors.black,
+                ),
               ),
             ],
           ),
