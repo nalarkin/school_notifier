@@ -163,4 +163,18 @@ class MessageRepository {
         .doc(conversation.id)
         .set(conversation.toEntity().toDocument(), SetOptions(merge: true));
   }
+  Future<void> startNewConversation(Conversation conversation) async {
+
+     try {
+      await messageCollection
+        .doc(conversation.id)
+        .set(conversation.toEntity().toDocumentForConversationInitialization());
+      await sendMessage(conversation.lastMessage);
+    } catch (e) {
+      print('ERROR inside message_repository.dart');
+      print(e);
+      throw e;
+    }
+   
+  }
 }

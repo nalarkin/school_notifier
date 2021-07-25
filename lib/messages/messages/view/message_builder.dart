@@ -30,6 +30,14 @@ class MessageBuilder extends StatelessWidget {
               _BuildInputContainer(),
             ],
           );
+        } else if (state.status == MessageStatus.first) {
+          return Stack(children: [
+            Container(
+              alignment: Alignment.center,
+              child: Text('start a new conversation.'),
+            ),
+            _BuildNewConversationInputContainer(),
+          ]);
         }
         return Container();
       },
@@ -83,9 +91,6 @@ class _BuildInputContainer extends StatelessWidget {
     final theme = Theme.of(context);
     return Container(
       alignment: Alignment.bottomCenter,
-      // height: MediaQuery.of(context).size.height * .1,
-      // width: MediaQuery.of(context).size.width * 0.8,
-      // color: Colors.black,
       margin: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -97,18 +102,52 @@ class _BuildInputContainer extends StatelessWidget {
               controller: _controller,
             ),
           ),
-          // Align(
-          //   alignment: Alignment.centerRight,
-          //   child: Icon(Icons.send),
-          // ),
           Container(
-              // alignment: Align,
               child: IconButton(
                   onPressed: () {
                     if (_controller.text.trim().isEmpty) return null;
                     context
                         .read<MessageBloc>()
                         .add(MessageSentText(_controller.text));
+                    _controller.clear();
+                  },
+                  icon: Icon(
+                    Icons.send,
+                    size: 30,
+                    color: theme.accentColor,
+                  ))),
+        ],
+      ),
+    );
+  }
+}
+
+class _BuildNewConversationInputContainer extends StatelessWidget {
+  _BuildNewConversationInputContainer({Key? key}) : super(key: key);
+  final TextEditingController _controller = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      alignment: Alignment.bottomCenter,
+      margin: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: TextFormField(
+              controller: _controller,
+            ),
+          ),
+          Container(
+              child: IconButton(
+                  onPressed: () {
+                    if (_controller.text.trim().isEmpty) return null;
+                    context
+                        .read<MessageBloc>()
+                        .add(MessageStartFirstConversation(_controller.text));
                     _controller.clear();
                   },
                   icon: Icon(

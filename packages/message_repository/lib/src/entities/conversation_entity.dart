@@ -17,7 +17,7 @@ class ConversationEntity extends Equatable {
     return {
       'id': id,
       'participants': participants,
-      // 'participantsMap': participantsMap,
+      'participantsMap': participantsMap,
       'lastMessage': lastMessage,
     };
   }
@@ -27,6 +27,14 @@ class ConversationEntity extends Equatable {
       'id': id,
       'participants': participants,
       // 'participantsMap': participantsMap,
+      'lastMessage': lastMessage,
+    };
+  }
+  Map<String, Object?> toDocumentForConversationInitialization() {
+    return {
+      'id': id,
+      'participants': participants,
+      'participantsMap': participantsMap,
       'lastMessage': lastMessage,
     };
   }

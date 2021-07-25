@@ -16,6 +16,13 @@ class MessageSentText extends MessageEvent {
   @override
   List<Object> get props => [content];
 }
+class MessageStartFirstConversation extends MessageEvent {
+  const MessageStartFirstConversation(this.content) : super ();
+ final String content;
+
+  @override
+  List<Object> get props => [content];
+}
 class MessageLoaded extends MessageEvent {
   const MessageLoaded(this.messages) : super ();
   final List<Message> messages;
