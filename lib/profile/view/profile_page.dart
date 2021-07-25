@@ -67,6 +67,7 @@ class ProfileView extends StatelessWidget {
             _LastNameDisplay(),
             _EmailDisplay(),
             _JoinDateDisplay(),
+            _UserRoleDisplay(),
             TextButton(
                 onPressed: () =>
                     Navigator.pushNamed(context, HomePage.routeName),
@@ -142,6 +143,23 @@ class _JoinDateDisplay extends StatelessWidget {
             color: Colors.yellow,
             child: Text(
                 '${DateFormat.yMMMd().format(state.user.joinDate ?? DateTime.now())}'),
+          );
+        });
+  }
+}
+
+class _UserRoleDisplay extends StatelessWidget {
+  const _UserRoleDisplay({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ProfileBloc, ProfileState>(
+        buildWhen: (previous, current) =>
+            previous.user.role != current.user.role,
+        builder: (context, state) {
+          return Container(
+            color: Colors.yellow,
+            child: Text('role: ${state.user.userRoleShortString}'),
           );
         });
   }

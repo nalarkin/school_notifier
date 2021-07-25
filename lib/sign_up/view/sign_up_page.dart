@@ -34,14 +34,10 @@ class SignUpPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'Login',
+                    'Cancel',
                     style: theme.textTheme.bodyText1
                         ?.copyWith(color: Colors.black),
                   ),
-                  Icon(
-                    Icons.login_sharp,
-                    color: Colors.black,
-                  )
                 ],
               )),
         ],
@@ -52,7 +48,7 @@ class SignUpPage extends StatelessWidget {
           create: (_) => SignUpCubit(
               context.read<AuthenticationRepository>(),
               context.read<KeyRepository>(),
-              context.read<FirestoreParentsRepository>(),
+              context.read<FirestoreUserRepository>(),
               context.read<NavigationBloc>().state.key),
           child: const SignUpForm(),
         ),

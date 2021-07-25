@@ -10,13 +10,13 @@ part 'sign_up_state.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {
   SignUpCubit(this._authenticationRepository, this._keyRepository,
-      this._parentRepository, this._key)
+      this._userRepository, this._key)
       : super(const SignUpState());
 
   final AuthenticationRepository _authenticationRepository;
-  final FirestoreParentsRepository _parentRepository;
   final KeyRepository _keyRepository;
   final FirestoreKey? _key;
+  final FirestoreUserRepository _userRepository;
   // final Parent _parent;
 
   void emailChanged(String value) {
@@ -27,6 +27,8 @@ class SignUpCubit extends Cubit<SignUpState> {
         email,
         state.password,
         state.confirmedPassword,
+        state.firstName,
+        state.lastName,
       ]),
     ));
   }
@@ -44,6 +46,8 @@ class SignUpCubit extends Cubit<SignUpState> {
         state.email,
         password,
         confirmedPassword,
+        state.firstName,
+        state.lastName,
       ]),
     ));
   }
@@ -59,6 +63,8 @@ class SignUpCubit extends Cubit<SignUpState> {
         state.email,
         state.password,
         confirmedPassword,
+        state.firstName,
+        state.lastName,
       ]),
     ));
   }
@@ -67,7 +73,13 @@ class SignUpCubit extends Cubit<SignUpState> {
     final firstName = FirstName.dirty(value);
     emit(state.copyWith(
       firstName: firstName,
-      status: Formz.validate([firstName, state.lastName, state.studentName]),
+      status: Formz.validate([
+        firstName,
+        state.lastName,
+        state.email,
+        state.password,
+        state.confirmedPassword,
+      ]),
     ));
   }
 
@@ -75,17 +87,23 @@ class SignUpCubit extends Cubit<SignUpState> {
     final lastName = LastName.dirty(value);
     emit(state.copyWith(
       lastName: lastName,
-      status: Formz.validate([state.firstName, lastName, state.studentName]),
+      status: Formz.validate([
+        state.firstName,
+        lastName,
+        state.email,
+        state.password,
+        state.confirmedPassword,
+      ]),
     ));
   }
 
-  void studentNameChanged(String value) {
-    final studentName = StudentName.dirty(value);
-    emit(state.copyWith(
-      studentName: studentName,
-      status: Formz.validate([state.firstName, state.lastName, studentName]),
-    ));
-  }
+  // void studentNameChanged(String value) {
+  //   final studentName = StudentName.dirty(value);
+  //   emit(state.copyWith(
+  //     studentName: studentName,
+  //     status: Formz.validate([state.firstName, state.lastName, studentName]),
+  //   ));
+  // }
 
   // Future<void> signUpFormSubmitted(FirestoreKey key) async {
   Future<void> signUpFormSubmitted() async {
@@ -94,7 +112,7 @@ class SignUpCubit extends Cubit<SignUpState> {
     try {
       FirestoreKey? recentKey =
           await _keyRepository.getKey(_key!.id.toString());
-      if (recentKey != _key) {
+      if (_key == null || recentKey != _key) {
         print("ERROR. (recentKey != _key), unable to continue signup");
         print("recentKey = $recentKey");
         print("_key = $_key");
@@ -105,18 +123,22 @@ class SignUpCubit extends Cubit<SignUpState> {
         email: state.email.value,
         password: state.password.value,
       );
-      Parent curr = Parent(
+
+      FirestoreUser curr = FirestoreUser(
         id: _authenticationRepository.currentUser.id,
         email: state.email.value,
         firstName: state.firstName.value,
         lastName: state.lastName.value,
-        children: {
-          _key?.studentID ?? 'sign_up_user_cubit_creates_this':
-              state.studentName.value
-        },
-        joinDate: DateTime.now().toString(),
+        children: {'sign_up_user_cubit_creates_this': 'edit student name'},
+        joinDate: DateTime.now(),
+        role: getUserRoleFromKey(_key!),
       );
-      await _parentRepository.addNewUser(curr);
+
+      await _userRepository.addNewUser(curr);
+      await _keyRepository.updateKey(_key!.copyWith(
+        linkedUser: _authenticationRepository.currentUser.id,
+      ));
+
       // await _keyRepository.updateKey(recentKey.copyWith(isValid: false, ))
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } catch (e) {
@@ -127,3 +149,15 @@ class SignUpCubit extends Cubit<SignUpState> {
   }
 }
 
+UserRole getUserRoleFromKey(FirestoreKey key) {
+  /// admin has all roles
+  if (key.isParent && key.isStudent && key.isTeacher) {
+    return UserRole.admin;
+  }
+  if (key.isParent) {
+    return UserRole.parent;
+  } else if (key.isTeacher) {
+    return UserRole.teacher;
+  }
+  return UserRole.student;
+}

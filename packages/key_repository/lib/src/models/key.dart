@@ -5,12 +5,12 @@ import 'package:key_repository/key_repository.dart';
 class FirestoreKey extends Equatable {
   const FirestoreKey({
     this.creationDate,
-    required this.id,
+    this.id = '',
     this.isValid = true,
     this.isParent = false,
     this.isStudent = false,
     this.isTeacher = false,
-    required this.studentID,
+    this.studentID = '',
     this.linkedUser = '', 
   });
 

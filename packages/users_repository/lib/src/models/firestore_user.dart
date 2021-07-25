@@ -127,6 +127,9 @@ class FirestoreUser extends Equatable {
 
   /// Convenience getter
   bool get isNotEmpty => this != FirestoreUser.empty;
+
+  /// convenience getter
+  String? get userRoleShortString => userRoleToString(this.role);
 }
 
 UserRole? stringToUserRole(String possibleRole) {
