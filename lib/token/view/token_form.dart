@@ -49,6 +49,14 @@ class TokenForm extends StatelessWidget {
                 height: 25,
               ),
               _DebugCreateParent(),
+              const SizedBox(
+                height: 8.0,
+              ),
+              _DebugCreateTeacher(),
+              const SizedBox(
+                height: 8.0,
+              ),
+              _DebugCreateStudent(),
             ],
           ),
         ),
@@ -134,6 +142,46 @@ class _DebugCreateParent extends StatelessWidget {
         context.read<TokenCubit>().tokenSubmitted();
       },
       child: const Text('Use Debug Parent Token'),
+    );
+  }
+}
+
+class _DebugCreateTeacher extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      key: const Key('signUpForm_continue_raisedButton'),
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        primary: Colors.orangeAccent,
+      ),
+      onPressed: () {
+        context.read<TokenCubit>().tokenChanged('IMqRRwos9ox3DpFXmnFi');
+        context.read<TokenCubit>().tokenSubmitted();
+      },
+      child: const Text('Use Debug Teacher Token'),
+    );
+  }
+}
+
+class _DebugCreateStudent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      key: const Key('signUpForm_continue_raisedButton'),
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        primary: Colors.orangeAccent,
+      ),
+      onPressed: () {
+        context.read<TokenCubit>().tokenChanged('NpkP9mDw5RCaGMXtiVgj');
+        context.read<TokenCubit>().tokenSubmitted();
+      },
+      child: const Text('Use Debug Student Token'),
     );
   }
 }
