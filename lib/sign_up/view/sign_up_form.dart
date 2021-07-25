@@ -46,7 +46,8 @@ class SignUpForm extends StatelessWidget {
               const SizedBox(height: 8.0),
               _LastNameInput(),
               const SizedBox(height: 8.0),
-              _StudentNameInput(),
+              // if (context.watch<NavigationBloc>().state.key?.isParent ?? false)
+              //   _StudentNameInput(),
               const SizedBox(height: 8.0),
               _SignUpButton(),
             ],
@@ -193,28 +194,28 @@ class _LastNameInput extends StatelessWidget {
   }
 }
 
-class _StudentNameInput extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<SignUpCubit, SignUpState>(
-      buildWhen: (previous, current) => previous.lastName != current.lastName,
-      builder: (context, state) {
-        return TextField(
-          key: const Key('profileSetupForm_studentNameInput_textField'),
-          onChanged: (studentName) =>
-              context.read<SignUpCubit>().studentNameChanged(studentName),
-          keyboardType: TextInputType.text,
-          decoration: InputDecoration(
-            labelText: 'student name',
-            helperText: '',
-            errorText:
-                state.studentName.invalid ? 'invalid student name' : null,
-          ),
-        );
-      },
-    );
-  }
-}
+// class _StudentNameInput extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocBuilder<SignUpCubit, SignUpState>(
+//       buildWhen: (previous, current) => previous.lastName != current.lastName,
+//       builder: (context, state) {
+//         return TextField(
+//           key: const Key('profileSetupForm_studentNameInput_textField'),
+//           onChanged: (studentName) =>
+//               context.read<SignUpCubit>().studentNameChanged(studentName),
+//           keyboardType: TextInputType.text,
+//           decoration: InputDecoration(
+//             labelText: 'student name',
+//             helperText: '',
+//             errorText:
+//                 state.studentName.invalid ? 'invalid student name' : null,
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
 
 class _SignUpButton extends StatelessWidget {
   @override

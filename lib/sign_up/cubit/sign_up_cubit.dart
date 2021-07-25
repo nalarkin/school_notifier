@@ -27,6 +27,8 @@ class SignUpCubit extends Cubit<SignUpState> {
         email,
         state.password,
         state.confirmedPassword,
+        state.firstName,
+        state.lastName,
       ]),
     ));
   }
@@ -44,6 +46,8 @@ class SignUpCubit extends Cubit<SignUpState> {
         state.email,
         password,
         confirmedPassword,
+        state.firstName,
+        state.lastName,
       ]),
     ));
   }
@@ -59,6 +63,8 @@ class SignUpCubit extends Cubit<SignUpState> {
         state.email,
         state.password,
         confirmedPassword,
+        state.firstName,
+        state.lastName,
       ]),
     ));
   }
@@ -67,7 +73,13 @@ class SignUpCubit extends Cubit<SignUpState> {
     final firstName = FirstName.dirty(value);
     emit(state.copyWith(
       firstName: firstName,
-      status: Formz.validate([firstName, state.lastName, state.studentName]),
+      status: Formz.validate([
+        firstName,
+        state.lastName,
+        state.email,
+        state.password,
+        state.confirmedPassword,
+      ]),
     ));
   }
 
@@ -75,17 +87,23 @@ class SignUpCubit extends Cubit<SignUpState> {
     final lastName = LastName.dirty(value);
     emit(state.copyWith(
       lastName: lastName,
-      status: Formz.validate([state.firstName, lastName, state.studentName]),
+      status: Formz.validate([
+        state.firstName,
+        lastName,
+        state.email,
+        state.password,
+        state.confirmedPassword,
+      ]),
     ));
   }
 
-  void studentNameChanged(String value) {
-    final studentName = StudentName.dirty(value);
-    emit(state.copyWith(
-      studentName: studentName,
-      status: Formz.validate([state.firstName, state.lastName, studentName]),
-    ));
-  }
+  // void studentNameChanged(String value) {
+  //   final studentName = StudentName.dirty(value);
+  //   emit(state.copyWith(
+  //     studentName: studentName,
+  //     status: Formz.validate([state.firstName, state.lastName, studentName]),
+  //   ));
+  // }
 
   // Future<void> signUpFormSubmitted(FirestoreKey key) async {
   Future<void> signUpFormSubmitted() async {
@@ -111,10 +129,7 @@ class SignUpCubit extends Cubit<SignUpState> {
         email: state.email.value,
         firstName: state.firstName.value,
         lastName: state.lastName.value,
-        children: {
-          _key?.studentID ?? 'sign_up_user_cubit_creates_this':
-              state.studentName.value
-        },
+        children: {'sign_up_user_cubit_creates_this': 'edit student name'},
         joinDate: DateTime.now(),
         role: getUserRoleFromKey(_key!),
       );

@@ -17,11 +17,17 @@ class NavigationPage extends StatelessWidget {
     switch (currentState) {
       case NavigationStatus.parent:
         return HomePage();
+      case NavigationStatus.teacher:
+        return HomePage();
+      case NavigationStatus.student:
+        return HomePage();
       case NavigationStatus.unknown:
         return LoginPage();
       case NavigationStatus.newParent:
         return SignUpPage();
-      case NavigationStatus.newParent:
+      case NavigationStatus.newTeacher:
+        return SignUpPage();
+      case NavigationStatus.newStudent:
         return SignUpPage();
       case NavigationStatus.tokenAuthorized:
         return SignUpPage();
