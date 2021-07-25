@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:message_repository/message_repository.dart';
 import 'package:school_notifier/messages/message.dart';
 import 'package:school_notifier/widgets/loading_indicator.dart';
+import 'package:school_notifier/messages/message.dart';
 
 class ConversationBuilder extends StatelessWidget {
   const ConversationBuilder({Key? key}) : super(key: key);
@@ -88,7 +89,7 @@ GestureDetector _buildConversationTile(
             ),
           ),
           Container(
-            child: Text(_formatDateString(
+            child: Text(formatDateString(
                 conversation.lastMessage.timestamp, DateTime.now())),
           )
         ],
@@ -117,17 +118,4 @@ String _getOtherParticipantNames(Conversation convo, String _viewerUid) {
 String _getLastMessage(Conversation convo) {
   return '${convo.participantsMap![convo.lastMessage.idFrom]}: ${convo.lastMessage.content}';
   // conversation.participantsMap[conversation.participants[0]] == _viewerUid,
-}
-
-String _formatDateString(DateTime date, DateTime currentDate) {
-  const weekdays = ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'];
-  final difference = currentDate.difference(date);
-  print(difference.inDays);
-  if (difference >= Duration(days: 7)) {
-    return '${date.day}/${date.month}';
-  } else if (difference >= Duration(days: 1)) {
-    return '${weekdays[date.weekday - 1]}';
-  }
-
-  return '${date.hour}:${date.minute}';
 }

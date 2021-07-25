@@ -61,7 +61,7 @@ Column _buildConversationTile(context, Message message, String _uid) {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Text(
-          _formatDateString(message.timestamp, DateTime.now()),
+          formatDateString(message.timestamp, DateTime.now()),
           style: theme.textTheme.subtitle1
               ?.copyWith(color: Colors.grey, fontSize: 10),
           // textAlign: TextAlign.right,
@@ -71,17 +71,17 @@ Column _buildConversationTile(context, Message message, String _uid) {
   );
 }
 
-String _formatDateString(DateTime date, DateTime currentDate) {
-  const weekdays = ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'];
-  final difference = currentDate.difference(date);
-  if (difference > Duration(days: 7)) {
-    return '${date.day}/${date.month}';
-  } else if (difference >= Duration(days: 1)) {
-    return '${weekdays[date.weekday]}';
-  }
+// // String _formatDateString(DateTime date, DateTime currentDate) {
+//   const weekdays = ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'];
+//   final difference = currentDate.difference(date);
+//   if (difference > Duration(days: 7)) {
+//     return '${date.day}/${date.month}';
+//   } else if (difference >= Duration(days: 1)) {
+//     return '${weekdays[date.weekday]}';
+//   }
 
-  return '${date.hour}:${date.minute}';
-}
+//   return '${date.hour}:${date.minute}';
+// }
 
 class _BuildInputContainer extends StatelessWidget {
   _BuildInputContainer({Key? key}) : super(key: key);

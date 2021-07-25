@@ -80,11 +80,6 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
   }
 
   Future<void> _mapFirstMessage(MessageStartFirstConversation event) async {
-    final conversion = _conversation.toEntity().toDocument();
-    final conversion2 = _conversation.toEntity();
-    // await _messageRepository.updateConversationPreview(_conversation);
-    // final conversion = _conversation.toEntity().toDocument();
-
     final content = event.content.trim();
     final Message _newMessage = Message(
       idFrom: _viewerUid,

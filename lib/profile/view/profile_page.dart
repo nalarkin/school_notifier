@@ -12,6 +12,7 @@ import 'package:users_repository/users_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/widgets/widgets.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -23,23 +24,23 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Profile'),
-          centerTitle: true,
-          actions: <Widget>[
-            IconButton(
-                key: const Key('profilePage_logout_iconButton'),
-                icon: const Icon(Icons.exit_to_app),
-                onPressed: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/', (Route<dynamic> route) => false);
-                  context
-                      .read<AuthenticationBloc>()
-                      .add(AuthenticationLogoutRequested());
-                })
-          ],
-        ),
-      body:ProfileView(),
+      appBar: AppBar(
+        title: const Text('Profile'),
+        centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+              key: const Key('profilePage_logout_iconButton'),
+              icon: const Icon(Icons.exit_to_app),
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/', (Route<dynamic> route) => false);
+                context
+                    .read<AuthenticationBloc>()
+                    .add(AuthenticationLogoutRequested());
+              })
+        ],
+      ),
+      body: ProfileView(),
     );
   }
 }
@@ -70,31 +71,31 @@ class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-          alignment: const Alignment(0, -1 / 3),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                Avatar(),
-                SizedBox(
-                  height: 8.0,
-                ),
-                _FirstNameDisplay(),
-                _LastNameDisplay(),
-                _EmailDisplay(),
-                _JoinDateDisplay(),
-                debugButton(),
-                TextButton(
-                    onPressed: () =>
-                        Navigator.pushNamed(context, HomePage.routeName),
-                    child: Text("Cycle Back to Home")),
-              ],
+      alignment: const Alignment(0, -1 / 3),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              height: 20,
             ),
-          ),
-        );
+            Avatar(),
+            SizedBox(
+              height: 8.0,
+            ),
+            _FirstNameDisplay(),
+            _LastNameDisplay(),
+            _EmailDisplay(),
+            _JoinDateDisplay(),
+            debugButton(),
+            TextButton(
+                onPressed: () =>
+                    Navigator.pushNamed(context, HomePage.routeName),
+                child: Text("Cycle Back to Home")),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -160,8 +161,11 @@ class _JoinDateDisplay extends StatelessWidget {
         builder: (context, state) {
           return Container(
             color: Colors.yellow,
-            child: Text(state.user.joinDate.toString()),
+            child: Text('${DateFormat.yMMMd().format(state.user.joinDate!)}'),
           );
         });
   }
 }
+
+
+//           child: Text('${DateFormat.yMMMd().format(state.user.joinDate!)}'),
