@@ -66,32 +66,45 @@ GestureDetector _buildConversationTile(
         children: [
           // _buildAvatar(room),
           Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: Stack(
               children: [
-                Text(
-                  _getOtherParticipantNames(conversation, _viewerUid),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style:
-                      theme.textTheme.bodyText1?.copyWith(color: Colors.black),
+                Container(
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        _getOtherParticipantNames(conversation, _viewerUid),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.bodyText1
+                            ?.copyWith(color: Colors.black),
+                      ),
+                      Text(
+                        _getLastMessage(conversation),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.bodyText1
+                            ?.copyWith(color: theme.hintColor),
+                      ),
+                    ],
+                  ),
                 ),
-                Text(
-                  _getLastMessage(conversation),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.bodyText1
-                      ?.copyWith(color: theme.hintColor),
-                ),
+                Container(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    formatDateString(
+                        conversation.lastMessage.timestamp, DateTime.now()),
+                    style: theme.textTheme.bodyText1
+                        ?.copyWith(color: theme.hintColor),
+                  ),
+                )
               ],
             ),
           ),
-          Container(
-            child: Text(formatDateString(
-                conversation.lastMessage.timestamp, DateTime.now())),
-          )
         ],
       ),
     ),
