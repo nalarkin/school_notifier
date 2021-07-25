@@ -88,6 +88,7 @@ class MessageRepository {
       return messageCollection
           .doc(conversation.id)
           .collection(conversation.id)
+          .orderBy('timestamp')
           .snapshots()
           .map((allMessages) => allMessages.docs
               .map((snap) =>
