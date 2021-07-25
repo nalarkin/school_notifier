@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/app/app.dart';
 import 'package:school_notifier/event_repository_test/event_page.dart';
+import 'package:school_notifier/firestore_user_debug/firestore_page.dart';
 import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/authentication/authentication.dart';
 import 'package:school_notifier/login/login.dart';
+import 'package:school_notifier/messages/conversations/view/conversation_debug.dart';
+import 'package:school_notifier/messages/message.dart';
 import 'package:school_notifier/navigation/navigation.dart';
 import 'package:school_notifier/profile/profile.dart';
 import 'package:users_repository/users_repository.dart';
@@ -48,14 +51,20 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 4.0),
             MaterialButton(
               onPressed: () =>
-                  Navigator.pushNamed(context, ParentProfilePage.routeName),
-              child: const Text('Profile Page'),
+                  Navigator.pushNamed(context, ConversationPage.routeName),
+              child: const Text('Convo Page'),
+            ),
+            MaterialButton(
+              onPressed: () =>
+                  Navigator.pushNamed(context, ProfilePage.routeName),
+              child: const Text('Universal Profile Page'),
             ),
             MaterialButton(
               onPressed: () =>
                   Navigator.pushNamed(context, EventPage.routeName),
               child: const Text('Event Page'),
             ),
+
             // debugButton(),
           ],
         ),

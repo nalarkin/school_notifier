@@ -1,4 +1,4 @@
-library key_respository;
+library message_respository;
 
 export 'src/entities/entities.dart';
 export 'src/models/models.dart';

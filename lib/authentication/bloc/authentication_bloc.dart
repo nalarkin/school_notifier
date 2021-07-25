@@ -13,10 +13,8 @@ part 'authentication_state.dart';
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc(
-      {required AuthenticationRepository authenticationRepository,
-      required FirestoreParentsRepository firestoreParentsRepository})
+      {required AuthenticationRepository authenticationRepository})
       : _authenticationRepository = authenticationRepository,
-        // _firestoreParentsRepository = firestoreParentsRepository,
         super(
           authenticationRepository.currentUser.isNotEmpty
               ? AuthenticationState.authenticated(
@@ -25,27 +23,19 @@ class AuthenticationBloc
         ) {
     _userSubscription = _authenticationRepository.user
         .listen((user) => add(AuthenticationUserChanged(user)));
-    // _userSubscription = _authenticationRepository.user.listen(_onUserChanged);
   }
 
   final AuthenticationRepository _authenticationRepository;
-  // final FirestoreParentsRepository _firestoreParentsRepository;
   late final StreamSubscription<User> _userSubscription;
 
   @override
   Stream<AuthenticationState> mapEventToState(
       AuthenticationEvent event) async* {
     if (event is AuthenticationUserChanged) {
-      // yield _mapUserChangedToState(event, state);
       yield _mapUserChangedToState(event, state);
     } else if (event is AuthenticationLogoutRequested) {
       yield await _mapLogOutToState(event);
     }
-    // else if (event is AuthenticationParentAuthenticated) {
-    //   yield AuthenticationState.parent(event.parent);
-    // } else if (event is AuthenticationNewParentJoined) {
-    //   yield AuthenticationState.newParent(event.parent);
-    // }
   }
 
   Future<AuthenticationState> _mapLogOutToState(
@@ -64,23 +54,6 @@ class AuthenticationBloc
         ? AuthenticationState.authenticated(event.user)
         : const AuthenticationState.unauthenticated();
   }
-
-  // Future<void> _convertToFirestoreUser(User user) async {
-  //   /// check if teacher is added, if the user is not a teacher, than we know they are a parent/new-parent
-  //   Parent currUser =
-  //       await _firestoreParentsRepository.getUserOrDefault(user.id);
-
-  //   /// if user hasn't setup their account, send them to sign in page
-  //   if (currUser == Parent.empty) {
-  //     add(AuthenticationNewParentJoined(Parent(
-  //       id: user.id,
-  //       email: user.email,
-  //       // joinDate: DateTime.now().toString())));
-  //     )));
-  //   } else {
-  //     add(AuthenticationParentAuthenticated(currUser));
-  //   }
-  // }
 
   @override
   Future<void> close() {
