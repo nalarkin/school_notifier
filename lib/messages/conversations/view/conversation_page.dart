@@ -22,22 +22,6 @@ class ConversationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    // final user = context.select((AuthenticationBloc bloc) => bloc.state.user);
-    // NavigationStatus status = context.watch<NavigationBloc>().state.status;
-    // String uid = '';
-    // switch (status) {
-    //   case NavigationStatus.parent:
-    //     uid = context.read<NavigationBloc>().state.parent!.id;
-    //     break;
-    //   case NavigationStatus.teacher:
-    //     uid = context.read<NavigationBloc>().state.teacher!.id;
-    //     break;
-    //   case NavigationStatus.student:
-    //     uid = context.read<NavigationBloc>().state.teacher!.id;
-    //     break;
-    //   default:
-    //     throw Exception('User was not a parent, teacher, or student.');
-    // }
     return Scaffold(
         appBar: AppBar(
           title: const Text('Conversations'),

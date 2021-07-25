@@ -51,11 +51,6 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 4.0),
             MaterialButton(
               onPressed: () =>
-                  Navigator.pushNamed(context, ConversationDebug.routeName),
-              child: const Text('Convo Debug'),
-            ),
-            MaterialButton(
-              onPressed: () =>
                   Navigator.pushNamed(context, ConversationPage.routeName),
               child: const Text('Convo Page'),
             ),
@@ -69,16 +64,7 @@ class HomePage extends StatelessWidget {
                   Navigator.pushNamed(context, EventPage.routeName),
               child: const Text('Event Page'),
             ),
-            MaterialButton(
-              onPressed: () =>
-                  Navigator.pushNamed(context, MessagePage.routeName),
-              child: const Text('Message Page'),
-            ),
-            MaterialButton(
-              onPressed: () =>
-                  Navigator.pushNamed(context, FirestorePage.routeName),
-              child: const Text('Firestore Page'),
-            ),
+
             // debugButton(),
           ],
         ),

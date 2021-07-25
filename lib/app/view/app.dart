@@ -98,10 +98,7 @@ class InitializeProviders2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-            create: (_) => ParentProfileBloc(
-                parentId: context.read<NavigationBloc>().state.user.id,
-                parentsRepository: context.read<FirestoreParentsRepository>())),
+        
         BlocProvider(
           create: (_) => ProfileBloc(
             context.read<FirestoreUserRepository>(),

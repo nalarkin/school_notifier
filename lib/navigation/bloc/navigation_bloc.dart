@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:school_notifier/profile/parent/bloc/parent_profile_bloc.dart';
 import 'package:users_repository/users_repository.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:school_notifier/app/app.dart';

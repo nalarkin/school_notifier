@@ -45,26 +45,6 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
-// class ProfileLoader extends StatelessWidget {
-//   const ProfileLoader({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<ProfileBloc, ProfileState>(
-//       builder: (context, state) {
-//         if (state is ParentProfileInitial) {
-//           return ProfileView();
-//         } else if (state is ParentProfileSuccess) {
-//           return ProfileView();
-//         }
-
-//         throw Exception(
-//             'This case should never occur. located in profile_page.dart');
-//       },
-//     );
-//   }
-// }
-
 class ProfileView extends StatelessWidget {
   const ProfileView({Key? key}) : super(key: key);
 
@@ -87,7 +67,6 @@ class ProfileView extends StatelessWidget {
             _LastNameDisplay(),
             _EmailDisplay(),
             _JoinDateDisplay(),
-            debugButton(),
             TextButton(
                 onPressed: () =>
                     Navigator.pushNamed(context, HomePage.routeName),
@@ -157,11 +136,12 @@ class _JoinDateDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileBloc, ProfileState>(
         buildWhen: (previous, current) =>
-            previous.user.email != current.user.email,
+            previous.user.joinDate != current.user.joinDate,
         builder: (context, state) {
           return Container(
             color: Colors.yellow,
-            child: Text('${DateFormat.yMMMd().format(state.user.joinDate!)}'),
+            child: Text(
+                '${DateFormat.yMMMd().format(state.user.joinDate ?? DateTime.now())}'),
           );
         });
   }

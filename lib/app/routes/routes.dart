@@ -10,7 +10,6 @@ import 'package:school_notifier/messages/directory/view/directory_page.dart';
 import 'package:school_notifier/messages/message.dart';
 import 'package:school_notifier/navigation/navigation.dart';
 import 'package:school_notifier/profile/profile.dart';
-// import 'package:school_notifier/profile_setup/profile_setup.dart';
 // import 'package:school_notifier/profile_setup/view/new_user_setup_page.dart';
 import 'package:school_notifier/authentication/authentication.dart';
 import 'package:school_notifier/profile/view/profile_page.dart';
@@ -23,7 +22,6 @@ Map<String, WidgetBuilder> allRoutes = <String, WidgetBuilder>{
   HomePage.routeName: (context) => HomePage(),
   LoginPage.routeName: (context) => LoginPage(),
   SignUpPage.routeName: (context) => SignUpPage(),
-  // ParentProfilePage.routeName: (context) => ParentProfilePage(),
   ProfilePage.routeName: (context) => ProfilePage(),
   EventPage.routeName: (context) => EventPage(),
   TokenPage.routeName: (context) => TokenPage(),

@@ -13,7 +13,6 @@ class FirestoreEvent extends Equatable {
     required this.posterID,
     // optional photo link
     this.posterPhoto = '',
-
     required this.eventStartTime,
     required this.eventEndTime,
 
@@ -52,7 +51,7 @@ class FirestoreEvent extends Equatable {
       String? eventPhoto,
       String? eventType,
       String? eventSubscriptionID,
-      String? eventUID }) {
+      String? eventUID}) {
     return FirestoreEvent(
       title: title ?? this.title,
       description: description ?? this.description,
@@ -68,8 +67,14 @@ class FirestoreEvent extends Equatable {
   }
 
   @override
-  List<Object> get props =>
-      [eventUID, eventSubscriptionID, eventStartTime, eventEndTime, description, title];
+  List<Object> get props => [
+        eventUID,
+        eventSubscriptionID,
+        eventStartTime,
+        eventEndTime,
+        description,
+        title
+      ];
 
   @override
   String toString() {
