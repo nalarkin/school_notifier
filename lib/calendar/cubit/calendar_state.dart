@@ -25,6 +25,14 @@ class CalendarState extends Equatable {
   final EventType eventType;
   final FormzStatus status;
 
+  // final typeStatus = Formz.validate([eventType]);
+  //   final eventDescription = Formz.validate([state.eventDescription]);
+  //   final eventDay = Formz.validate([state.eventDay]);
+  //   final eventTitle = Formz.validate([state.eventTitle]);
+  //   final eventSubscriptionId = Formz.validate([state.eventSubscriptionId]);
+  //   final eventYear = Formz.validate([state.eventYear]);
+  //   final eventTimeStart = Formz.validate([state.eventTimeStart]);
+
   @override
   List<Object> get props => [
         status,

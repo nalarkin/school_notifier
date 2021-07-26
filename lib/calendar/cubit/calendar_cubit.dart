@@ -141,6 +141,36 @@ class CalendarCubit extends Cubit<CalendarState> {
 
   void eventTypeChanged(String value) {
     final eventType = EventType.dirty(value);
+    // print('');
+    final typeStatus = Formz.validate([eventType]);
+    final eventDayStatus = Formz.validate([state.eventDay]);
+    final eventDescription = Formz.validate([state.eventDescription]);
+    final eventMonth = Formz.validate([state.eventMonth]);
+    final eventTitle = Formz.validate([state.eventTitle]);
+    final eventSubscriptionId = Formz.validate([state.eventSubscriptionId]);
+    final eventYear = Formz.validate([state.eventYear]);
+    final eventTimeStart = Formz.validate([state.eventTimeStart]);
+    final res = [
+      typeStatus,
+      eventDayStatus,
+      eventDescription,
+      eventMonth,
+      eventTitle,
+      eventSubscriptionId,
+      eventYear,
+      eventTimeStart
+    ];
+    print(res);
+    // print('$typeStatus');
+    // print('$eventDayStatus');
+    // print('$eventDescription');
+    // print('$eventDay');
+    // print('$eventTitle');
+    // print('$eventSubscriptionId');
+    // print('$eventYear');
+    // print('$eventTimeStart');
+
+    // final typeStatus = Formz.validate([eventType]);
     emit(state.copyWith(
       eventType: eventType,
       status: Formz.validate([
@@ -156,6 +186,7 @@ class CalendarCubit extends Cubit<CalendarState> {
       ]),
     ));
   }
+
   void eventSubscriptionIdChanged(String value) {
     final subscriptionId = EventSubscriptionId.dirty(value);
     emit(state.copyWith(

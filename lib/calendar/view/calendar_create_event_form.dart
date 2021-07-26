@@ -12,6 +12,7 @@ class CalendarCreateEventForm extends StatelessWidget {
       listener: (context, state) {
         if (state.status.isSubmissionSuccess) {
           /// can show success message if desired
+          Navigator.pop(context);
         } else if (state.status.isSubmissionFailure) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
@@ -35,12 +36,16 @@ class CalendarCreateEventForm extends StatelessWidget {
               const SizedBox(height: 8.0),
               _YearInput(),
               const SizedBox(height: 8.0),
+              _TimeStartInput(),
+              const SizedBox(height: 8.0),
               _DurationInput(),
               const SizedBox(height: 8.0),
               _DescriptionInput(),
               const SizedBox(height: 8.0),
               _SubscriptionIdInput(),
+              _TypeInput(),
               const SizedBox(height: 8.0),
+              _SubmitEventButton(),
             ],
           ),
         ),
@@ -158,6 +163,29 @@ class _MonthInput extends StatelessWidget {
   }
 }
 
+class _TimeStartInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CalendarCubit, CalendarState>(
+      buildWhen: (previous, current) =>
+          previous.eventTimeStart != current.eventTimeStart,
+      builder: (context, state) {
+        return TextField(
+          key: const Key('eventCreation_eventTitleInput_textField'),
+          onChanged: (timeStart) =>
+              context.read<CalendarCubit>().eventTimeStartChanged(timeStart),
+          decoration: InputDecoration(
+            labelText: 'HH: MM',
+            helperText: '',
+            errorText:
+                state.eventTitle.invalid ? 'invalid starting time' : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
 class _DurationInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -199,6 +227,53 @@ class _SubscriptionIdInput extends StatelessWidget {
                 state.eventTitle.invalid ? 'invalid SubscriptionId' : null,
           ),
         );
+      },
+    );
+  }
+}
+
+class _TypeInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CalendarCubit, CalendarState>(
+      buildWhen: (previous, current) => previous.eventType != current.eventType,
+      builder: (context, state) {
+        return TextField(
+          key: const Key('eventCreation_eventTitleInput_textField'),
+          onChanged: (subscriptionId) =>
+              context.read<CalendarCubit>().eventTypeChanged(subscriptionId),
+          decoration: InputDecoration(
+            labelText: 'Type',
+            helperText: '',
+            errorText: state.eventTitle.invalid ? 'invalid Type' : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _SubmitEventButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CalendarCubit, CalendarState>(
+      buildWhen: (previous, current) => previous.status != current.status,
+      builder: (context, state) {
+        return state.status.isSubmissionInProgress
+            ? const CircularProgressIndicator()
+            : ElevatedButton(
+                key: const Key('signUpForm_continue_raisedButton'),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  primary: Colors.orangeAccent,
+                ),
+                onPressed: state.status.isValidated
+                    ? () => context.read<CalendarCubit>().submitNewEvent()
+                    : null,
+                child: const Text('Submit Event'),
+              );
       },
     );
   }
