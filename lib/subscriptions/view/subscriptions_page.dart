@@ -27,13 +27,19 @@ class SubscriptionPage extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Conversations'),
+          title: const Text('Upcoming Events'),
           centerTitle: true,
           actions: <Widget>[
             IconButton(
-                onPressed: () =>
-                    Navigator.pushNamed(context, DirectoryPage.routeName),
-                icon: Icon(Icons.add))
+                key: const Key('homePage_logout_iconButton'),
+                icon: const Icon(Icons.exit_to_app),
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/', (Route<dynamic> route) => false);
+                  context
+                      .read<AuthenticationBloc>()
+                      .add(AuthenticationLogoutRequested());
+                })
           ],
         ),
         body: BlocProvider(

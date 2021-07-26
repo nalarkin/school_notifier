@@ -20,3 +20,14 @@ String formatDateEventWeekday(DateTime date) {
 String formatDateEventTime(DateTime date) {
   return '${DateFormat.jm().format(date)}';
 }
+// String formatDateEventTime(DateTime date) {
+//   DateFormat newFormat = DateFormat('h:mm');
+//   return '${newFormat.format(date)}';
+// }
+
+String formatDateEventStartToEndTime(DateTime start, DateTime end) {
+  DateFormat startFormat = DateFormat('h:mm');
+  DateFormat endFormat = DateFormat('h:mm a');
+  return '${startFormat.format(start)}-${endFormat.format(end)}';
+  // return '${DateFormat.jm().format(start)}';
+}

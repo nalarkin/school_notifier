@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:message_repository/message_repository.dart';
 import 'package:school_notifier/messages/message.dart';
+import 'package:school_notifier/profile/profile.dart';
 import 'package:school_notifier/subscriptions/subscriptions.dart';
 import 'package:school_notifier/widgets/loading_indicator.dart';
 import 'package:school_notifier/messages/message.dart';
@@ -13,6 +14,7 @@ class SubscriptionBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final subNames = context.read<ProfileBloc>().state.user.subscriptions;
     return BlocBuilder<SubscriptionBloc, SubscriptionState>(
       builder: (context, state) {
         if (state is SubscriptionInitial) {
@@ -28,6 +30,7 @@ class SubscriptionBuilder extends StatelessWidget {
           );
         } else if (state is SubscriptionSuccess) {
           final _subscriptions = state.subscriptions;
+
           print("subscriptions $_subscriptions");
           print("length of subscriptions = ${_subscriptions.length}");
           final _viewerUid =
@@ -35,8 +38,14 @@ class SubscriptionBuilder extends StatelessWidget {
           return ListView.builder(
             itemCount: _subscriptions.length,
             itemBuilder: (context, index) {
-              return _buildSubscriptionTile(
-                  context, _subscriptions[index], index, _viewerUid);
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+                child: _buildSubscriptionTile(
+                    context,
+                    _subscriptions[index],
+                    index,
+                    subNames![_subscriptions[index].eventSubscriptionID]),
+              );
             },
           );
         }
@@ -47,7 +56,7 @@ class SubscriptionBuilder extends StatelessWidget {
 }
 
 GestureDetector _buildSubscriptionTile(
-    context, FirestoreEvent subscription, int index, String _viewerUid) {
+    context, FirestoreEvent subscription, int index, String className) {
   final theme = Theme.of(context);
   return GestureDetector(
     onTap: () {
@@ -59,58 +68,95 @@ GestureDetector _buildSubscriptionTile(
     child: Container(
       color: Colors.white,
       height: 70,
-      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+      // padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        // mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // _buildAvatar(room),
-          Expanded(
-            child: Stack(
+          Container(
+            // padding: EdgeInsets.all(8),
+            // color: Colors.blue,
+            width: MediaQuery.of(context).size.width * 0.25,
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  alignment: Alignment.center,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        subscription.title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
-                        style: theme.textTheme.bodyText1
-                            ?.copyWith(color: Colors.black),
-                      ),
-                      Text(
-                        subscription.eventSubscriptionID,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
-                        style: theme.textTheme.bodyText1
-                            ?.copyWith(color: theme.hintColor),
-                      ),
-                    ],
-                  ),
+                Text(
+                  formatDateEventWeekday(subscription.eventEndTime),
+                  style: theme.textTheme.bodyText2
+                      ?.copyWith(color: Colors.black, fontSize: 12),
                 ),
-                Container(
-                  alignment: Alignment.centerRight,
-                  child: Text(
+                if (subscription.eventStartTime != subscription.eventEndTime)
+                  Text(
+                    formatDateEventStartToEndTime(
+                        subscription.eventStartTime, subscription.eventEndTime),
+                    style: theme.textTheme.bodyText2
+                        ?.copyWith(color: Colors.black, fontSize: 12),
+                  ),
+                if (subscription.eventStartTime == subscription.eventEndTime)
+                  Text(
                     formatDateEventTime(subscription.eventStartTime),
-                    style: theme.textTheme.bodyText1
-                        ?.copyWith(color: theme.hintColor),
+                    style: theme.textTheme.bodyText2
+                        ?.copyWith(color: Colors.black, fontSize: 12),
                   ),
-                ),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    formatDateEventWeekday(subscription.eventEndTime),
-                    style: theme.textTheme.bodyText1
-                        ?.copyWith(color: theme.hintColor),
-                  ),
-                )
               ],
             ),
           ),
+          Expanded(
+            child: Container(
+              alignment: Alignment.centerLeft,
+              // color: Colors.red,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 5),
+                    child: Text(
+                      subscription.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      // textAlign: TextAlign.center,
+                      style: theme.textTheme.bodyText1
+                          ?.copyWith(color: Colors.black, fontSize: 16),
+                    ),
+                  ),
+                  if (subscription.description.isNotEmpty)
+                    Text(
+                      subscription.description,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      // textAlign: TextAlign.center,
+                      style: theme.textTheme.bodyText2
+                          ?.copyWith(color: Colors.black, fontSize: 12),
+                    ),
+                ],
+              ),
+            ),
+          ),
+          Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  subscription.eventSubscriptionID,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.bodyText2
+                      ?.copyWith(color: theme.hintColor, fontSize: 8),
+                ),
+                Text(
+                  className,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.bodyText2
+                      ?.copyWith(color: theme.hintColor),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     ),
