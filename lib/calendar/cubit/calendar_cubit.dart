@@ -156,6 +156,23 @@ class CalendarCubit extends Cubit<CalendarState> {
       ]),
     ));
   }
+  void eventSubscriptionIdChanged(String value) {
+    final subscriptionId = EventSubscriptionId.dirty(value);
+    emit(state.copyWith(
+      eventSubscriptionId: subscriptionId,
+      status: Formz.validate([
+        subscriptionId,
+        state.eventDuration,
+        state.eventDescription,
+        state.eventDay,
+        state.eventTitle,
+        state.eventSubscriptionId,
+        state.eventMonth,
+        state.eventTimeStart,
+        state.eventYear,
+      ]),
+    ));
+  }
 
   Future<void> submitNewEvent() async {
     if (!state.status.isValidated) return;

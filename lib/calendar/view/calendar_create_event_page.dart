@@ -6,6 +6,7 @@ import 'package:key_repository/key_repository.dart';
 import 'package:school_notifier/authentication/authentication.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/calendar/cubit/calendar_cubit.dart';
+import 'package:school_notifier/calendar/view/calendar_create_event_form.dart';
 import 'package:school_notifier/event_repository_test/EventViewModel.dart';
 import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/navigation/navigation.dart';
@@ -38,7 +39,8 @@ class CalendarAddEventPage extends StatelessWidget {
         padding: EdgeInsets.all(8),
         child: BlocProvider(
             create: (_) => CalendarCubit(context.read<EventRepository>(),
-                context.read<NavigationBloc>().state.user.id)),
+                context.read<NavigationBloc>().state.user.id),
+                child: CalendarCreateEventForm(),),
       ),
     );
   }
