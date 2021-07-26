@@ -85,8 +85,11 @@ class HomePage extends StatelessWidget {
               child: const Text('Subscription Page'),
             ),
             MaterialButton(
-                onPressed: () => selectNotification("data"),
-                child: const Text('Notiifcation test')),
+              onPressed: () async {
+                await selectNotification("data");
+              },
+              child: const Text('Notiifcation test'),
+            )
           ],
         ),
       ),

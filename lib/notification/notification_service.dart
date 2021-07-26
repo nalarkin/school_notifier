@@ -12,8 +12,15 @@ class NotificationService {
         InitializationSettings(
             android: initializationSettingsAndroid, iOS: null, macOS: null);
 
+    // await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+    //     onSelectNotification: selectNotification);
+
     await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: selectNotification);
+        onSelectNotification: (String? payload) async {
+      if (payload != null) {
+        debugPrint('notification payload: $payload');
+      }
+    });
   }
 }
 
