@@ -89,7 +89,7 @@ class HomePage extends StatelessWidget {
             MaterialButton(
               onPressed: () =>
                   Navigator.pushNamed(context, CalendarPage.routeName),
-              child: const Text('Teacher Page'),
+              child: const Text('Calendar Page'),
             ),
           ],
         ),

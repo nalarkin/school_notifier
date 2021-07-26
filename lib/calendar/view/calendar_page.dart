@@ -1,6 +1,7 @@
 import 'package:event_repository/event_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:school_notifier/calendar/view/calendar_create_event_page.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:school_notifier/authentication/authentication.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +35,8 @@ class _CalendarPageState extends State<CalendarPage> {
   TextEditingController _eventController = TextEditingController();
   @override
   void initState() {
-    eventBuilder = {};
+    // eventBuilder = {};
+    eventBuilder = kEvents;
     _selectedDay = _focusedDate;
     //  _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
     super.initState();
@@ -110,47 +112,52 @@ class _CalendarPageState extends State<CalendarPage> {
       floatingActionButton: FloatingActionButton.extended(
           label: Text("Add Event"),
           icon: Icon(Icons.add),
-          onPressed: () => showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                    title: Text("Add Event"),
-                    content: TextFormField(
-                      decoration: InputDecoration(hintText: 'Type an event'),
-                      controller: _eventController,
-                    ),
-                    actions: <Widget>[
-                      TextButton(
-                          onPressed: () => Navigator.pop(context, 'Cancel'),
-                          child: const Text("Cancel")),
-                      TextButton(
-                        child: const Text("Ok"),
-                        onPressed: () => {
-                          if (_eventController.text.isEmpty)
-                            {
-                              Navigator.pop(context, 'Ok'),
-                            }
-                          else
-                            {
-                              if (eventBuilder[_focusedDate] != null)
-                                {
-                                  eventBuilder[_focusedDate]!
-                                      .add(Event(_eventController.text)),
-                                  teacherEvent.addNewEvent(newEvent),
-                                }
-                              else
-                                {
-                                  eventBuilder[_focusedDate] = [
-                                    Event(_eventController.text)
-                                  ]
-                                }
-                            },
-                          Navigator.pop(context),
-                          _eventController.clear(),
-                          setState(() {}),
-                        },
-                      )
-                    ],
-                  ))),
+          onPressed: () {
+            Navigator.pushNamed(context, CalendarAddEventPage.routeName,
+                arguments: _focusedDate);
+          }
+          // showDialog(
+          //     context: context,
+          //     builder: (context) => AlertDialog(
+          //           title: Text("Add Event"),
+          //           content: TextFormField(
+          //             decoration: InputDecoration(hintText: 'Type an event'),
+          //             controller: _eventController,
+          //           ),
+          //           actions: <Widget>[
+          //             TextButton(
+          //                 onPressed: () => Navigator.pop(context, 'Cancel'),
+          //                 child: const Text("Cancel")),
+          //             TextButton(
+          //               child: const Text("Ok"),
+          //               onPressed: () => {
+          //                 if (_eventController.text.isEmpty)
+          //                   {
+          //                     Navigator.pop(context, 'Ok'),
+          //                   }
+          //                 else
+          //                   {
+          //                     if (eventBuilder[_focusedDate] != null)
+          //                       {
+          //                         eventBuilder[_focusedDate]!
+          //                             .add(Event(_eventController.text)),
+          //                         teacherEvent.addNewEvent(newEvent),
+          //                       }
+          //                     else
+          //                       {
+          //                         eventBuilder[_focusedDate] = [
+          //                           Event(_eventController.text)
+          //                         ]
+          //                       }
+          //                   },
+          //                 Navigator.pop(context),
+          //                 _eventController.clear(),
+          //                 setState(() {}),
+          //               },
+          //             )
+          //           ],
+          //         ))
+          ),
     );
   }
 }
