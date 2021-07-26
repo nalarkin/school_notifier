@@ -11,7 +11,7 @@ part 'conversation_state.dart';
 class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   ConversationBloc(
     this._messageRepository,
-    this._parentsRepository,
+    // this._userRepository,
     this.uid,
   ) : super(ConversationInitial(<Conversation>[])) {
     _conversationSubscription = _messageRepository
@@ -19,7 +19,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
         .listen(_mapConversationStreamToEvent);
   }
   final MessageRepository _messageRepository;
-  final FirestoreParentsRepository _parentsRepository;
+  // final FirestoreUserRepository _userRepository;
   late StreamSubscription _conversationSubscription;
   final uid;
 

@@ -12,11 +12,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   final authenticationRepository = AuthenticationRepository();
-  final firestoreParentsRepository = FirestoreParentsRepository();
   // final postsRepository = FirestorePostsRepository();
   await authenticationRepository.user.first;
   runApp(App(
     authenticationRepository: authenticationRepository,
-    firestoreParentsRepository: firestoreParentsRepository,
   ));
 }

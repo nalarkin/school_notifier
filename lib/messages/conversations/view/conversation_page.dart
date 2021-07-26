@@ -36,7 +36,7 @@ class ConversationPage extends StatelessWidget {
         body: BlocProvider(
           create: (_) => ConversationBloc(
               context.read<MessageRepository>(),
-              context.read<FirestoreParentsRepository>(),
+              // context.read<FirestoreUserRepository>(),
               context.read<AuthenticationRepository>().currentUser.id),
           child: ConversationBuilder(),
         ));

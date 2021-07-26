@@ -177,11 +177,10 @@ class _UserSubscriptionisplay extends StatelessWidget {
         builder: (context, state) {
           return Container(
             color: Colors.yellow,
-            child: Text('role: ${state.user.subscriptions}'),
+            child: Text('Subscriptions: ${state.user.subscriptions}'),
           );
         });
   }
 }
 
 
-//           child: Text('${DateFormat.yMMMd().format(state.user.joinDate!)}'),
