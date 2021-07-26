@@ -98,4 +98,10 @@ class FirestoreUserRepository implements UsersRepository<FirestoreUser> {
       'lastName': user.lastName ?? ''
     }, SetOptions(merge: true));
   }
+  // Future<void> addSubscription(FirestoreUser user) async {
+  //   await usersCollection.doc(user.id).set(<String, String>{
+  //     'firstName': user.firstName ?? '',
+  //     'lastName': user.lastName ?? ''
+  //   }, SetOptions(merge: true));
+  // }
 }

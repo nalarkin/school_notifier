@@ -68,6 +68,7 @@ class ProfileView extends StatelessWidget {
             _EmailDisplay(),
             _JoinDateDisplay(),
             _UserRoleDisplay(),
+            _UserSubscriptionisplay(),
             TextButton(
                 onPressed: () =>
                     Navigator.pushNamed(context, HomePage.routeName),
@@ -160,6 +161,23 @@ class _UserRoleDisplay extends StatelessWidget {
           return Container(
             color: Colors.yellow,
             child: Text('role: ${state.user.roleString}'),
+          );
+        });
+  }
+}
+
+class _UserSubscriptionisplay extends StatelessWidget {
+  const _UserSubscriptionisplay({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ProfileBloc, ProfileState>(
+        buildWhen: (previous, current) =>
+            previous.user.role != current.user.role,
+        builder: (context, state) {
+          return Container(
+            color: Colors.yellow,
+            child: Text('role: ${state.user.subscriptions}'),
           );
         });
   }

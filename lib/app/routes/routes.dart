@@ -15,6 +15,8 @@ import 'package:school_notifier/profile/profile.dart';
 import 'package:school_notifier/authentication/authentication.dart';
 import 'package:school_notifier/profile/view/profile_page.dart';
 import 'package:school_notifier/sign_up/sign_up.dart';
+import 'package:school_notifier/subscriptions/view/add_subscription_page.dart';
+import 'package:school_notifier/subscriptions/view/subscriptions_page.dart';
 import 'package:school_notifier/token/token.dart';
 
 Map<String, WidgetBuilder> allRoutes = <String, WidgetBuilder>{
@@ -32,5 +34,7 @@ Map<String, WidgetBuilder> allRoutes = <String, WidgetBuilder>{
   FirestorePage.routeName: (context) => FirestorePage(),
   DirectoryPage.routeName: (context) => DirectoryPage(),
   KeyPage.routeName: (context) => KeyPage(),
+  AddSubscriptionPage.routeName: (context) => AddSubscriptionPage(),
+  SubscriptionPage.routeName: (context) => SubscriptionPage(),
   // NavigationPage.routeName: (context) => NavigationPage(),
 };
