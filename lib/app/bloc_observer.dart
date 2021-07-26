@@ -20,9 +20,9 @@ class AppBlocObserver extends BlocObserver {
     print(change);
   }
 
-  @override
-  void onTransition(Bloc bloc, Transition transition) {
-    super.onTransition(bloc, transition);
-    print(transition);
-  }
+  // @override
+  // void onTransition(Bloc bloc, Transition transition) {
+  //   super.onTransition(bloc, transition);
+  //   print(transition);
+  // }
 }

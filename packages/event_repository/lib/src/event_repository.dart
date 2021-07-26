@@ -52,7 +52,7 @@ class EventRepository {
 
   // CombineLatestStream<List<FirestoreEvent>> getAllSubscribedEvents(
   //     List<String> subscriptionIDList) {
-  //   return CombineLatestStream( 
+  //   return CombineLatestStream(
   //     [
   //     for (var subID in subscriptionIDList) _individualSubscriptionList(subID)
   //   ]
@@ -75,6 +75,10 @@ class EventRepository {
     print("getSingleStream called with arg $subID");
     return eventCollection
         .where('eventSubscriptionID', isEqualTo: subID)
+        .where('eventEndTime',
+            isGreaterThan:
+                Timestamp.fromDate(DateTime.now().subtract(Duration(days: 6))))
+        // .orderBy('eventStartTime')
         .snapshots()
         .map(_convertToEventList);
   }
@@ -96,5 +100,16 @@ class EventRepository {
     });
     print('Created event list is: $_eventList');
     return _eventList;
+  }
+
+  Stream<List<FirestoreEvent>> combineAllStreams(List<String> subIds) {
+    return Rx.combineLatest([for (final id in subIds) getSingleStream(id)],
+        (List<List<FirestoreEvent>> values) {
+      var _res = <FirestoreEvent>[];
+      for (List<FirestoreEvent> val in values) {
+        _res.addAll(val);
+      }
+      return _res;
+    });
   }
 }
