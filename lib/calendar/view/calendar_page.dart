@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../util.dart';
 
 class CalendarPage extends StatefulWidget {
-  static var routeName;
+  static const String routeName = '/calendar_page';
 
   const CalendarPage({Key? key}) : super(key: key);
 
