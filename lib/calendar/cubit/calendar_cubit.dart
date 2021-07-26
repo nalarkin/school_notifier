@@ -7,8 +7,10 @@ import 'package:formz/formz.dart';
 part 'calendar_state.dart';
 
 class CalendarCubit extends Cubit<CalendarState> {
-  CalendarCubit(this._eventRepository) : super(const CalendarState());
+  CalendarCubit(this._eventRepository, this._posterId)
+      : super(const CalendarState());
   EventRepository _eventRepository;
+  String _posterId;
 
   void eventTitleChanged(String value) {
     final eventTitle = EventTitle.dirty(value);
@@ -19,8 +21,30 @@ class CalendarCubit extends Cubit<CalendarState> {
         state.eventDay,
         state.eventDuration,
         state.eventSubscriptionId,
+        state.eventDescription,
         state.eventMonth,
-        state.eventYear
+        state.eventTimeStart,
+        state.eventType,
+        state.eventYear,
+      ]),
+    ));
+  }
+
+  void eventTimeStartChanged(String value) {
+    final eventTimeStart = EventTimeStart.dirty(value);
+    emit(state.copyWith(
+      eventTimeStart: eventTimeStart,
+      status: Formz.validate([
+        eventTimeStart,
+        state.eventTitle,
+        state.eventDay,
+        state.eventDuration,
+        state.eventSubscriptionId,
+        state.eventDescription,
+        state.eventMonth,
+        state.eventTimeStart,
+        state.eventYear,
+        state.eventType,
       ]),
     ));
   }
@@ -34,8 +58,11 @@ class CalendarCubit extends Cubit<CalendarState> {
         state.eventDay,
         state.eventTitle,
         state.eventSubscriptionId,
+        state.eventDescription,
         state.eventMonth,
-        state.eventYear
+        state.eventTimeStart,
+        state.eventYear,
+        state.eventType,
       ]),
     ));
   }
@@ -49,8 +76,11 @@ class CalendarCubit extends Cubit<CalendarState> {
         state.eventDay,
         state.eventTitle,
         state.eventSubscriptionId,
+        state.eventDescription,
         state.eventTitle,
-        state.eventYear
+        state.eventYear,
+        state.eventTimeStart,
+        state.eventType,
       ]),
     ));
   }
@@ -62,10 +92,13 @@ class CalendarCubit extends Cubit<CalendarState> {
       status: Formz.validate([
         eventYear,
         state.eventDay,
+        state.eventDescription,
         state.eventTitle,
         state.eventSubscriptionId,
         state.eventMonth,
-        state.eventTitle
+        state.eventTimeStart,
+        state.eventTitle,
+        state.eventType,
       ]),
     ));
   }
@@ -77,10 +110,13 @@ class CalendarCubit extends Cubit<CalendarState> {
       status: Formz.validate([
         eventDay,
         state.eventTitle,
+        state.eventDescription,
         state.eventTitle,
         state.eventSubscriptionId,
         state.eventMonth,
-        state.eventYear
+        state.eventTimeStart,
+        state.eventYear,
+        state.eventType,
       ]),
     ));
   }
@@ -94,9 +130,29 @@ class CalendarCubit extends Cubit<CalendarState> {
         state.eventDuration,
         state.eventDay,
         state.eventTitle,
+        state.eventType,
         state.eventSubscriptionId,
         state.eventMonth,
-        state.eventYear
+        state.eventTimeStart,
+        state.eventYear,
+      ]),
+    ));
+  }
+
+  void eventTypeChanged(String value) {
+    final eventType = EventType.dirty(value);
+    emit(state.copyWith(
+      eventType: eventType,
+      status: Formz.validate([
+        eventType,
+        state.eventDuration,
+        state.eventDescription,
+        state.eventDay,
+        state.eventTitle,
+        state.eventSubscriptionId,
+        state.eventMonth,
+        state.eventTimeStart,
+        state.eventYear,
       ]),
     ));
   }
@@ -105,13 +161,35 @@ class CalendarCubit extends Cubit<CalendarState> {
     if (!state.status.isValidated) return;
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
-      await _authenticationRepository.logInWithEmailAndPassword(
-        email: state.email.value,
-        password: state.password.value,
-      );
-      emit(state.copyWith(status: FormzStatus.submissionSuccess));
+      final startTime = convertStringToDateTime(
+          state.eventDay.value,
+          state.eventMonth.value,
+          state.eventYear.value,
+          state.eventTimeStart.value);
+      final duration = int.tryParse(state.eventDuration.value);
+      if (startTime != null && duration != null) {
+        final endTime = startTime.add(Duration(seconds: duration));
+        FirestoreEvent newEvent = FirestoreEvent(
+          eventEndTime: endTime,
+          eventStartTime: startTime,
+          eventSubscriptionID: state.eventSubscriptionId.value,
+          title: state.eventTitle.value,
+          description: state.eventDescription.value,
+          posterID: _posterId,
+          eventType: state.eventType.value,
+        );
+        await _eventRepository.addNewEvent(newEvent);
+        emit(state.copyWith(status: FormzStatus.submissionSuccess));
+      } else {
+        emit(state.copyWith(status: FormzStatus.submissionFailure));
+      }
     } on Exception {
       emit(state.copyWith(status: FormzStatus.submissionFailure));
     }
   }
+}
+
+DateTime? convertStringToDateTime(
+    String day, String month, String year, String time) {
+  return DateTime.tryParse('20$year-$month-$day $time');
 }
