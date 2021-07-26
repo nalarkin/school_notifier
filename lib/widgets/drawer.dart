@@ -23,6 +23,19 @@ Widget customDrawer(BuildContext context) {
             // ?.copyWith(color: kOnPrimaryColor),
           ),
         ),
+        ListTile(
+            title: Text('Logout'),
+            leading: Icon(
+              Icons.logout,
+              color: Colors.black,
+            ),
+            onTap: () {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/', (Route<dynamic> route) => false);
+              context
+                  .read<AuthenticationBloc>()
+                  .add(AuthenticationLogoutRequested());
+            }),
         // ListTile(
         //   title: Text('Settings'),
         //   leading: Icon(
@@ -63,18 +76,5 @@ Widget customDrawer(BuildContext context) {
               Navigator.pop(context);
               Navigator.pushNamed(context, HomePage.routeName);
             }),
-        ListTile(
-            title: Text('Logout'),
-            leading: Icon(
-              Icons.logout,
-              color: Colors.black,
-            ),
-            onTap: () {
-              Navigator.pushNamedAndRemoveUntil(
-                  context, '/', (Route<dynamic> route) => false);
-              context
-                  .read<AuthenticationBloc>()
-                  .add(AuthenticationLogoutRequested());
-            })
       ]));
 }
