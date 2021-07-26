@@ -1,3 +1,4 @@
+import 'package:event_repository/event_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -7,6 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../util.dart';
 
 class CalendarPage extends StatefulWidget {
+  static var routeName;
+
   const CalendarPage({Key? key}) : super(key: key);
 
   @override
@@ -14,37 +17,43 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
-  late final ValueNotifier<List<Event>> _selectedEvents;
+  // late final ValueNotifier<List<Event>> _selectedEvents;
   Map<DateTime, List<Event>> eventBuilder = Map();
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode.toggledOff;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDate = DateTime.now();
   DateTime? _selectedDay;
-  DateTime? _rangeStart;
-  DateTime? _rangeend;
+  FirestoreEvent newEvent = FirestoreEvent(
+      title: 'Teacher Event',
+      posterID: 'posterID',
+      eventStartTime: DateTime.now(),
+      eventEndTime: DateTime.now(),
+      eventType: 'Teacher Event',
+      eventSubscriptionID: 'eventSubscriptionID');
+
   TextEditingController _eventController = TextEditingController();
   @override
   void initState() {
     eventBuilder = {};
     _selectedDay = _focusedDate;
-    _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
+    //  _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
     super.initState();
   }
 
   @override
   void dispose() {
     _eventController.dispose();
-    _selectedEvents.dispose();
+    // _selectedEvents.dispose();
     super.dispose();
   }
 
   List<Event> _getEventsForDay(DateTime day) {
-    // Implementation example
     return eventBuilder[day] ?? [];
   }
 
   @override
   Widget build(BuildContext context) {
+    EventRepository teacherEvent = context.watch<EventRepository>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Teacher\'s Calendar'),
@@ -114,32 +123,32 @@ class _CalendarPageState extends State<CalendarPage> {
                           onPressed: () => Navigator.pop(context, 'Cancel'),
                           child: const Text("Cancel")),
                       TextButton(
-                          onPressed: () => {
-                                if (_eventController.text.isEmpty)
-                                  {
-                                    Navigator.pop(context, 'Ok'),
-                                  }
-                                else
-                                  {
-                                    if (eventBuilder[_focusedDate] != null)
-                                      {
-                                        eventBuilder[_focusedDate]!
-                                            .add(Event(_eventController.text)),
-                                      }
-                                    else
-                                      {
-                                        eventBuilder[_focusedDate] = [
-                                          Event(_eventController.text)
-                                        ]
-                                      }
-                                  },
-                                Navigator.pop(context),
-                                _eventController.clear(),
-                                setState(() {}),
-                              },
-
-                          //Navigator.pop(context, 'Ok'),
-                          child: const Text("Ok"))
+                        child: const Text("Ok"),
+                        onPressed: () => {
+                          if (_eventController.text.isEmpty)
+                            {
+                              Navigator.pop(context, 'Ok'),
+                            }
+                          else
+                            {
+                              if (eventBuilder[_focusedDate] != null)
+                                {
+                                  eventBuilder[_focusedDate]!
+                                      .add(Event(_eventController.text)),
+                                  teacherEvent.addNewEvent(newEvent),
+                                }
+                              else
+                                {
+                                  eventBuilder[_focusedDate] = [
+                                    Event(_eventController.text)
+                                  ]
+                                }
+                            },
+                          Navigator.pop(context),
+                          _eventController.clear(),
+                          setState(() {}),
+                        },
+                      )
                     ],
                   ))),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:school_notifier/app/app.dart';
+import 'package:school_notifier/calendar/view/calendar_page.dart';
 import 'package:school_notifier/event_repository_test/event_page.dart';
 import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/login/login.dart';
@@ -10,7 +11,6 @@ import 'package:school_notifier/authentication/authentication.dart';
 import 'package:school_notifier/sign_up/sign_up.dart';
 import 'package:school_notifier/token/token.dart';
 
-
 Map<String, WidgetBuilder> allRoutes = <String, WidgetBuilder>{
   NewUserWelcomePage.routeName: (context) => NewUserWelcomePage(),
   ProfileSetupPage.routeName: (context) => ProfileSetupPage(),
@@ -20,5 +20,5 @@ Map<String, WidgetBuilder> allRoutes = <String, WidgetBuilder>{
   ParentProfilePage.routeName: (context) => ParentProfilePage(),
   EventPage.routeName: (context) => EventPage(),
   TokenPage.routeName: (context) => TokenPage(),
-
+  CalendarPage.routeName: (context) => CalendarPage(),
 };

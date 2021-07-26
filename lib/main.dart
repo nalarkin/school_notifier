@@ -15,12 +15,11 @@ void main() async {
   await Firebase.initializeApp();
   final authenticationRepository = AuthenticationRepository();
   final firestoreParentsRepository = FirestoreParentsRepository();
-  // final postsRepository = FirestorePostsRepository();
+  //final postsRepository = FirestorePostsRepository();
   await authenticationRepository.user.first;
-  runApp(MaterialApp(home: CalendarPage())
-      //App(
-      //authenticationRepository: authenticationRepository,
-      // firestoreParentsRepository: firestoreParentsRepository,
-      //)
-      );
+  runApp(//MaterialApp(home: CalendarPage())
+      App(
+    authenticationRepository: authenticationRepository,
+    firestoreParentsRepository: firestoreParentsRepository,
+  ));
 }
