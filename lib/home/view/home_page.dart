@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/app/app.dart';
+import 'package:school_notifier/calendar/view/calendar_page.dart';
 import 'package:school_notifier/event_repository_test/event_page.dart';
 import 'package:school_notifier/firestore_user_debug/firestore_page.dart';
 import 'package:school_notifier/home/home.dart';
@@ -85,6 +86,11 @@ class HomePage extends StatelessWidget {
             ),
 
             // debugButton(),
+            MaterialButton(
+              onPressed: () =>
+                  Navigator.pushNamed(context, CalendarPage.routeName),
+              child: const Text('Teacher Page'),
+            ),
           ],
         ),
       ),
