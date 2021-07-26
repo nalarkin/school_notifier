@@ -10,6 +10,7 @@ import 'package:school_notifier/login/login.dart';
 import 'package:school_notifier/messages/conversations/view/conversation_debug.dart';
 import 'package:school_notifier/messages/message.dart';
 import 'package:school_notifier/navigation/navigation.dart';
+import 'package:school_notifier/notification/notification_service.dart';
 import 'package:school_notifier/profile/profile.dart';
 import 'package:school_notifier/subscriptions/subscriptions.dart';
 import 'package:school_notifier/subscriptions/view/add_subscription_page.dart';
@@ -83,8 +84,9 @@ class HomePage extends StatelessWidget {
                   Navigator.pushNamed(context, SubscriptionPage.routeName),
               child: const Text('Subscription Page'),
             ),
-
-            // debugButton(),
+            MaterialButton(
+                onPressed: () => selectNotification("data"),
+                child: const Text('Notiifcation test')),
           ],
         ),
       ),
