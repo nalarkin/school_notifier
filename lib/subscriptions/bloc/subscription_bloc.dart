@@ -21,6 +21,7 @@ class SubscriptionBloc extends Bloc<SubscriptionEvent, SubscriptionState> {
           .listen(_mapSubscriptionStreamToEvent);
     } else {
       _eventSubscription = Stream.empty().listen((_) => null);
+      add(SubscriptionLoaded(<FirestoreEvent>[]));
     }
     _profileBlocSubscription =
         _profileBloc.stream.listen(_mapProfileBlocToEvent);

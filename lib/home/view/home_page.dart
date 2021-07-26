@@ -26,7 +26,7 @@ class HomePage extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     // final user = context.select((AuthenticationBloc bloc) => bloc.state.user);
     return Scaffold(
-      // drawer: customDrawer(context),
+      drawer: customDrawer(context),
       appBar: AppBar(
         title: const Text('Home'),
         centerTitle: true,
