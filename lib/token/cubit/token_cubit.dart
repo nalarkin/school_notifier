@@ -9,7 +9,6 @@ part 'token_state.dart';
 class TokenCubit extends Cubit<TokenState> {
   TokenCubit(this._keyRepository) : super(const TokenState());
 
-
   final KeyRepository _keyRepository;
 
   void tokenChanged(String value) {
@@ -22,8 +21,6 @@ class TokenCubit extends Cubit<TokenState> {
     ));
   }
 
-  
-
   // Future<void> tokenSubmitted(FirestoreKey key) async {
   Future<void> tokenSubmitted() async {
     if (!state.status.isValidated) return;
@@ -32,8 +29,11 @@ class TokenCubit extends Cubit<TokenState> {
       FirestoreKey? key = await _keyRepository.getKey(state.token.value);
       if (key != null && key.isValid) {
         emit(state.copyWith(status: FormzStatus.submissionSuccess, key: key));
+      } else {
+        emit(state.copyWith(status: FormzStatus.submissionFailure));
       }
-    } on Exception {
+    } catch (e) {
+      print('Exception thrown in token_cubit.dart. $e');
       emit(state.copyWith(status: FormzStatus.submissionFailure));
     }
   }

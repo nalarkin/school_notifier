@@ -38,10 +38,11 @@ class LoginForm extends StatelessWidget {
               const SizedBox(height: 8.0),
               _LoginButton(),
               const SizedBox(height: 8.0),
-              
               _SignUpButton(),
               const SizedBox(height: 4.0),
               _DebugLogin(),
+              _DebugLogin2(),
+              _DebugLogin3(),
             ],
           ),
         ),
@@ -168,6 +169,50 @@ class _DebugLogin extends StatelessWidget {
       },
       child: Text(
         'DEBUG LOGIN',
+        style: TextStyle(color: theme.primaryColor),
+      ),
+    );
+  }
+}
+
+class _DebugLogin2 extends StatelessWidget {
+  final String debugEmail = '09446@gmail.com';
+  final String debugPassword = 'arstarst';
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return TextButton(
+      key: const Key('loginForm_debugLogin_textButton'),
+      onPressed: () {
+        context.read<LoginCubit>().emailChanged(debugEmail);
+        context.read<LoginCubit>().passwordChanged(debugPassword);
+        context.read<LoginCubit>().logInWithCredentials();
+      },
+      child: Text(
+        'DEBUG LOGIN 2',
+        style: TextStyle(color: theme.primaryColor),
+      ),
+    );
+  }
+}
+
+class _DebugLogin3 extends StatelessWidget {
+  final String debugEmail = '432@gmail.com';
+  final String debugPassword = 'arstarst';
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return TextButton(
+      key: const Key('loginForm_debugLogin_textButton'),
+      onPressed: () {
+        context.read<LoginCubit>().emailChanged(debugEmail);
+        context.read<LoginCubit>().passwordChanged(debugPassword);
+        context.read<LoginCubit>().logInWithCredentials();
+      },
+      child: Text(
+        'DEBUG LOGIN 3',
         style: TextStyle(color: theme.primaryColor),
       ),
     );

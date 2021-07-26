@@ -4,15 +4,29 @@ import '../../event_repository.dart';
 
 class FirestoreEvent extends Equatable {
   const FirestoreEvent({
+    // general event name
     required this.title,
+
+    //optional description
     this.description = '',
+    // teacher/falculty who posted the event
     required this.posterID,
+    // optional photo link
     this.posterPhoto = '',
     required this.eventStartTime,
     required this.eventEndTime,
+
+    // You can enter the class name here maybe
+    // or you could create general categories, like classes/homework/etc.
     required this.eventType,
     this.eventPhoto = '',
+
+    // every class has it's unique ID which will be here
+    // example, english101 class 3 is different from english101 class 4, and this
+    // uid never changes regardless of the number of events that occurr
     required this.eventSubscriptionID,
+
+    // optional UID for event itself
     this.eventUID = '',
   });
 
@@ -37,7 +51,7 @@ class FirestoreEvent extends Equatable {
       String? eventPhoto,
       String? eventType,
       String? eventSubscriptionID,
-      String? eventUID }) {
+      String? eventUID}) {
     return FirestoreEvent(
       title: title ?? this.title,
       description: description ?? this.description,
@@ -53,8 +67,14 @@ class FirestoreEvent extends Equatable {
   }
 
   @override
-  List<Object> get props =>
-      [eventUID, eventSubscriptionID, eventStartTime, eventEndTime, description, title];
+  List<Object> get props => [
+        eventUID,
+        eventSubscriptionID,
+        eventStartTime,
+        eventEndTime,
+        description,
+        title
+      ];
 
   @override
   String toString() {

@@ -17,6 +17,8 @@ dependencies:
     path: packages/key_repository
   event_repository:
     path: packages/event_repository
+  message_repository:
+    path: packages/message_repository
   bloc: ^7.0.0
   equatable: ^2.0.0
   flow_builder: ^0.0.2
@@ -30,6 +32,9 @@ dependencies:
   very_good_analysis: ^2.1.0
   cloud_firestore: ^2.3.0
   rxdart: ^0.27.1
+  bubble: ^1.2.1
+  intl: ^0.17.0
+  flutter_local_notifications: ^6.0.0
 
 dev_dependencies:
   flutter_test:
