@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/app/app.dart';
 import 'package:school_notifier/calendar/view/calendar_page.dart';
 import 'package:school_notifier/event_repository_test/event_page.dart';
-import 'package:school_notifier/firestore_user_debug/firestore_page.dart';
 import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/authentication/authentication.dart';
 import 'package:school_notifier/key_stuff/key_page.dart';
@@ -26,6 +25,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     // final user = context.select((AuthenticationBloc bloc) => bloc.state.user);
+    FirestoreUser currUser = context.watch<ProfileBloc>().state.user;
     return Scaffold(
       drawer: customDrawer(context),
       appBar: AppBar(
@@ -58,27 +58,27 @@ class HomePage extends StatelessWidget {
             MaterialButton(
               onPressed: () =>
                   Navigator.pushNamed(context, ConversationPage.routeName),
-              child: const Text('Convo Page'),
+              child: const Text('Conversations Page'),
             ),
             MaterialButton(
               onPressed: () =>
                   Navigator.pushNamed(context, ProfilePage.routeName),
-              child: const Text('Universal Profile Page'),
+              child: const Text('Profile Page'),
             ),
-            MaterialButton(
-              onPressed: () =>
-                  Navigator.pushNamed(context, EventPage.routeName),
-              child: const Text('Event Page'),
-            ),
-            MaterialButton(
-              onPressed: () => Navigator.pushNamed(context, KeyPage.routeName),
-              child: const Text('Key Page'),
-            ),
-            MaterialButton(
-              onPressed: () =>
-                  Navigator.pushNamed(context, AddSubscriptionPage.routeName),
-              child: const Text('Add Subscription'),
-            ),
+            // MaterialButton(
+            //   onPressed: () =>
+            //       Navigator.pushNamed(context, EventPage.routeName),
+            //   child: const Text('Event Page'),
+            // ),
+            // MaterialButton(
+            //   onPressed: () => Navigator.pushNamed(context, KeyPage.routeName),
+            //   child: const Text('Key Page'),
+            // ),
+            // MaterialButton(
+            //   onPressed: () =>
+            //       Navigator.pushNamed(context, AddSubscriptionPage.routeName),
+            //   child: const Text('Add Subscription'),
+            // ),
             MaterialButton(
               onPressed: () =>
                   Navigator.pushNamed(context, SubscriptionPage.routeName),
@@ -86,11 +86,13 @@ class HomePage extends StatelessWidget {
             ),
 
             // debugButton(),
-            MaterialButton(
-              onPressed: () =>
-                  Navigator.pushNamed(context, CalendarPage.routeName),
-              child: const Text('Calendar Page'),
-            ),
+            if (currUser.role == UserRole.teacher ||
+                currUser.role == UserRole.admin)
+              MaterialButton(
+                onPressed: () =>
+                    Navigator.pushNamed(context, CalendarPage.routeName),
+                child: const Text('Calendar Page'),
+              ),
           ],
         ),
       ),

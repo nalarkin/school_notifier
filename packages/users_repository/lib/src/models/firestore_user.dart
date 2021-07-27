@@ -75,7 +75,8 @@ class FirestoreUser extends Equatable {
         subscriptions,
         students,
         parents,
-        avatarImage
+        avatarImage,
+        role
       ];
 
   @override

@@ -82,6 +82,14 @@ GestureDetector _buildSubscriptionTile(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
+                  className,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.bodyText2
+                      ?.copyWith(color: theme.hintColor, fontSize: 10),
+                ),
+                Text(
                   formatDateEventWeekday(subscription.eventEndTime),
                   style: theme.textTheme.bodyText2
                       ?.copyWith(color: Colors.black, fontSize: 12),
@@ -135,25 +143,26 @@ GestureDetector _buildSubscriptionTile(
             ),
           ),
           Container(
+            padding: EdgeInsets.all(8),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  subscription.eventSubscriptionID,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.bodyText2
-                      ?.copyWith(color: theme.hintColor, fontSize: 8),
-                ),
-                Text(
-                  className,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.bodyText2
-                      ?.copyWith(color: theme.hintColor),
-                ),
+                // Text(
+                //   subscription.eventSubscriptionID,
+                //   maxLines: 1,
+                //   overflow: TextOverflow.ellipsis,
+                //   textAlign: TextAlign.center,
+                //   style: theme.textTheme.bodyText2
+                //       ?.copyWith(color: theme.hintColor, fontSize: 8),
+                // ),
+                // Text(
+                //   className,
+                //   maxLines: 1,
+                //   overflow: TextOverflow.ellipsis,
+                //   textAlign: TextAlign.center,
+                //   style: theme.textTheme.bodyText2
+                //       ?.copyWith(color: theme.hintColor, fontSize: 10),
+                // ),
               ],
             ),
           )

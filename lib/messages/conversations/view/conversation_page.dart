@@ -22,15 +22,18 @@ class ConversationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    FirestoreUser currUser = context.read<ProfileBloc>().state.user;
     return Scaffold(
         appBar: AppBar(
           title: const Text('Conversations'),
           centerTitle: true,
           actions: <Widget>[
-            IconButton(
-                onPressed: () =>
-                    Navigator.pushNamed(context, DirectoryPage.routeName),
-                icon: Icon(Icons.add))
+            if (currUser.role == UserRole.teacher ||
+                currUser.role == UserRole.admin)
+              IconButton(
+                  onPressed: () =>
+                      Navigator.pushNamed(context, DirectoryPage.routeName),
+                  icon: Icon(Icons.add))
           ],
         ),
         body: BlocProvider(

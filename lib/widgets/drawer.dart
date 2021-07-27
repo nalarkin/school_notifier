@@ -4,6 +4,7 @@ import 'package:school_notifier/home/view/home_page.dart';
 import 'package:school_notifier/messages/conversations/view/conversation_page.dart';
 import 'package:school_notifier/profile/view/profile_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:school_notifier/subscriptions/view/subscriptions_page.dart';
 
 Widget customDrawer(BuildContext context) {
   return Drawer(
@@ -38,7 +39,6 @@ Widget customDrawer(BuildContext context) {
                   .add(AuthenticationLogoutRequested());
             }),
 
-            
         // ListTile(
         //   title: Text('Settings'),
         //   leading: Icon(
@@ -67,7 +67,7 @@ Widget customDrawer(BuildContext context) {
               Navigator.pushNamed(context, ProfilePage.routeName);
             }),
 
-                    ListTile(
+        ListTile(
             title: Text('Conversations'),
             leading: Icon(
               Icons.logout,
@@ -76,6 +76,16 @@ Widget customDrawer(BuildContext context) {
             onTap: () {
               Navigator.pop(context);
               Navigator.pushNamed(context, ConversationPage.routeName);
+            }),
+        ListTile(
+            title: Text('Subscriptions'),
+            leading: Icon(
+              Icons.logout,
+              color: Colors.black,
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, SubscriptionPage.routeName);
             }),
         ListTile(
             title: Text('Home'),
