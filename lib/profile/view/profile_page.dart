@@ -60,19 +60,18 @@ class ProfileView extends StatelessWidget {
               height: 20,
             ),
             Avatar(),
-            SizedBox(
-              height: 8.0,
-            ),
+            const SizedBox(height: 8.0),
             _FirstNameDisplay(),
+            const SizedBox(height: 8.0),
             _LastNameDisplay(),
+            const SizedBox(height: 8.0),
             _EmailDisplay(),
-            _JoinDateDisplay(),
+            const SizedBox(height: 8.0),
             _UserRoleDisplay(),
+            const SizedBox(height: 40.0),
             _UserSubscriptionisplay(),
-            TextButton(
-                onPressed: () =>
-                    Navigator.pushNamed(context, HomePage.routeName),
-                child: Text("Cycle Back to Home")),
+            const SizedBox(height: 8.0),
+            _JoinDateDisplay(),
           ],
         ),
       ),
@@ -90,8 +89,14 @@ class _FirstNameDisplay extends StatelessWidget {
             previous.user.firstName != current.user.firstName,
         builder: (context, state) {
           return Container(
-            color: Colors.red,
-            child: Text(state.user.firstName ?? ''),
+            // color: Colors.red,
+            child: Text(
+              state.user.firstName ?? '',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6
+                  ?.copyWith(color: Colors.black),
+            ),
           );
         });
   }
@@ -107,8 +112,14 @@ class _LastNameDisplay extends StatelessWidget {
             previous.user.lastName != current.user.lastName,
         builder: (context, state) {
           return Container(
-            color: Colors.blue,
-            child: Text(state.user.lastName ?? ''),
+            // color: Colors.blue,
+            child: Text(
+              state.user.lastName ?? '',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6
+                  ?.copyWith(color: Colors.black),
+            ),
           );
         });
   }
@@ -124,8 +135,14 @@ class _EmailDisplay extends StatelessWidget {
             previous.user.email != current.user.email,
         builder: (context, state) {
           return Container(
-            color: Colors.green,
-            child: Text(state.user.email ?? ''),
+            // color: Colors.green,
+            child: Text(
+              state.user.email ?? '',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6
+                  ?.copyWith(color: Colors.black),
+            ),
           );
         });
   }
@@ -141,9 +158,14 @@ class _JoinDateDisplay extends StatelessWidget {
             previous.user.joinDate != current.user.joinDate,
         builder: (context, state) {
           return Container(
-            color: Colors.yellow,
+            // color: Colors.yellow,
             child: Text(
-                '${DateFormat.yMMMd().format(state.user.joinDate ?? DateTime.now())}'),
+              'Join Date: ${DateFormat.yMMMd().format(state.user.joinDate ?? DateTime.now())}',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  ?.copyWith(color: Colors.black),
+            ),
           );
         });
   }
@@ -159,8 +181,14 @@ class _UserRoleDisplay extends StatelessWidget {
             previous.user.role != current.user.role,
         builder: (context, state) {
           return Container(
-            color: Colors.yellow,
-            child: Text('role: ${state.user.roleString}'),
+            // color: Colors.yellow,
+            child: Text(
+              'role: ${state.user.roleString}',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6
+                  ?.copyWith(color: Colors.black),
+            ),
           );
         });
   }
@@ -176,11 +204,9 @@ class _UserSubscriptionisplay extends StatelessWidget {
             previous.user.role != current.user.role,
         builder: (context, state) {
           return Container(
-            color: Colors.yellow,
-            child: Text('Subscriptions: ${state.user.subscriptions}'),
+            // color: Colors.yellow,
+            child: Text('Subscriptions: ${state.user.subscriptions?.values}'),
           );
         });
   }
 }
-
-

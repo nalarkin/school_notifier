@@ -27,11 +27,11 @@ class LoginForm extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset(
-                'assets/bloc_logo_small.png',
-                height: 120,
+              Text(
+                'Academic Advisor',
+                style: Theme.of(context).textTheme.headline5,
               ),
-              const SizedBox(height: 16.0),
+              const SizedBox(height: 40.0),
               _EmailInput(),
               const SizedBox(height: 8.0),
               _PasswordInput(),
