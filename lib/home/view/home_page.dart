@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/app/app.dart';
+import 'package:school_notifier/calendar/view/calendar_page.dart';
 import 'package:school_notifier/event_repository_test/event_page.dart';
 import 'package:school_notifier/firestore_user_debug/firestore_page.dart';
 import 'package:school_notifier/home/home.dart';
@@ -13,6 +14,7 @@ import 'package:school_notifier/navigation/navigation.dart';
 import 'package:school_notifier/profile/profile.dart';
 import 'package:school_notifier/subscriptions/subscriptions.dart';
 import 'package:school_notifier/subscriptions/view/add_subscription_page.dart';
+import 'package:school_notifier/widgets/drawer.dart';
 import 'package:users_repository/users_repository.dart';
 
 class HomePage extends StatelessWidget {
@@ -25,6 +27,7 @@ class HomePage extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     // final user = context.select((AuthenticationBloc bloc) => bloc.state.user);
     return Scaffold(
+      drawer: customDrawer(context),
       appBar: AppBar(
         title: const Text('Home'),
         centerTitle: true,
@@ -83,6 +86,11 @@ class HomePage extends StatelessWidget {
             ),
 
             // debugButton(),
+            MaterialButton(
+              onPressed: () =>
+                  Navigator.pushNamed(context, CalendarPage.routeName),
+              child: const Text('Calendar Page'),
+            ),
           ],
         ),
       ),

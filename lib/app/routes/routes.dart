@@ -36,5 +36,6 @@ Map<String, WidgetBuilder> allRoutes = <String, WidgetBuilder>{
   KeyPage.routeName: (context) => KeyPage(),
   AddSubscriptionPage.routeName: (context) => AddSubscriptionPage(),
   SubscriptionPage.routeName: (context) => SubscriptionPage(),
+  CalendarAddEventPage.routeName: (context) => CalendarAddEventPage(),
   // NavigationPage.routeName: (context) => NavigationPage(),
 };
