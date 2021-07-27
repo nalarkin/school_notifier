@@ -1,7 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:school_notifier/app/app.dart';
-import 'package:school_notifier/calendar/view/calendar_create_event_page.dart';
-import 'package:school_notifier/calendar/view/calendar_page.dart';
 import 'package:school_notifier/event_repository_test/event_page.dart';
 import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/key_stuff/key_page.dart';
@@ -29,7 +27,6 @@ Map<String, WidgetBuilder> allRoutes = <String, WidgetBuilder>{
   ProfilePage.routeName: (context) => ProfilePage(),
   EventPage.routeName: (context) => EventPage(),
   TokenPage.routeName: (context) => TokenPage(),
-  CalendarPage.routeName: (context) => CalendarPage(),
   ConversationPage.routeName: (context) => ConversationPage(),
   ConversationDebug.routeName: (context) => ConversationDebug(),
   MessagePage.routeName: (context) => MessagePage(),
