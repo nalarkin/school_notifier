@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/calendar/calendar.dart';
 import 'package:formz/formz.dart';
+import 'package:school_notifier/profile/bloc/profile_bloc.dart';
+import 'package:users_repository/users_repository.dart';
 
 class CalendarCreateEventForm extends StatelessWidget {
   const CalendarCreateEventForm({Key? key}) : super(key: key);
@@ -42,7 +44,8 @@ class CalendarCreateEventForm extends StatelessWidget {
               const SizedBox(height: 8.0),
               _DescriptionInput(),
               const SizedBox(height: 8.0),
-              _SubscriptionIdInput(),
+              // _SubscriptionIdInput(),
+              _SubscriptionList(),
               _TypeInput(),
               const SizedBox(height: 8.0),
               _SubmitEventButton(),
@@ -208,29 +211,171 @@ class _DurationInput extends StatelessWidget {
   }
 }
 
+// class _SubscriptionIdInput extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     FirestoreUser currUser = context.watch<ProfileBloc>().state.user;
+//     return BlocBuilder<CalendarCubit, CalendarState>(
+//       buildWhen: (previous, current) =>
+//           previous.eventSubscriptionId != current.eventSubscriptionId,
+//       builder: (context, state) {
+//         return TextField(
+//           key: const Key('eventCreation_eventTitleInput_textField'),
+//           onChanged: (subscriptionId) => context
+//               .read<CalendarCubit>()
+//               .eventSubscriptionIdChanged(subscriptionId),
+//           decoration: InputDecoration(
+//             labelText: 'SubscriptionId',
+//             helperText: '',
+//             errorText:
+//                 state.eventTitle.invalid ? 'invalid SubscriptionId' : null,
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
+
+class _SubscriptionList extends StatelessWidget {
+  const _SubscriptionList({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Map<String, dynamic> classes =
+        context.watch<ProfileBloc>().state.user.classes ?? {};
+    List<String> keyList = classes.keys.toList();
+    List<String> valueList = List.from(classes.values.toList());
+    return Container(
+        height: 100,
+        child: ListView.builder(
+            itemCount: keyList.length,
+            itemBuilder: (context, index) {
+              return BlocBuilder<CalendarCubit, CalendarState>(
+                buildWhen: (previous, current) =>
+                    previous.eventSubscriptionList !=
+                    current.eventSubscriptionList,
+                builder: (context, state) {
+                  // print('rebuilt here');
+                  bool value =
+                      state.eventSubscriptionList.contains(keyList[index]);
+                  return InkWell(
+                    onTap: () {
+                      // print('you pressed the inkwell!');
+                      context
+                          .read<CalendarCubit>()
+                          .toggleSubscription(keyList[index]);
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(child: Text('${valueList[index]}')),
+                          Checkbox(
+                            value: value,
+                            onChanged: (bool? newValue) {
+                              // print('you pressed the checkbox!');
+                              context
+                                  .read<CalendarCubit>()
+                                  .toggleSubscription(keyList[index]);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            }));
+  }
+}
+
 class _SubscriptionIdInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> classes =
+        context.watch<ProfileBloc>().state.user.classes ?? {};
+    print('${classes}');
+    print('${classes.keys}');
     return BlocBuilder<CalendarCubit, CalendarState>(
       buildWhen: (previous, current) =>
-          previous.eventSubscriptionId != current.eventSubscriptionId,
+          previous.eventSubscriptionList != current.eventSubscriptionList,
       builder: (context, state) {
-        return TextField(
-          key: const Key('eventCreation_eventTitleInput_textField'),
-          onChanged: (subscriptionId) => context
-              .read<CalendarCubit>()
-              .eventSubscriptionIdChanged(subscriptionId),
-          decoration: InputDecoration(
-            labelText: 'SubscriptionId',
-            helperText: '',
-            errorText:
-                state.eventTitle.invalid ? 'invalid SubscriptionId' : null,
+        // print('rebuilt here');
+        bool value =
+            state.eventSubscriptionList.contains('test3GGiv2Bv3LpUr8qb');
+        return InkWell(
+          onTap: () {
+            print('you pressed the inkwell!');
+            context
+                .read<CalendarCubit>()
+                .toggleSubscription('test3GGiv2Bv3LpUr8qb');
+          },
+          child: Padding(
+            padding: EdgeInsets.all(8),
+            child: Row(
+              children: <Widget>[
+                Expanded(child: Text('select this class')),
+                Checkbox(
+                  value: value,
+                  onChanged: (bool? newValue) {
+                    print('you pressed the checkbox!');
+                  },
+                ),
+              ],
+            ),
           ),
         );
       },
     );
   }
 }
+// class _SubscriptionIdInput extends StatelessWidget {
+//   String? dropdownValue = null;
+//   @override
+//   Widget build(BuildContext context) {
+//     Map<String, dynamic> classes =
+//         context.watch<ProfileBloc>().state.user.classes ?? {};
+//     print('${classes}');
+//     print('${classes.keys}');
+//     return BlocBuilder<CalendarCubit, CalendarState>(
+//       // buildWhen: (previous, current) =>
+//       //     previous.eventSubscriptionId != current.eventSubscriptionId,
+
+//       builder: (context, state) {
+//         print('rebuilt here');
+//         return DropdownButton<String>(
+//           value: dropdownValue,
+//           icon: const Icon(Icons.arrow_downward),
+//           iconSize: 24,
+//           elevation: 16,
+//           style: const TextStyle(color: Colors.black),
+//           underline: Container(
+//             height: 2,
+//             color: Colors.deepPurpleAccent,
+//           ),
+//           onChanged: (String? newValue) {
+//             print(this.items);
+//             print('onChanged newValue = $newValue');
+//             print('onChanged classes[newValue] = ${classes[newValue]}');
+//             // dropdownValue = '${currUser.classes?[newValue]}';
+//             dropdownValue = '$newValue}';
+//             context
+//                 .read<CalendarCubit>()
+//                 .eventSubscriptionIdChanged(newValue ?? '');
+//           },
+//           items: classes.keys
+//               .toList()
+//               .map<DropdownMenuItem<String>>((String value) {
+//             return DropdownMenuItem<String>(
+//               value: value,
+//               child: Text('${value}'),
+//             );
+//           }).toList(),
+//         );
+//       },
+//     );
+//   }
+// }
 
 class _TypeInput extends StatelessWidget {
   @override

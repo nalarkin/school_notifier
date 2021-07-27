@@ -205,6 +205,32 @@ class CalendarCubit extends Cubit<CalendarState> {
     ));
   }
 
+  void toggleSubscription(String value) {
+    var _newList = state.eventSubscriptionList.toList();
+    print('list before change = $_newList');
+    if (_newList.contains(value)) {
+      _newList.remove(value);
+    } else {
+      _newList.add(value);
+    }
+    print('Newly created sub list is $_newList');
+    print('Value is  $value');
+    emit(state.copyWith(
+      eventSubscriptionList: _newList,
+      status: Formz.validate([
+        state.eventSubscriptionId,
+        state.eventDuration,
+        state.eventDescription,
+        state.eventDay,
+        state.eventTitle,
+        state.eventSubscriptionId,
+        state.eventMonth,
+        state.eventTimeStart,
+        state.eventYear,
+      ]),
+    ));
+  }
+
   Future<void> submitNewEvent() async {
     if (!state.status.isValidated) return;
     emit(state.copyWith(status: FormzStatus.submissionInProgress));

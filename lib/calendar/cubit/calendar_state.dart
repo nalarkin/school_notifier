@@ -11,6 +11,7 @@ class CalendarState extends Equatable {
     this.eventDuration = const EventDuration.pure(),
     this.eventType = const EventType.pure(),
     this.eventTimeStart = const EventTimeStart.pure(),
+    this.eventSubscriptionList = const <String>[],
     this.status = FormzStatus.pure,
   });
 
@@ -23,6 +24,7 @@ class CalendarState extends Equatable {
   final EventSubscriptionId eventSubscriptionId;
   final EventDuration eventDuration;
   final EventType eventType;
+  final List<String> eventSubscriptionList;
   final FormzStatus status;
 
   // final typeStatus = Formz.validate([eventType]);
@@ -42,6 +44,7 @@ class CalendarState extends Equatable {
         eventMonth,
         eventYear,
         eventTimeStart,
+        eventSubscriptionList,
         eventSubscriptionId,
         eventType,
         eventDuration,
@@ -55,6 +58,7 @@ class CalendarState extends Equatable {
     EventTimeStart? eventTimeStart,
     EventSubscriptionId? eventSubscriptionId,
     EventDuration? eventDuration,
+    List<String>? eventSubscriptionList,
     EventType? eventType,
     FormzStatus? status,
   }) {
@@ -67,6 +71,8 @@ class CalendarState extends Equatable {
       eventTimeStart: eventTimeStart ?? this.eventTimeStart,
       eventYear: eventYear ?? this.eventYear,
       eventType: eventType ?? this.eventType,
+      eventSubscriptionList:
+          eventSubscriptionList ?? this.eventSubscriptionList,
       eventSubscriptionId: eventSubscriptionId ?? this.eventSubscriptionId,
       eventDuration: eventDuration ?? this.eventDuration,
     );
