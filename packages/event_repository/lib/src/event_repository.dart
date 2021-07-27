@@ -23,7 +23,7 @@ class EventRepository {
     if (possibleEvent.exists) {
       await eventCollection.doc(event.eventUID).delete();
     } else {
-      print('Document does not exist. Message is from deleteEvent');
+      print('Document does not exist. Event is from deleteEvent');
     }
   }
 
@@ -35,7 +35,7 @@ class EventRepository {
           .doc(event.eventUID)
           .update(event.toEntity().toDocument());
     } else {
-      print('Document does not exist. Message is from updateEvent');
+      print('Document does not exist. Event is from updateEvent');
     }
   }
 
@@ -83,13 +83,19 @@ class EventRepository {
         .map(_convertToEventList);
   }
 
-  // Stream<List<FirestoreEvent>> getSingleStream(String subID) {
-  //   print("getSingleStream called with arg $subID");
-  //   return eventCollection
-  //       .where('eventSubscriptionID', isEqualTo: subID)
-  //       .snapshots()
-  //       .map(_convertToEventList);
-  // }
+  Future<void> storeListOfEvents(List<FirestoreEvent> events) async {
+    assert(events.length > 0);
+
+    WriteBatch batch = FirebaseFirestore.instance.batch();
+
+    for (FirestoreEvent event in events) {
+      final docRef = eventCollection.doc();
+
+      batch.set(
+          docRef, event.copyWith(eventUID: docRef.id).toEntity().toDocument());
+    }
+    batch.commit();
+  }
 
   List<FirestoreEvent> _convertToEventList(
       QuerySnapshot<Map<String, dynamic>> snapshot) {

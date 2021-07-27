@@ -242,7 +242,7 @@ class CalendarCubit extends Cubit<CalendarState> {
           state.eventTimeStart.value);
       final duration = int.tryParse(state.eventDuration.value);
       if (startTime != null && duration != null) {
-        final endTime = startTime.add(Duration(seconds: duration));
+        final endTime = startTime.add(Duration(minutes: duration));
         FirestoreEvent newEvent = FirestoreEvent(
           eventEndTime: endTime,
           eventStartTime: startTime,
@@ -252,10 +252,16 @@ class CalendarCubit extends Cubit<CalendarState> {
           posterID: _posterId,
           eventType: state.eventType.value,
         );
-        for (String subId in state.eventSubscriptionList) {
-          await _eventRepository
-              .addNewEvent(newEvent.copyWith(eventSubscriptionID: subId));
-        }
+        final _listOfEvents = <FirestoreEvent>[
+          for (final subId in state.eventSubscriptionList)
+            newEvent.copyWith(eventSubscriptionID: subId)
+        ];
+        await _eventRepository.storeListOfEvents(_listOfEvents);
+
+        // for (String subId in state.eventSubscriptionList) {
+        //   await _eventRepository
+        //       .addNewEvent(newEvent.copyWith(eventSubscriptionID: subId));
+        // }
         emit(state.copyWith(status: FormzStatus.submissionSuccess));
       } else {
         emit(state.copyWith(status: FormzStatus.submissionFailure));

@@ -168,7 +168,7 @@ class _DebugLogin extends StatelessWidget {
         context.read<LoginCubit>().logInWithCredentials();
       },
       child: Text(
-        'DEBUG LOGIN',
+        'EXAMPLE TEACHER',
         style: TextStyle(color: theme.primaryColor),
       ),
     );
@@ -190,7 +190,7 @@ class _DebugLogin2 extends StatelessWidget {
         context.read<LoginCubit>().logInWithCredentials();
       },
       child: Text(
-        'DEBUG LOGIN 2',
+        'PARENT EXAMPLE',
         style: TextStyle(color: theme.primaryColor),
       ),
     );
@@ -212,7 +212,7 @@ class _DebugLogin3 extends StatelessWidget {
         context.read<LoginCubit>().logInWithCredentials();
       },
       child: Text(
-        'DEBUG LOGIN 3',
+        'STUDENT EXAMPLE',
         style: TextStyle(color: theme.primaryColor),
       ),
     );
