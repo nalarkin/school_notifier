@@ -7,7 +7,7 @@ class CalendarState extends Equatable {
     this.eventDay = const EventDay.pure(),
     this.eventMonth = const EventMonth.pure(),
     this.eventYear = const EventYear.pure(),
-    this.eventSubscriptionId = const EventSubscriptionId.pure(),
+    // this.eventSubscriptionId = const EventSubscriptionId.pure(),
     this.eventDuration = const EventDuration.pure(),
     this.eventType = const EventType.pure(),
     this.eventTimeStart = const EventTimeStart.pure(),
@@ -21,7 +21,7 @@ class CalendarState extends Equatable {
   final EventMonth eventMonth;
   final EventYear eventYear;
   final EventTimeStart eventTimeStart;
-  final EventSubscriptionId eventSubscriptionId;
+  // final EventSubscriptionId eventSubscriptionId;
   final EventDuration eventDuration;
   final EventType eventType;
   final List<String> eventSubscriptionList;
@@ -45,7 +45,7 @@ class CalendarState extends Equatable {
         eventYear,
         eventTimeStart,
         eventSubscriptionList,
-        eventSubscriptionId,
+        // eventSubscriptionId,
         eventType,
         eventDuration,
       ];
@@ -56,7 +56,7 @@ class CalendarState extends Equatable {
     EventMonth? eventMonth,
     EventYear? eventYear,
     EventTimeStart? eventTimeStart,
-    EventSubscriptionId? eventSubscriptionId,
+    // EventSubscriptionId? eventSubscriptionId,
     EventDuration? eventDuration,
     List<String>? eventSubscriptionList,
     EventType? eventType,
@@ -73,7 +73,7 @@ class CalendarState extends Equatable {
       eventType: eventType ?? this.eventType,
       eventSubscriptionList:
           eventSubscriptionList ?? this.eventSubscriptionList,
-      eventSubscriptionId: eventSubscriptionId ?? this.eventSubscriptionId,
+      // eventSubscriptionId: eventSubscriptionId ?? this.eventSubscriptionId,
       eventDuration: eventDuration ?? this.eventDuration,
     );
   }

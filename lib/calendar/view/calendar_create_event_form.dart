@@ -30,6 +30,9 @@ class CalendarCreateEventForm extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               const SizedBox(height: 16.0),
+              Text('Select the classes that the event is for.'),
+              _SubscriptionList(),
+
               _TitleInput(),
               const SizedBox(height: 8.0),
               _DayInput(),
@@ -45,7 +48,7 @@ class CalendarCreateEventForm extends StatelessWidget {
               _DescriptionInput(),
               const SizedBox(height: 8.0),
               // _SubscriptionIdInput(),
-              _SubscriptionList(),
+
               _TypeInput(),
               const SizedBox(height: 8.0),
               _SubmitEventButton(),
@@ -236,6 +239,58 @@ class _DurationInput extends StatelessWidget {
 //   }
 // }
 
+// class _SubscriptionList extends StatelessWidget {
+//   const _SubscriptionList({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     Map<String, dynamic> classes =
+//         context.watch<ProfileBloc>().state.user.classes ?? {};
+//     List<String> keyList = classes.keys.toList();
+//     List<String> valueList = List.from(classes.values.toList());
+//     return Container(
+//         height: keyList.length * 50,
+//         child: ListView.builder(
+//             itemCount: keyList.length,
+//             itemBuilder: (context, index) {
+//               return BlocBuilder<CalendarCubit, CalendarState>(
+//                 buildWhen: (previous, current) =>
+//                     previous.eventSubscriptionList !=
+//                     current.eventSubscriptionList,
+//                 builder: (context, state) {
+//                   // print('rebuilt here');
+//                   bool value =
+//                       state.eventSubscriptionList.contains(keyList[index]);
+//                   return InkWell(
+//                     onTap: () {
+//                       // print('you pressed the inkwell!');
+//                       context
+//                           .read<CalendarCubit>()
+//                           .toggleSubscription(keyList[index]);
+//                     },
+//                     child: Padding(
+//                       padding: EdgeInsets.all(8),
+//                       child: Row(
+//                         children: <Widget>[
+//                           Expanded(child: Text('${valueList[index]}')),
+//                           Checkbox(
+//                             value: value,
+//                             onChanged: (bool? newValue) {
+//                               // print('you pressed the checkbox!');
+//                               context
+//                                   .read<CalendarCubit>()
+//                                   .toggleSubscription(keyList[index]);
+//                             },
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                   );
+//                 },
+//               );
+//             }));
+//   }
+// }
 class _SubscriptionList extends StatelessWidget {
   const _SubscriptionList({Key? key}) : super(key: key);
 
@@ -243,51 +298,102 @@ class _SubscriptionList extends StatelessWidget {
   Widget build(BuildContext context) {
     Map<String, dynamic> classes =
         context.watch<ProfileBloc>().state.user.classes ?? {};
-    List<String> keyList = classes.keys.toList();
-    List<String> valueList = List.from(classes.values.toList());
+    final List<String> keyList = classes.keys.toList();
+    final List<String> valueList = List.from(classes.values.toList());
     return Container(
-        height: 100,
-        child: ListView.builder(
-            itemCount: keyList.length,
-            itemBuilder: (context, index) {
-              return BlocBuilder<CalendarCubit, CalendarState>(
-                buildWhen: (previous, current) =>
-                    previous.eventSubscriptionList !=
-                    current.eventSubscriptionList,
-                builder: (context, state) {
-                  // print('rebuilt here');
-                  bool value =
-                      state.eventSubscriptionList.contains(keyList[index]);
-                  return InkWell(
-                    onTap: () {
-                      // print('you pressed the inkwell!');
-                      context
-                          .read<CalendarCubit>()
-                          .toggleSubscription(keyList[index]);
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(child: Text('${valueList[index]}')),
-                          Checkbox(
-                            value: value,
-                            onChanged: (bool? newValue) {
-                              // print('you pressed the checkbox!');
-                              context
-                                  .read<CalendarCubit>()
-                                  .toggleSubscription(keyList[index]);
-                            },
-                          ),
-                        ],
-                      ),
+      child: Column(
+        children: [
+          for (final key in keyList)
+            BlocBuilder<CalendarCubit, CalendarState>(
+              buildWhen: (previous, current) =>
+                  previous.eventSubscriptionList !=
+                  current.eventSubscriptionList,
+              builder: (context, state) {
+                // print('rebuilt here');
+                bool value = state.eventSubscriptionList.contains(key);
+                return InkWell(
+                  onTap: () {
+                    // print('you pressed the inkwell!');
+                    context.read<CalendarCubit>().toggleSubscription(key);
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(child: Text('${classes[key]}')),
+                        Checkbox(
+                          value: value,
+                          onChanged: (bool? newValue) {
+                            // print('you pressed the checkbox!');
+                            context
+                                .read<CalendarCubit>()
+                                .toggleSubscription(key);
+                          },
+                        ),
+                      ],
                     ),
-                  );
-                },
-              );
-            }));
+                  ),
+                );
+              },
+            )
+        ],
+      ),
+    );
+    // );
   }
 }
+// class _SubscriptionList extends StatelessWidget {
+//   const _SubscriptionList({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     Map<String, dynamic> classes =
+//         context.watch<ProfileBloc>().state.user.classes ?? {};
+//     List<String> keyList = classes.keys.toList();
+//     List<String> valueList = List.from(classes.values.toList());
+//     return Container(
+//         height: keyList.length * 50,
+//         child: ListView.builder(
+//             itemCount: keyList.length,
+//             itemBuilder: (context, index) {
+//               return BlocBuilder<CalendarCubit, CalendarState>(
+//                 buildWhen: (previous, current) =>
+//                     previous.eventSubscriptionList !=
+//                     current.eventSubscriptionList,
+//                 builder: (context, state) {
+//                   // print('rebuilt here');
+//                   bool value =
+//                       state.eventSubscriptionList.contains(keyList[index]);
+//                   return InkWell(
+//                     onTap: () {
+//                       // print('you pressed the inkwell!');
+//                       context
+//                           .read<CalendarCubit>()
+//                           .toggleSubscription(keyList[index]);
+//                     },
+//                     child: Padding(
+//                       padding: EdgeInsets.all(8),
+//                       child: Row(
+//                         children: <Widget>[
+//                           Expanded(child: Text('${valueList[index]}')),
+//                           Checkbox(
+//                             value: value,
+//                             onChanged: (bool? newValue) {
+//                               // print('you pressed the checkbox!');
+//                               context
+//                                   .read<CalendarCubit>()
+//                                   .toggleSubscription(keyList[index]);
+//                             },
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                   );
+//                 },
+//               );
+//             }));
+//   }
+// }
 
 class _SubscriptionIdInput extends StatelessWidget {
   @override

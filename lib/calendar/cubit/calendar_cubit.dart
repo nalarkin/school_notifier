@@ -20,7 +20,7 @@ class CalendarCubit extends Cubit<CalendarState> {
         eventTitle,
         state.eventDay,
         state.eventDuration,
-        state.eventSubscriptionId,
+        // state.eventSubscriptionId,
         state.eventDescription,
         state.eventMonth,
         state.eventTimeStart,
@@ -39,7 +39,7 @@ class CalendarCubit extends Cubit<CalendarState> {
         state.eventTitle,
         state.eventDay,
         state.eventDuration,
-        state.eventSubscriptionId,
+        // state.eventSubscriptionId,
         state.eventDescription,
         state.eventMonth,
         state.eventTimeStart,
@@ -57,7 +57,7 @@ class CalendarCubit extends Cubit<CalendarState> {
         eventDuration,
         state.eventDay,
         state.eventTitle,
-        state.eventSubscriptionId,
+        // state.eventSubscriptionId,
         state.eventDescription,
         state.eventMonth,
         state.eventTimeStart,
@@ -75,7 +75,7 @@ class CalendarCubit extends Cubit<CalendarState> {
         eventMonth,
         state.eventDay,
         state.eventTitle,
-        state.eventSubscriptionId,
+        // state.eventSubscriptionId,
         state.eventDescription,
         state.eventTitle,
         state.eventYear,
@@ -94,7 +94,7 @@ class CalendarCubit extends Cubit<CalendarState> {
         state.eventDay,
         state.eventDescription,
         state.eventTitle,
-        state.eventSubscriptionId,
+        // state.eventSubscriptionId,
         state.eventMonth,
         state.eventTimeStart,
         state.eventTitle,
@@ -112,7 +112,7 @@ class CalendarCubit extends Cubit<CalendarState> {
         state.eventTitle,
         state.eventDescription,
         state.eventTitle,
-        state.eventSubscriptionId,
+        // state.eventSubscriptionId,
         state.eventMonth,
         state.eventTimeStart,
         state.eventYear,
@@ -131,7 +131,7 @@ class CalendarCubit extends Cubit<CalendarState> {
         state.eventDay,
         state.eventTitle,
         state.eventType,
-        state.eventSubscriptionId,
+        // state.eventSubscriptionId,
         state.eventMonth,
         state.eventTimeStart,
         state.eventYear,
@@ -142,25 +142,25 @@ class CalendarCubit extends Cubit<CalendarState> {
   void eventTypeChanged(String value) {
     final eventType = EventType.dirty(value);
     // print('');
-    final typeStatus = Formz.validate([eventType]);
-    final eventDayStatus = Formz.validate([state.eventDay]);
-    final eventDescription = Formz.validate([state.eventDescription]);
-    final eventMonth = Formz.validate([state.eventMonth]);
-    final eventTitle = Formz.validate([state.eventTitle]);
-    final eventSubscriptionId = Formz.validate([state.eventSubscriptionId]);
-    final eventYear = Formz.validate([state.eventYear]);
-    final eventTimeStart = Formz.validate([state.eventTimeStart]);
-    final res = [
-      typeStatus,
-      eventDayStatus,
-      eventDescription,
-      eventMonth,
-      eventTitle,
-      eventSubscriptionId,
-      eventYear,
-      eventTimeStart
-    ];
-    print(res);
+    // final typeStatus = Formz.validate([eventType]);
+    // final eventDayStatus = Formz.validate([state.eventDay]);
+    // final eventDescription = Formz.validate([state.eventDescription]);
+    // final eventMonth = Formz.validate([state.eventMonth]);
+    // final eventTitle = Formz.validate([state.eventTitle]);
+    // final eventSubscriptionId = Formz.validate([state.eventSubscriptionId]);
+    // final eventYear = Formz.validate([state.eventYear]);
+    // final eventTimeStart = Formz.validate([state.eventTimeStart]);
+    // final res = [
+    //   typeStatus,
+    //   eventDayStatus,
+    //   eventDescription,
+    //   eventMonth,
+    //   eventTitle,
+    //   eventSubscriptionId,
+    //   eventYear,
+    //   eventTimeStart
+    // ];
+    // print(res);
     // print('$typeStatus');
     // print('$eventDayStatus');
     // print('$eventDescription');
@@ -179,7 +179,7 @@ class CalendarCubit extends Cubit<CalendarState> {
         state.eventDescription,
         state.eventDay,
         state.eventTitle,
-        state.eventSubscriptionId,
+        // state.eventSubscriptionId,
         state.eventMonth,
         state.eventTimeStart,
         state.eventYear,
@@ -187,23 +187,23 @@ class CalendarCubit extends Cubit<CalendarState> {
     ));
   }
 
-  void eventSubscriptionIdChanged(String value) {
-    final subscriptionId = EventSubscriptionId.dirty(value);
-    emit(state.copyWith(
-      eventSubscriptionId: subscriptionId,
-      status: Formz.validate([
-        subscriptionId,
-        state.eventDuration,
-        state.eventDescription,
-        state.eventDay,
-        state.eventTitle,
-        state.eventSubscriptionId,
-        state.eventMonth,
-        state.eventTimeStart,
-        state.eventYear,
-      ]),
-    ));
-  }
+  // void eventSubscriptionIdChanged(String value) {
+  //   final subscriptionId = EventSubscriptionId.dirty(value);
+  //   emit(state.copyWith(
+  //     eventSubscriptionId: subscriptionId,
+  //     status: Formz.validate([
+  //       subscriptionId,
+  //       state.eventDuration,
+  //       state.eventDescription,
+  //       state.eventDay,
+  //       state.eventTitle,
+  //       state.eventSubscriptionId,
+  //       state.eventMonth,
+  //       state.eventTimeStart,
+  //       state.eventYear,
+  //     ]),
+  //   ));
+  // }
 
   void toggleSubscription(String value) {
     var _newList = state.eventSubscriptionList.toList();
@@ -218,12 +218,12 @@ class CalendarCubit extends Cubit<CalendarState> {
     emit(state.copyWith(
       eventSubscriptionList: _newList,
       status: Formz.validate([
-        state.eventSubscriptionId,
+        // state.eventSubscriptionId,
         state.eventDuration,
         state.eventDescription,
         state.eventDay,
         state.eventTitle,
-        state.eventSubscriptionId,
+        // state.eventSubscriptionId,
         state.eventMonth,
         state.eventTimeStart,
         state.eventYear,
@@ -246,13 +246,16 @@ class CalendarCubit extends Cubit<CalendarState> {
         FirestoreEvent newEvent = FirestoreEvent(
           eventEndTime: endTime,
           eventStartTime: startTime,
-          eventSubscriptionID: state.eventSubscriptionId.value,
+          eventSubscriptionID: '',
           title: state.eventTitle.value,
           description: state.eventDescription.value,
           posterID: _posterId,
           eventType: state.eventType.value,
         );
-        await _eventRepository.addNewEvent(newEvent);
+        for (String subId in state.eventSubscriptionList) {
+          await _eventRepository
+              .addNewEvent(newEvent.copyWith(eventSubscriptionID: subId));
+        }
         emit(state.copyWith(status: FormzStatus.submissionSuccess));
       } else {
         emit(state.copyWith(status: FormzStatus.submissionFailure));
