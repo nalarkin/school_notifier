@@ -58,7 +58,8 @@ class _CalendarPageState extends State<CalendarPage> {
     EventRepository teacherEvent = context.watch<EventRepository>();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Teacher\'s Calendar'),
+        title: const Text("Teacher's Calendar"),
+        centerTitle: true,
         actions: <Widget>[
           IconButton(
             key: const Key('homePage_logout_iconButton'),
