@@ -69,45 +69,47 @@ class _CalendarPageState extends State<CalendarPage> {
           )
         ],
       ),
-      body: Column(
-        children: [
-          TableCalendar(
-            firstDay: DateTime.utc(2014, 03, 01),
-            lastDay: DateTime.utc(2030, 10, 30),
-            focusedDay: _focusedDate,
-            calendarFormat: _calendarFormat,
-            //eventLoader: _selectedEvents,
-            selectedDayPredicate: (day) {
-              return isSameDay(_selectedDay, day);
-            },
-            onDaySelected: (selectedDay, focusedDay) {
-              if (!isSameDay(_selectedDay, selectedDay)) {
-                setState(() {
-                  _selectedDay = selectedDay;
-                  _focusedDate = focusedDay;
-                });
-              }
-            },
-            eventLoader: _getEventsForDay,
-            onFormatChanged: (format) {
-              if (_calendarFormat != format) {
-                setState(() {
-                  _calendarFormat = format;
-                });
-              }
-            },
-            onPageChanged: (focusedDay) {
-              _focusedDate = focusedDay;
-            },
-          ),
-          ..._getEventsForDay(_focusedDate).map(
-            (Event event) => ListTile(
-              title: Text(
-                event.title,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            TableCalendar(
+              firstDay: DateTime.utc(2014, 03, 01),
+              lastDay: DateTime.utc(2030, 10, 30),
+              focusedDay: _focusedDate,
+              calendarFormat: _calendarFormat,
+              //eventLoader: _selectedEvents,
+              selectedDayPredicate: (day) {
+                return isSameDay(_selectedDay, day);
+              },
+              onDaySelected: (selectedDay, focusedDay) {
+                if (!isSameDay(_selectedDay, selectedDay)) {
+                  setState(() {
+                    _selectedDay = selectedDay;
+                    _focusedDate = focusedDay;
+                  });
+                }
+              },
+              eventLoader: _getEventsForDay,
+              onFormatChanged: (format) {
+                if (_calendarFormat != format) {
+                  setState(() {
+                    _calendarFormat = format;
+                  });
+                }
+              },
+              onPageChanged: (focusedDay) {
+                _focusedDate = focusedDay;
+              },
+            ),
+            ..._getEventsForDay(_focusedDate).map(
+              (Event event) => ListTile(
+                title: Text(
+                  event.title,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
           label: Text("Add Event"),
