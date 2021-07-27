@@ -80,7 +80,7 @@ Widget customDrawer(BuildContext context) {
         ListTile(
             title: Text('Subscriptions'),
             leading: Icon(
-              Icons.logout,
+              Icons.mail,
               color: Colors.black,
             ),
             onTap: () {
