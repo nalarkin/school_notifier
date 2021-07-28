@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
@@ -26,24 +28,31 @@ class EventEntity extends Equatable {
   final String eventSubscriptionID;
   final String eventUID;
 
-  Map<String, Object?> toJson() {
-    return {
+  String toJson() {
+    // jsonEncode(this);
+    return jsonEncode({
       'title': title,
       'description': description,
       'posterID': posterID,
       'posterPhoto': posterPhoto,
-      'eventStartTime': eventStartTime,
-      'eventEndTime': eventEndTime,
+      'eventStartTime': eventStartTime.toString(),
+      'eventEndTime': eventEndTime.toString(),
       'eventPhoto': eventPhoto,
       'eventType': eventType,
       'eventSubscriptionID': eventSubscriptionID,
       'eventUID': eventUID,
-    };
+    });
   }
 
   @override
-  List<Object> get props =>
-      [eventUID, eventSubscriptionID, eventStartTime, eventEndTime, description, title];
+  List<Object> get props => [
+        eventUID,
+        eventSubscriptionID,
+        eventStartTime,
+        eventEndTime,
+        description,
+        title
+      ];
 
   @override
   String toString() {
@@ -51,14 +60,17 @@ class EventEntity extends Equatable {
             ''';
   }
 
-  static EventEntity fromJson(Map<String, Object> json) {
+  static EventEntity fromJson(String jsonString) {
+    final json = jsonDecode(jsonString);
     return EventEntity(
       title: json['title'] as String,
       description: json['description'] as String,
       posterID: json['posterID'] as String,
       posterPhoto: json['posterPhoto'] as String,
-      eventStartTime: (json['eventStartTime'] as Timestamp).toDate(),
-      eventEndTime: (json['eventEndTime'] as Timestamp).toDate(),
+      eventStartTime: DateTime.tryParse(json['eventStartTime']) ??
+          DateTime.fromMillisecondsSinceEpoch(1627156968462),
+      eventEndTime: DateTime.tryParse(json['eventEndTime']) ??
+          DateTime.fromMillisecondsSinceEpoch(1627156968462),
       eventPhoto: json['eventPhoto'] as String,
       eventType: json['eventType'] as String,
       eventSubscriptionID: json['eventSubscriptionID'] as String,

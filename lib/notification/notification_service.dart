@@ -74,7 +74,12 @@ class NotificationService {
   //   print("Notification Sent");
   // }
 
-  Future<void> zonedSchedule(FirestoreEvent event) async {
+  Future<void> zonedSchedule(String? payload) async {
+    if (payload != null) {
+      FirestoreEvent event =
+        FirestoreEvent.fromEntity(EventEntity.fromJson(payload));
+    }
+    
     await flutterLocalNotificationsPlugin.zonedSchedule(
         id,
         "Event title",
