@@ -86,7 +86,7 @@ class HomePage extends StatelessWidget {
             ),
             MaterialButton(
               onPressed: () async {
-                await selectNotification("data");
+                await showNotification("EventPage");
               },
               child: const Text('Notiifcation test'),
             )
