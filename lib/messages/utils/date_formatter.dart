@@ -36,9 +36,19 @@ String formatDateEventTime(DateTime date) {
 //   return '${newFormat.format(date)}';
 // }
 
+/// Returns a time range for event if event duration is greater than 1 minute
+/// Returns a single time value if difference is <= 1 minute.
 String formatDateEventStartToEndTime(DateTime start, DateTime end) {
   DateFormat startFormat = DateFormat('h:mm');
   DateFormat endFormat = DateFormat('h:mm a');
-  return '${startFormat.format(start)}-${endFormat.format(end)}';
+
+  if (start.difference(end).abs() > Duration(minutes: 1)) {
+    return '${startFormat.format(start)}-${endFormat.format(end)}';
+  }
+
+  return '${endFormat.format(start)}';
+
   // return '${DateFormat.jm().format(start)}';
 }
+
+// String formatEventTimeRange(DateTime start, )
