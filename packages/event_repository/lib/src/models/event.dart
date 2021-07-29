@@ -18,7 +18,7 @@ class FirestoreEvent extends Equatable {
 
     // You can enter the class name here maybe
     // or you could create general categories, like classes/homework/etc.
-    required this.eventType,
+    this.eventType = '',
     this.eventPhoto = '',
 
     // every class has it's unique ID which will be here

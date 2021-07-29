@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 String formatDateString(DateTime date, DateTime currentDate) {
@@ -16,8 +17,15 @@ String formatDateString(DateTime date, DateTime currentDate) {
 String formatDateEventWeekday(DateTime date) {
   return '${DateFormat.E().add_MMMd().format(date)}';
 }
+
 String formatCalendarDate(DateTime date) {
   return '${DateFormat.MMMEd().format(date)}';
+}
+
+String formatTimeOfDay(TimeOfDay date) {
+  final String hour = date.hour < 10 ? '0${date.hour}' : '${date.hour}';
+  final String minute = date.minute < 10 ? '0${date.minute}' : '${date.minute}';
+  return '$hour:$minute';
 }
 
 String formatDateEventTime(DateTime date) {

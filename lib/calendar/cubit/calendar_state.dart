@@ -9,7 +9,7 @@ class CalendarState extends Equatable {
     this.eventYear = const EventYear.pure(),
     // this.eventSubscriptionId = const EventSubscriptionId.pure(),
     this.eventDuration = const EventDuration.pure(),
-    this.eventType = const EventType.pure(),
+    // this.eventType = const EventType.pure(),
     this.eventTimeStart = const EventTimeStart.pure(),
     this.eventSelectedDay,
     this.eventSubscriptionList = const <String>[],
@@ -24,7 +24,7 @@ class CalendarState extends Equatable {
   final EventTimeStart eventTimeStart;
   // final EventSubscriptionId eventSubscriptionId;
   final EventDuration eventDuration;
-  final EventType eventType;
+  // final EventType eventType;
   final List<String> eventSubscriptionList;
   final DateTime? eventSelectedDay;
   final FormzStatus status;
@@ -49,7 +49,7 @@ class CalendarState extends Equatable {
         eventSubscriptionList,
         eventSelectedDay,
         // eventSubscriptionId,
-        eventType,
+        // eventType,
         eventDuration,
       ];
   CalendarState copyWith({
@@ -63,7 +63,7 @@ class CalendarState extends Equatable {
     EventDuration? eventDuration,
     DateTime? eventSelectedDay,
     List<String>? eventSubscriptionList,
-    EventType? eventType,
+    // EventType? eventType,
     FormzStatus? status,
   }) {
     return CalendarState(
@@ -75,7 +75,7 @@ class CalendarState extends Equatable {
       eventSelectedDay: eventSelectedDay ?? this.eventSelectedDay,
       eventTimeStart: eventTimeStart ?? this.eventTimeStart,
       eventYear: eventYear ?? this.eventYear,
-      eventType: eventType ?? this.eventType,
+      // eventType: eventType ?? this.eventType,
       eventSubscriptionList:
           eventSubscriptionList ?? this.eventSubscriptionList,
       // eventSubscriptionId: eventSubscriptionId ?? this.eventSubscriptionId,

@@ -55,8 +55,8 @@ class CalendarCreateEventForm extends StatelessWidget {
               const SizedBox(height: 8.0),
               // _SubscriptionIdInput(),
 
-              _TypeInput(),
-              const SizedBox(height: 8.0),
+              // _TypeInput(),
+              // const SizedBox(height: 8.0),
               _SubmitEventButton(),
             ],
           ),
@@ -270,7 +270,7 @@ class _DescriptionInput extends StatelessWidget {
               .read<CalendarCubit>()
               .eventDescriptionChanged(description),
           decoration: InputDecoration(
-            labelText: 'Description',
+            labelText: 'Description (optional)',
             helperText: '',
             errorText: state.eventTitle.invalid ? 'invalid Description' : null,
           ),
@@ -358,7 +358,7 @@ class _DurationInput extends StatelessWidget {
           onChanged: (duration) =>
               context.read<CalendarCubit>().eventDurationChanged(duration),
           decoration: InputDecoration(
-            labelText: 'Duration',
+            labelText: 'Duration (minutes)',
             helperText: '',
             errorText: state.eventTitle.invalid ? 'invalid Duration' : null,
           ),
@@ -637,26 +637,26 @@ class _SubscriptionIdInput extends StatelessWidget {
 //   }
 // }
 
-class _TypeInput extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<CalendarCubit, CalendarState>(
-      buildWhen: (previous, current) => previous.eventType != current.eventType,
-      builder: (context, state) {
-        return TextField(
-          key: const Key('eventCreation_eventTitleInput_textField'),
-          onChanged: (subscriptionId) =>
-              context.read<CalendarCubit>().eventTypeChanged(subscriptionId),
-          decoration: InputDecoration(
-            labelText: 'Type',
-            helperText: '',
-            errorText: state.eventTitle.invalid ? 'invalid Type' : null,
-          ),
-        );
-      },
-    );
-  }
-}
+// class _TypeInput extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocBuilder<CalendarCubit, CalendarState>(
+//       buildWhen: (previous, current) => previous.eventType != current.eventType,
+//       builder: (context, state) {
+//         return TextField(
+//           key: const Key('eventCreation_eventTitleInput_textField'),
+//           onChanged: (subscriptionId) =>
+//               context.read<CalendarCubit>().eventTypeChanged(subscriptionId),
+//           decoration: InputDecoration(
+//             labelText: 'Type',
+//             helperText: '',
+//             errorText: state.eventTitle.invalid ? 'invalid Type' : null,
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
 
 class _SubmitEventButton extends StatelessWidget {
   @override

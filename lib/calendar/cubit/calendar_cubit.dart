@@ -4,6 +4,7 @@ import 'package:event_repository/event_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
+import 'package:school_notifier/messages/utils/utilis.dart';
 
 part 'calendar_state.dart';
 
@@ -25,7 +26,7 @@ class CalendarCubit extends Cubit<CalendarState> {
         state.eventDescription,
         state.eventMonth,
         state.eventTimeStart,
-        state.eventType,
+        // state.eventType,
         state.eventYear,
       ]),
     ));
@@ -45,13 +46,34 @@ class CalendarCubit extends Cubit<CalendarState> {
         state.eventMonth,
         state.eventTimeStart,
         state.eventYear,
-        state.eventType,
+        // state.eventType,
       ]),
     ));
   }
 
   void eventDurationChanged(String value) {
     final eventDuration = EventDuration.dirty(value);
+
+    final eventDayStatus = Formz.validate([state.eventDay]);
+    final eventDescription = Formz.validate([state.eventDescription]);
+    final eventMonth = Formz.validate([state.eventMonth]);
+    final eventTitle = Formz.validate([state.eventTitle]);
+    final eventDurationStatus = Formz.validate([state.eventDuration]);
+    // final event = Formz.validate([state.eventSubscriptionId]);
+    final eventYear = Formz.validate([state.eventYear]);
+    final eventTimeStart = Formz.validate([state.eventTimeStart]);
+    final res = [
+      eventDayStatus,
+      eventDescription,
+      eventMonth,
+      eventTitle,
+      eventDurationStatus,
+      // eventSubscriptionId,
+      eventYear,
+      eventTimeStart
+    ];
+    // print();
+    print(res);
     emit(state.copyWith(
       eventDuration: eventDuration,
       status: Formz.validate([
@@ -63,7 +85,7 @@ class CalendarCubit extends Cubit<CalendarState> {
         state.eventMonth,
         state.eventTimeStart,
         state.eventYear,
-        state.eventType,
+        // state.eventType,
       ]),
     ));
   }
@@ -81,7 +103,7 @@ class CalendarCubit extends Cubit<CalendarState> {
         state.eventTitle,
         state.eventYear,
         state.eventTimeStart,
-        state.eventType,
+        // state.eventType,
       ]),
     ));
   }
@@ -99,7 +121,7 @@ class CalendarCubit extends Cubit<CalendarState> {
         state.eventMonth,
         state.eventTimeStart,
         state.eventTitle,
-        state.eventType,
+        // state.eventType,
       ]),
     ));
   }
@@ -126,7 +148,7 @@ class CalendarCubit extends Cubit<CalendarState> {
         state.eventMonth,
         state.eventTimeStart,
         state.eventTitle,
-        state.eventType,
+        // state.eventType,
       ]),
     ));
   }
@@ -144,30 +166,29 @@ class CalendarCubit extends Cubit<CalendarState> {
         state.eventMonth,
         state.eventTimeStart,
         state.eventYear,
-        state.eventType,
+        // state.eventType,
       ]),
     ));
   }
 
   void timeDialogueChanged(TimeOfDay? value) {
-    if (value != null) {
-      print('time received ${value.toString()}');
-      final timeStart = EventTimeStart.dirty('${value.hour}:${value.minute}');
-      emit(state.copyWith(
-        eventTimeStart: timeStart,
-        status: Formz.validate([
-          timeStart,
-          state.eventTitle,
-          state.eventDescription,
-          state.eventTitle,
-          // state.eventSubscriptionId,
-          state.eventMonth,
-          state.eventTimeStart,
-          state.eventYear,
-          state.eventType,
-        ]),
-      ));
-    }
+    final timeStart = value == null
+        ? EventTimeStart.dirty('')
+        : EventTimeStart.dirty('${formatTimeOfDay(value)}');
+    emit(state.copyWith(
+      eventTimeStart: timeStart,
+      status: Formz.validate([
+        timeStart,
+        state.eventTitle,
+        state.eventDescription,
+        state.eventTitle,
+        // state.eventSubscriptionId,
+        state.eventMonth,
+        state.eventTimeStart,
+        state.eventYear,
+        // state.eventType,
+      ]),
+    ));
   }
 
   void eventDescriptionChanged(String value) {
@@ -179,7 +200,7 @@ class CalendarCubit extends Cubit<CalendarState> {
         state.eventDuration,
         state.eventDay,
         state.eventTitle,
-        state.eventType,
+        // state.eventType,
         // state.eventSubscriptionId,
         state.eventMonth,
         state.eventTimeStart,
@@ -188,54 +209,54 @@ class CalendarCubit extends Cubit<CalendarState> {
     ));
   }
 
-  void eventTypeChanged(String value) {
-    final eventType = EventType.dirty(value);
-    print('');
-    final typeStatus = Formz.validate([eventType]);
-    final eventDayStatus = Formz.validate([state.eventDay]);
-    final eventDescription = Formz.validate([state.eventDescription]);
-    final eventMonth = Formz.validate([state.eventMonth]);
-    final eventTitle = Formz.validate([state.eventTitle]);
-    // final event = Formz.validate([state.eventSubscriptionId]);
-    final eventYear = Formz.validate([state.eventYear]);
-    final eventTimeStart = Formz.validate([state.eventTimeStart]);
-    final res = [
-      typeStatus,
-      eventDayStatus,
-      eventDescription,
-      eventMonth,
-      eventTitle,
-      // eventSubscriptionId,
-      eventYear,
-      eventTimeStart
-    ];
-    // print();
-    print(res);
-    // print('$typeStatus');
-    // print('$eventDayStatus');
-    // print('$eventDescription');
-    // print('$eventDay');
-    // print('$eventTitle');
-    // // print('$eventSubscriptionId');
-    // print('$eventYear');
-    // print('$eventTimeStart');
+  // void eventTypeChanged(String value) {
+  //   final eventType = EventType.dirty(value);
+  //   print('');
+  //   final typeStatus = Formz.validate([eventType]);
+  //   final eventDayStatus = Formz.validate([state.eventDay]);
+  //   final eventDescription = Formz.validate([state.eventDescription]);
+  //   final eventMonth = Formz.validate([state.eventMonth]);
+  //   final eventTitle = Formz.validate([state.eventTitle]);
+  //   // final event = Formz.validate([state.eventSubscriptionId]);
+  //   final eventYear = Formz.validate([state.eventYear]);
+  //   final eventTimeStart = Formz.validate([state.eventTimeStart]);
+  //   final res = [
+  //     typeStatus,
+  //     eventDayStatus,
+  //     eventDescription,
+  //     eventMonth,
+  //     eventTitle,
+  //     // eventSubscriptionId,
+  //     eventYear,
+  //     eventTimeStart
+  //   ];
+  //   // print();
+  //   print(res);
+  //   // print('$typeStatus');
+  //   // print('$eventDayStatus');
+  //   // print('$eventDescription');
+  //   // print('$eventDay');
+  //   // print('$eventTitle');
+  //   // // print('$eventSubscriptionId');
+  //   // print('$eventYear');
+  //   // print('$eventTimeStart');
 
-    // final typeStatus = Formz.validate([eventType]);
-    emit(state.copyWith(
-      eventType: eventType,
-      status: Formz.validate([
-        eventType,
-        state.eventDuration,
-        state.eventDescription,
-        state.eventDay,
-        state.eventTitle,
-        // state.eventSubscriptionId,
-        state.eventMonth,
-        state.eventTimeStart,
-        state.eventYear,
-      ]),
-    ));
-  }
+  //   // final typeStatus = Formz.validate([eventType]);
+  //   emit(state.copyWith(
+  //     eventType: eventType,
+  //     status: Formz.validate([
+  //       eventType,
+  //       state.eventDuration,
+  //       state.eventDescription,
+  //       state.eventDay,
+  //       state.eventTitle,
+  //       // state.eventSubscriptionId,
+  //       state.eventMonth,
+  //       state.eventTimeStart,
+  //       state.eventYear,
+  //     ]),
+  //   ));
+  // }
 
   // void eventSubscriptionIdChanged(String value) {
   //   final subscriptionId = EventSubscriptionId.dirty(value);
@@ -300,7 +321,7 @@ class CalendarCubit extends Cubit<CalendarState> {
           title: state.eventTitle.value,
           description: state.eventDescription.value,
           posterID: _posterId,
-          eventType: state.eventType.value,
+          // eventType: state.eventType.value,
         );
         final _listOfEvents = <FirestoreEvent>[
           for (final subId in state.eventSubscriptionList)
@@ -325,7 +346,8 @@ class CalendarCubit extends Cubit<CalendarState> {
 DateTime? convertStringToDateTime(
     String day, String month, String year, String time) {
   final _month = (month.length == 1) ? '0$month' : month;
-  return DateTime.tryParse('$year-$_month-$day $time');
+  final _day = (day.length == 1) ? '0$day' : day;
+  return DateTime.tryParse('$year-$_month-$_day $time');
 }
 // DateTime? convertStringToDateTime(
 //     String day, String month, String year, String time) {
