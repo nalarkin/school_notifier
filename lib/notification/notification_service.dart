@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:event_repository/event_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -26,11 +27,6 @@ class NotificationService {
   final BehaviorSubject<String?> selectNotificationSubject =
       BehaviorSubject<String?>();
 
-  int id = 0;
-  String? title = "Event Title";
-  String? body = "Event Description";
-  String? payload = "data";
-
   Future<void> init() async {
     final NotificationAppLaunchDetails? notificationAppLaunchDetails =
         await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
@@ -52,39 +48,26 @@ class NotificationService {
     tz.setLocalLocation(atlanta);
 
     await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: zonedSchedule);
+        onSelectNotification: selectNotification);
   }
 
-  // Future<void> showNotification(String? payload) async {
-  //   const AndroidNotificationDetails androidPlatformChannelSpecifics =
-  //       AndroidNotificationDetails(
-  //           'channel id', 'channel name', 'channel description',
-  //           importance: Importance.max, priority: Priority.high);
-
-  //   const NotificationDetails platformChannelSpecifics =
-  //       NotificationDetails(android: androidPlatformChannelSpecifics);
-
-  //   await flutterLocalNotificationsPlugin.show(
-  //     id,
-  //     title,
-  //     body,
-  //     platformChannelSpecifics,
-  //     payload: payload,
-  //   );
-  //   print("Notification Sent");
-  // }
-
-  Future<void> zonedSchedule(String? payload) async {
+  Future selectNotification(String? payload) async {
     if (payload != null) {
-      FirestoreEvent event =
-        FirestoreEvent.fromEntity(EventEntity.fromJson(payload));
+      debugPrint('notification payload: $payload');
     }
-    
+  }
+
+  Future<void> scheduleEventNotification(FirestoreEvent event) async {
+    final eventStart = tz.TZDateTime.from(
+      event.eventStartTime,
+      tz.local,
+    );
+
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        id,
-        "Event title",
-        "Event Description",
-        tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
+        event.eventUID.hashCode,
+        event.title,
+        event.description,
+        eventStart,
         const NotificationDetails(
             android: AndroidNotificationDetails(
                 "channel id", "channel name", "channel description")),

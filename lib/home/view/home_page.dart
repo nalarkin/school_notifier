@@ -1,3 +1,4 @@
+import 'package:event_repository/event_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/app/app.dart';
@@ -86,7 +87,7 @@ class HomePage extends StatelessWidget {
             ),
             MaterialButton(
               onPressed: () async {
-                await NotificationService().zonedSchedule("eventStart");
+                await NotificationService().scheduleEventNotification();
               },
               child: const Text('Notiifcation test'),
             )
