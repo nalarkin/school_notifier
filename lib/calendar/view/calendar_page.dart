@@ -80,6 +80,7 @@ class _CalendarPageState extends State<CalendarPage> {
   Widget build(BuildContext context) {
     // EventRepository teacherEvent = context.watch<EventRepository>();
     final theme = Theme.of(context);
+    final _currDateTime = DateTime.now();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Teacher's Calendar"),
@@ -98,7 +99,8 @@ class _CalendarPageState extends State<CalendarPage> {
         child: Column(
           children: [
             TableCalendar(
-              firstDay: DateTime.utc(2014, 03, 01),
+              firstDay: DateTime.utc(
+                  _currDateTime.year, _currDateTime.month, _currDateTime.day),
               lastDay: DateTime.utc(2030, 10, 30),
               focusedDay: _focusedDate,
               calendarFormat: _calendarFormat,
@@ -128,7 +130,6 @@ class _CalendarPageState extends State<CalendarPage> {
             ),
             ..._getEventsForDay(_focusedDate).map(
               (FirestoreEvent event) => ListTile(
-                
                 title: Row(
                   children: [
                     Text(

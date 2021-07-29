@@ -9,8 +9,10 @@ import 'package:school_notifier/messages/utils/utilis.dart';
 part 'calendar_state.dart';
 
 class CalendarCubit extends Cubit<CalendarState> {
-  CalendarCubit(this._eventRepository, this._posterId)
-      : super(const CalendarState());
+  CalendarCubit(this._eventRepository, this._posterId, DateTime _selectedDate)
+      : super(const CalendarState()) {
+    eventSelectedDateChanged(_selectedDate);
+  }
   EventRepository _eventRepository;
   String _posterId;
 
@@ -34,6 +36,31 @@ class CalendarCubit extends Cubit<CalendarState> {
 
   void eventTimeStartChanged(String value) {
     final eventTimeStart = EventTimeStart.dirty(value);
+    print('value inside eventTimeStartChanged = $value');
+    print('dirty EventTimeStart = $eventTimeStart');
+
+    final eventDayStatus = Formz.validate([state.eventDay]);
+    final eventDescription = Formz.validate([state.eventDescription]);
+    final eventMonth = Formz.validate([state.eventMonth]);
+    final eventTitle = Formz.validate([state.eventTitle]);
+    final eventDurationStatus = Formz.validate([state.eventDuration]);
+    // final event = Formz.validate([state.eventSubscriptionId]);
+    final eventYear = Formz.validate([state.eventYear]);
+    final eventTimeStartValid = Formz.validate([eventTimeStart]);
+    final res = {
+      'eventDayStatus': eventDayStatus.toString(),
+      'eventDescription': eventDescription.toString(),
+      'eventMonth': eventMonth.toString(),
+      'eventTitle': eventTitle.toString(),
+      'eventDurationStatus': eventDurationStatus.toString(),
+      // eventSubscriptionId,
+      'eventYear': eventYear.toString(),
+      'eventTimeStart': eventTimeStartValid.toString(),
+    };
+    // print();
+    for (final i in res.entries) {
+      print(i);
+    }
     emit(state.copyWith(
       eventTimeStart: eventTimeStart,
       status: Formz.validate([
@@ -44,7 +71,6 @@ class CalendarCubit extends Cubit<CalendarState> {
         // state.eventSubscriptionId,
         state.eventDescription,
         state.eventMonth,
-        state.eventTimeStart,
         state.eventYear,
         // state.eventType,
       ]),
@@ -58,22 +84,24 @@ class CalendarCubit extends Cubit<CalendarState> {
     final eventDescription = Formz.validate([state.eventDescription]);
     final eventMonth = Formz.validate([state.eventMonth]);
     final eventTitle = Formz.validate([state.eventTitle]);
-    final eventDurationStatus = Formz.validate([state.eventDuration]);
+    final eventDurationStatus = Formz.validate([eventDuration]);
     // final event = Formz.validate([state.eventSubscriptionId]);
     final eventYear = Formz.validate([state.eventYear]);
     final eventTimeStart = Formz.validate([state.eventTimeStart]);
-    final res = [
-      eventDayStatus,
-      eventDescription,
-      eventMonth,
-      eventTitle,
-      eventDurationStatus,
+    final res = {
+      'eventDayStatus': eventDayStatus.toString(),
+      'eventDescription': eventDescription.toString(),
+      'eventMonth': eventMonth.toString(),
+      'eventTitle': eventTitle.toString(),
+      'eventDurationStatus': eventDurationStatus.toString(),
       // eventSubscriptionId,
-      eventYear,
-      eventTimeStart
-    ];
+      'eventYear': eventYear.toString(),
+      'eventTimeStart': eventTimeStart.toString(),
+    };
     // print();
-    print(res);
+    for (final i in res.entries) {
+      print(i);
+    }
     emit(state.copyWith(
       eventDuration: eventDuration,
       status: Formz.validate([
@@ -175,6 +203,8 @@ class CalendarCubit extends Cubit<CalendarState> {
     final timeStart = value == null
         ? EventTimeStart.dirty('')
         : EventTimeStart.dirty('${formatTimeOfDay(value)}');
+    print('$value');
+    if (value != null) print('${formatTimeOfDay(value)}');
     emit(state.copyWith(
       eventTimeStart: timeStart,
       status: Formz.validate([
@@ -182,9 +212,10 @@ class CalendarCubit extends Cubit<CalendarState> {
         state.eventTitle,
         state.eventDescription,
         state.eventTitle,
+        state.eventDuration,
         // state.eventSubscriptionId,
         state.eventMonth,
-        state.eventTimeStart,
+        // state.eventTimeStart,
         state.eventYear,
         // state.eventType,
       ]),

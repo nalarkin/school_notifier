@@ -662,7 +662,9 @@ class _SubmitEventButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CalendarCubit, CalendarState>(
-      buildWhen: (previous, current) => previous.status != current.status,
+      buildWhen: (previous, current) =>
+          previous.status != current.status ||
+          previous.eventSubscriptionList != current.eventSubscriptionList,
       builder: (context, state) {
         return state.status.isSubmissionInProgress
             ? const CircularProgressIndicator()
@@ -674,7 +676,8 @@ class _SubmitEventButton extends StatelessWidget {
                   ),
                   primary: Colors.orangeAccent,
                 ),
-                onPressed: state.status.isValidated
+                onPressed: state.status.isValidated &&
+                        state.eventSubscriptionList.isNotEmpty
                     ? () => context.read<CalendarCubit>().submitNewEvent()
                     : null,
                 child: const Text('Submit Event'),
