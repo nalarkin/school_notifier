@@ -1,7 +1,12 @@
+import 'dart:async';
+import 'dart:collection';
+
 import 'package:event_repository/event_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:school_notifier/calendar/view/calendar_create_event_page.dart';
+import 'package:school_notifier/messages/message.dart';
+import 'package:school_notifier/profile/profile.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:school_notifier/authentication/authentication.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,8 +24,14 @@ class CalendarPage extends StatefulWidget {
 
 class _CalendarPageState extends State<CalendarPage> {
   // late final ValueNotifier<List<Event>> _selectedEvents;
-  Map<DateTime, List<Event>> eventBuilder = Map();
+  LinkedHashMap<DateTime, List<FirestoreEvent>> eventBuilder =
+      LinkedHashMap<DateTime, List<FirestoreEvent>>(
+    equals: isSameDay,
+    hashCode: getHashCode,
+  );
+  // Map<DateTime, List<Event>> eventBuilder = Map();
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode.toggledOff;
+  late StreamSubscription _eventStreamMap;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDate = DateTime.now();
   DateTime? _selectedDay;
@@ -36,26 +47,39 @@ class _CalendarPageState extends State<CalendarPage> {
   @override
   void initState() {
     // eventBuilder = {};
-    eventBuilder = kEvents;
+    // eventBuilder = kEvents;
     _selectedDay = _focusedDate;
+    _eventStreamMap = context
+        .read<EventRepository>()
+        .combineAllStreamsToMap(
+            context.read<ProfileBloc>().state.user.classes?.keys.toList() ?? [])
+        .listen(updateTheState);
     //  _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
     super.initState();
+  }
+
+  void updateTheState(LinkedHashMap<DateTime, List<FirestoreEvent>> events) {
+    setState(() {
+      eventBuilder = events;
+    });
   }
 
   @override
   void dispose() {
     _eventController.dispose();
+    _eventStreamMap.cancel();
     // _selectedEvents.dispose();
     super.dispose();
   }
 
-  List<Event> _getEventsForDay(DateTime day) {
+  List<FirestoreEvent> _getEventsForDay(DateTime day) {
     return eventBuilder[day] ?? [];
   }
 
   @override
   Widget build(BuildContext context) {
-    EventRepository teacherEvent = context.watch<EventRepository>();
+    // EventRepository teacherEvent = context.watch<EventRepository>();
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Teacher's Calendar"),
@@ -103,9 +127,23 @@ class _CalendarPageState extends State<CalendarPage> {
               },
             ),
             ..._getEventsForDay(_focusedDate).map(
-              (Event event) => ListTile(
-                title: Text(
-                  event.title,
+              (FirestoreEvent event) => ListTile(
+                
+                title: Row(
+                  children: [
+                    Text(
+                      event.title,
+                      style: theme.textTheme.bodyText1,
+                    ),
+                    Expanded(
+                      child: Container(),
+                    ),
+                    Text(
+                      formatDateEventStartToEndTime(
+                          event.eventStartTime, event.eventEndTime),
+                      style: theme.textTheme.bodyText1,
+                    ),
+                  ],
                 ),
               ),
             ),
