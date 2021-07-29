@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/calendar/calendar.dart';
 import 'package:formz/formz.dart';
+import 'package:school_notifier/messages/message.dart';
 import 'package:school_notifier/profile/bloc/profile_bloc.dart';
 import 'package:users_repository/users_repository.dart';
 
@@ -35,15 +36,18 @@ class CalendarCreateEventForm extends StatelessWidget {
 
               _TitleInput(),
               const SizedBox(height: 8.0),
+              _DatePicker(),
+              const SizedBox(height: 8.0),
               _TimePicker(),
               const SizedBox(height: 8.0),
-              _DayInput(),
-              const SizedBox(height: 8.0),
-              _MonthInput(),
-              const SizedBox(height: 8.0),
-              _YearInput(),
-              const SizedBox(height: 8.0),
-              _TimeStartInput(),
+
+              // _DayInput(),
+              // const SizedBox(height: 8.0),
+              // _MonthInput(),
+              // const SizedBox(height: 8.0),
+              // _YearInput(),
+              // const SizedBox(height: 8.0),
+              // _TimeStartInput(),
               const SizedBox(height: 8.0),
               _DurationInput(),
               const SizedBox(height: 8.0),
@@ -125,10 +129,12 @@ class _TimePicker extends StatelessWidget {
                           .read<CalendarCubit>()
                           .timeDialogueChanged(selectedTime);
                     },
-                    child: Text(
-                      '${state.eventTimeStart.value}',
-                      style: theme.textTheme.headline4,
-                    ),
+                    child: state.eventTimeStart.value.isEmpty
+                        ? Text('Select a Time', style: theme.textTheme.button)
+                        : Text(
+                            '${state.eventTimeStart.value}',
+                            style: theme.textTheme.button,
+                          ),
                   ),
                 ),
               ],
@@ -150,26 +156,106 @@ class _TimePicker extends StatelessWidget {
   }
 }
 
-class _DayInput extends StatelessWidget {
+class _DatePicker extends StatelessWidget {
+  const _DatePicker({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CalendarCubit, CalendarState>(
-      buildWhen: (previous, current) => previous.eventDay != current.eventDay,
-      builder: (context, state) {
-        return TextField(
-          key: const Key('eventCreation_eventTitleInput_textField'),
-          onChanged: (day) =>
-              context.read<CalendarCubit>().eventDayChanged(day),
-          decoration: InputDecoration(
-            labelText: 'DD',
-            helperText: '',
-            errorText: state.eventTitle.invalid ? 'invalid Day' : null,
-          ),
-        );
-      },
+    final theme = Theme.of(context);
+    return Column(
+      children: [
+        Text('Event Date Picker'),
+        BlocBuilder<CalendarCubit, CalendarState>(
+          buildWhen: (previous, current) =>
+              previous.eventSelectedDay != current.eventSelectedDay,
+          //     ('${event.}'),
+          builder: (context, state) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Expanded(child: Container()),
+                Container(
+                  // decoration: BoxDecoration(
+                  //     borderRadius: BorderRadius.all(Radius.circular(1)),
+                  //     border: Border.symmetric(
+                  //         horizontal:
+                  //             BorderSide(color: Colors.black, width: 1))),
+                  child: ElevatedButton(
+                    // style: ButtonStyle(shape: ),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      primary: const Color(0xFFFFD600),
+                    ),
+                    onPressed: () async {
+                      DateTime? selectedDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime.now(),
+                          lastDate: DateTime.utc(2030, 1, 1));
+                      print(selectedDate.toString());
+                      context
+                          .read<CalendarCubit>()
+                          .eventSelectedDateChanged(selectedDate);
+
+                      print(formatCalendarDate(selectedDate ?? DateTime.now()));
+                      //  DatePickerDialog(initialDate: DateTime.now(), firstDate: DateTime.now(), lastDate:  DateTime.utc(2030, 1, 1)
+                      // context
+                      //     .read<CalendarCubit>()
+                      //     .timeDialogueChanged(selectedDate);
+                    },
+                    child: state.eventSelectedDay != null
+                        ? Text(
+                            '${formatCalendarDate(state.eventSelectedDay!)}',
+                            style: theme.textTheme.button,
+                          )
+                        : Text(
+                            'Select a Date',
+                            style: theme.textTheme.button,
+                          ),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+        // MaterialButton(
+        //   onPressed: () async {
+        //     TimeOfDay? selectedTime = await showTimePicker(
+        //       initialTime: TimeOfDay.now(),
+        //       context: context,
+        //     );
+        //     context.read<CalendarCubit>().timeDialogueChanged(selectedTime);
+        //   },
+        //   child: Text('c event time'),
+        // ),
+      ],
     );
   }
 }
+
+// class _DayInput extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocBuilder<CalendarCubit, CalendarState>(
+//       buildWhen: (previous, current) => previous.eventDay != current.eventDay,
+//       builder: (context, state) {
+//         return TextField(
+//           key: const Key('eventCreation_eventTitleInput_textField'),
+//           onChanged: (day) =>
+//               context.read<CalendarCubit>().eventDayChanged(day),
+//           decoration: InputDecoration(
+//             labelText: 'DD',
+//             helperText: '',
+//             errorText: state.eventTitle.invalid ? 'invalid Day' : null,
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
 
 class _DescriptionInput extends StatelessWidget {
   @override
@@ -194,71 +280,71 @@ class _DescriptionInput extends StatelessWidget {
   }
 }
 
-class _YearInput extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<CalendarCubit, CalendarState>(
-      buildWhen: (previous, current) => previous.eventYear != current.eventYear,
-      builder: (context, state) {
-        return TextField(
-          key: const Key('eventCreation_eventTitleInput_textField'),
-          onChanged: (year) =>
-              context.read<CalendarCubit>().eventYearChanged(year),
-          decoration: InputDecoration(
-            labelText: 'YY',
-            helperText: '',
-            errorText: state.eventTitle.invalid ? 'invalid Year' : null,
-          ),
-        );
-      },
-    );
-  }
-}
+// class _YearInput extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocBuilder<CalendarCubit, CalendarState>(
+//       buildWhen: (previous, current) => previous.eventYear != current.eventYear,
+//       builder: (context, state) {
+//         return TextField(
+//           key: const Key('eventCreation_eventTitleInput_textField'),
+//           onChanged: (year) =>
+//               context.read<CalendarCubit>().eventYearChanged(year),
+//           decoration: InputDecoration(
+//             labelText: 'YY',
+//             helperText: '',
+//             errorText: state.eventTitle.invalid ? 'invalid Year' : null,
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
 
-class _MonthInput extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<CalendarCubit, CalendarState>(
-      buildWhen: (previous, current) =>
-          previous.eventMonth != current.eventMonth,
-      builder: (context, state) {
-        return TextField(
-          key: const Key('eventCreation_eventTitleInput_textField'),
-          onChanged: (month) =>
-              context.read<CalendarCubit>().eventMonthChanged(month),
-          decoration: InputDecoration(
-            labelText: 'MM',
-            helperText: '',
-            errorText: state.eventTitle.invalid ? 'invalid Month' : null,
-          ),
-        );
-      },
-    );
-  }
-}
+// class _MonthInput extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocBuilder<CalendarCubit, CalendarState>(
+//       buildWhen: (previous, current) =>
+//           previous.eventMonth != current.eventMonth,
+//       builder: (context, state) {
+//         return TextField(
+//           key: const Key('eventCreation_eventTitleInput_textField'),
+//           onChanged: (month) =>
+//               context.read<CalendarCubit>().eventMonthChanged(month),
+//           decoration: InputDecoration(
+//             labelText: 'MM',
+//             helperText: '',
+//             errorText: state.eventTitle.invalid ? 'invalid Month' : null,
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
 
-class _TimeStartInput extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<CalendarCubit, CalendarState>(
-      buildWhen: (previous, current) =>
-          previous.eventTimeStart != current.eventTimeStart,
-      builder: (context, state) {
-        return TextField(
-          key: const Key('eventCreation_eventTitleInput_textField'),
-          onChanged: (timeStart) =>
-              context.read<CalendarCubit>().eventTimeStartChanged(timeStart),
-          decoration: InputDecoration(
-            labelText: 'HH: MM',
-            helperText: '',
-            errorText:
-                state.eventTitle.invalid ? 'invalid starting time' : null,
-          ),
-        );
-      },
-    );
-  }
-}
+// class _TimeStartInput extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocBuilder<CalendarCubit, CalendarState>(
+//       buildWhen: (previous, current) =>
+//           previous.eventTimeStart != current.eventTimeStart,
+//       builder: (context, state) {
+//         return TextField(
+//           key: const Key('eventCreation_eventTitleInput_textField'),
+//           onChanged: (timeStart) =>
+//               context.read<CalendarCubit>().eventTimeStartChanged(timeStart),
+//           decoration: InputDecoration(
+//             labelText: 'HH: MM',
+//             helperText: '',
+//             errorText:
+//                 state.eventTitle.invalid ? 'invalid starting time' : null,
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
 
 class _DurationInput extends StatelessWidget {
   @override

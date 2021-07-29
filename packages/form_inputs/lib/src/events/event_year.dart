@@ -6,7 +6,7 @@ class EventYear extends FormzInput<String, EventYearValidationError> {
   const EventYear.pure() : super.pure('');
   const EventYear.dirty([String value = '']) : super.dirty(value);
 
-  static final _yearRegExp = RegExp(r'^(?=2[0-9]$).*$');
+  static final _yearRegExp = RegExp(r'^(?=202[0-9]$).*$');
 
   @override
   EventYearValidationError? validator(String? value) {

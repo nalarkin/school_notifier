@@ -16,6 +16,9 @@ String formatDateString(DateTime date, DateTime currentDate) {
 String formatDateEventWeekday(DateTime date) {
   return '${DateFormat.E().add_MMMd().format(date)}';
 }
+String formatCalendarDate(DateTime date) {
+  return '${DateFormat.MMMEd().format(date)}';
+}
 
 String formatDateEventTime(DateTime date) {
   return '${DateFormat.jm().format(date)}';
