@@ -35,6 +35,8 @@ class CalendarCreateEventForm extends StatelessWidget {
 
               _TitleInput(),
               const SizedBox(height: 8.0),
+              _TimePicker(),
+              const SizedBox(height: 8.0),
               _DayInput(),
               const SizedBox(height: 8.0),
               _MonthInput(),
@@ -78,6 +80,72 @@ class _TitleInput extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _TimePicker extends StatelessWidget {
+  const _TimePicker({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Column(
+      children: [
+        Text('Event Start Time'),
+        BlocBuilder<CalendarCubit, CalendarState>(
+          buildWhen: (previous, current) =>
+              previous.eventTimeStart != current.eventTimeStart,
+          builder: (context, state) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Expanded(child: Container()),
+                Container(
+                  // decoration: BoxDecoration(
+                  //     borderRadius: BorderRadius.all(Radius.circular(1)),
+                  //     border: Border.symmetric(
+                  //         horizontal:
+                  //             BorderSide(color: Colors.black, width: 1))),
+                  child: ElevatedButton(
+                    // style: ButtonStyle(shape: ),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      primary: const Color(0xFFFFD600),
+                    ),
+                    onPressed: () async {
+                      TimeOfDay? selectedTime = await showTimePicker(
+                        initialTime: TimeOfDay.now(),
+                        context: context,
+                      );
+                      context
+                          .read<CalendarCubit>()
+                          .timeDialogueChanged(selectedTime);
+                    },
+                    child: Text(
+                      '${state.eventTimeStart.value}',
+                      style: theme.textTheme.headline4,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+        // MaterialButton(
+        //   onPressed: () async {
+        //     TimeOfDay? selectedTime = await showTimePicker(
+        //       initialTime: TimeOfDay.now(),
+        //       context: context,
+        //     );
+        //     context.read<CalendarCubit>().timeDialogueChanged(selectedTime);
+        //   },
+        //   child: Text('c event time'),
+        // ),
+      ],
     );
   }
 }

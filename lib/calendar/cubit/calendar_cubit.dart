@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:event_repository/event_repository.dart';
+import 'package:flutter/material.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
 
@@ -119,6 +120,27 @@ class CalendarCubit extends Cubit<CalendarState> {
         state.eventType,
       ]),
     ));
+  }
+
+  void timeDialogueChanged(TimeOfDay? value) {
+    if (value != null) {
+      print('time received ${value.toString()}');
+      final timeStart = EventTimeStart.dirty('${value.hour}:${value.minute}');
+      emit(state.copyWith(
+        eventTimeStart: timeStart,
+        status: Formz.validate([
+          timeStart,
+          state.eventTitle,
+          state.eventDescription,
+          state.eventTitle,
+          // state.eventSubscriptionId,
+          state.eventMonth,
+          state.eventTimeStart,
+          state.eventYear,
+          state.eventType,
+        ]),
+      ));
+    }
   }
 
   void eventDescriptionChanged(String value) {
