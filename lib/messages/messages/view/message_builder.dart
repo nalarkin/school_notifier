@@ -89,35 +89,45 @@ class _BuildInputContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Container(
-      alignment: Alignment.bottomCenter,
-      margin: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: TextFormField(
-              controller: _controller,
-            ),
+    return Column(
+      children: [
+        Expanded(child: Container()),
+        Container(
+          alignment: Alignment.bottomCenter,
+          // margin: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+          color: theme.canvasColor,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: Container(
+                  color: theme.canvasColor,
+                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                  child: TextField(
+                    controller: _controller,
+                  ),
+                ),
+              ),
+              Container(
+                  child: IconButton(
+                      onPressed: () {
+                        if (_controller.text.trim().isEmpty) return null;
+                        context
+                            .read<MessageBloc>()
+                            .add(MessageSentText(_controller.text));
+                        _controller.clear();
+                      },
+                      icon: Icon(
+                        Icons.send,
+                        size: 30,
+                        color: theme.accentColor,
+                      ))),
+            ],
           ),
-          Container(
-              child: IconButton(
-                  onPressed: () {
-                    if (_controller.text.trim().isEmpty) return null;
-                    context
-                        .read<MessageBloc>()
-                        .add(MessageSentText(_controller.text));
-                    _controller.clear();
-                  },
-                  icon: Icon(
-                    Icons.send,
-                    size: 30,
-                    color: theme.accentColor,
-                  ))),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
