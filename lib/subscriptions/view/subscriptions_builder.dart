@@ -6,8 +6,10 @@ import 'package:message_repository/message_repository.dart';
 import 'package:school_notifier/messages/message.dart';
 import 'package:school_notifier/profile/profile.dart';
 import 'package:school_notifier/subscriptions/subscriptions.dart';
+import 'package:school_notifier/util.dart';
 import 'package:school_notifier/widgets/loading_indicator.dart';
 import 'package:school_notifier/messages/message.dart';
+import 'package:grouped_list/grouped_list.dart';
 
 class SubscriptionBuilder extends StatelessWidget {
   const SubscriptionBuilder({Key? key}) : super(key: key);
@@ -35,19 +37,42 @@ class SubscriptionBuilder extends StatelessWidget {
           print("length of subscriptions = ${_subscriptions.length}");
           final _viewerUid =
               context.read<AuthenticationRepository>().currentUser.id;
-          return ListView.builder(
-            itemCount: _subscriptions.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
-                child: _buildSubscriptionTile(
-                    context,
-                    _subscriptions[index],
-                    index,
-                    subNames![_subscriptions[index].eventSubscriptionID]),
-              );
-            },
-          );
+          // ListView _elements = ListView.builder(
+          //   itemCount: _subscriptions.length,
+          //   itemBuilder: (context, index) {
+          //     return Padding(
+          //       padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+          //       child: _buildSubscriptionTile(
+          //           context,
+          //           _subscriptions[index],
+          //           index,
+          //           subNames![_subscriptions[index].eventSubscriptionID]),
+          //     );
+          //   },
+          // );
+          return GroupedListView<dynamic, String>(
+              elements: _subscriptions,
+              order: GroupedListOrder.ASC,
+              itemComparator: (a, b) =>
+                  a.eventStartTime.compareTo(b.eventStartTime),
+              groupComparator: (a, b) => a.compareTo(b),
+              groupSeparatorBuilder: (String groupByValue) =>
+                  _BuildGroupSeparator(groupByValue: groupByValue),
+              indexedItemBuilder: (context, event, index) {
+                return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+                  child: _buildSubscriptionTile(
+                      context,
+                      // _subscriptions[index],
+                      event,
+                      // index,
+                      index,
+                      subNames![_subscriptions[index].eventSubscriptionID]),
+                );
+              },
+              groupBy: (element) =>
+                  getHashCodeForGroupedList(element.eventStartTime));
         }
         return Container();
       },
@@ -55,18 +80,65 @@ class SubscriptionBuilder extends StatelessWidget {
   }
 }
 
+class _BuildGroupSeparator extends StatelessWidget {
+  const _BuildGroupSeparator({Key? key, required this.groupByValue})
+      : super(key: key);
+  final String groupByValue;
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    DateTime parsedTime = DateTime.tryParse(groupByValue)!;
+    return Container(
+      decoration: BoxDecoration(
+          border: Border.all(color: theme.accentColor),
+          color: theme.canvasColor,
+          borderRadius: BorderRadius.all(Radius.circular(20))),
+      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            // color: Colors.white,
+
+            child: Row(
+              children: [
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  '${formatDateEventWeekday(parsedTime)}',
+                  style: theme.textTheme.headline6,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 GestureDetector _buildSubscriptionTile(
     context, FirestoreEvent subscription, int index, String className) {
   final theme = Theme.of(context);
+  // print(MediaQuery.of(context).size);
   return GestureDetector(
     onTap: () {
       // context.read<SubscriptionBloc>().add(subscription, index);
-      Navigator.pushNamed(context, MessagePage.routeName,
-          arguments: subscription);
+      // Navigator.pushNamed(context, MessagePage.routeName,
+      //     arguments: subscription);
       // context.read<SubscriptionBloc>().add(subscription, index);
     },
     child: Container(
-      color: Colors.white,
+      decoration: BoxDecoration(
+          // border: Border.all(color: theme.accentColor),
+          color: theme.canvasColor,
+          borderRadius: BorderRadius.all(Radius.circular(20))),
+      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+      // color: theme.canvasColor,
       height: 70,
       // padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
@@ -76,10 +148,12 @@ GestureDetector _buildSubscriptionTile(
           Container(
             // padding: EdgeInsets.all(8),
             // color: Colors.blue,
-            width: MediaQuery.of(context).size.width * 0.25,
+            // width: MediaQuery.of(context).size.width * 0.25,
+            width: 100,
             alignment: Alignment.center,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              // mainAxisSize: ,
               children: [
                 Text(
                   className,
@@ -89,24 +163,25 @@ GestureDetector _buildSubscriptionTile(
                   style: theme.textTheme.bodyText2
                       ?.copyWith(color: theme.hintColor, fontSize: 10),
                 ),
+                // Text(
+                //   formatDateEventWeekday(subscription.eventEndTime),
+                //   style: theme.textTheme.bodyText2
+                //       ?.copyWith(color: Colors.black, fontSize: 12),
+                // ),
+                // if (subscription.eventStartTime != subscription.eventEndTime)
+                //   Text(
+                //     formatDateEventStartToEndTime(
+                //         subscription.eventStartTime, subscription.eventEndTime),
+                //     style: theme.textTheme.bodyText2
+                //         ?.copyWith(color: Colors.black, fontSize: 12),
+                //   ),
+                // if (subscription.eventStartTime == subscription.eventEndTime)
                 Text(
-                  formatDateEventWeekday(subscription.eventEndTime),
+                  formatDateEventStartToEndTime(
+                      subscription.eventStartTime, subscription.eventEndTime),
                   style: theme.textTheme.bodyText2
                       ?.copyWith(color: Colors.black, fontSize: 12),
                 ),
-                if (subscription.eventStartTime != subscription.eventEndTime)
-                  Text(
-                    formatDateEventStartToEndTime(
-                        subscription.eventStartTime, subscription.eventEndTime),
-                    style: theme.textTheme.bodyText2
-                        ?.copyWith(color: Colors.black, fontSize: 12),
-                  ),
-                if (subscription.eventStartTime == subscription.eventEndTime)
-                  Text(
-                    formatDateEventTime(subscription.eventStartTime),
-                    style: theme.textTheme.bodyText2
-                        ?.copyWith(color: Colors.black, fontSize: 12),
-                  ),
               ],
             ),
           ),
@@ -115,7 +190,8 @@ GestureDetector _buildSubscriptionTile(
               alignment: Alignment.centerLeft,
               // color: Colors.red,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                // mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(

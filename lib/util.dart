@@ -47,3 +47,14 @@ List<DateTime> daysInRange(DateTime first, DateTime last) {
 final kToday = DateTime.now();
 final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
 final kLastDay = DateTime(kToday.year, kToday.month + 3, kToday.day);
+
+String getHashCodeForGroupedList(DateTime key) {
+  // return '${key.day}{key.month} * 100 + key.year * 10000';
+  final String _month = key.month > 9 ? '${key.month}' : '0${key.month}';
+  final String _day = key.day > 9 ? '${key.day}' : '0${key.day}';
+  return '${key.year}-$_month-$_day';
+}
+
+// int getDateTimeForGroupedList(String key) {
+//   return key.day + key.month * 100 + key.year * 10000;
+// }
