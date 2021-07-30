@@ -62,6 +62,13 @@ class NotificationService {
       event.eventStartTime,
       tz.local,
     );
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+            'your channel id', 'your channel name', 'your channel description',
+            importance: Importance.max, priority: Priority.high, tag: 'tag');
+    const NotificationDetails platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics,
+    );
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
         event.eventUID.hashCode,
@@ -69,34 +76,33 @@ class NotificationService {
         // event.description,
         event.eventUID.hashCode.toString(),
         eventStart,
-        const NotificationDetails(
-            android: AndroidNotificationDetails(
-                "channel id", "channel name", "channel description",
-                priority: Priority.high, importance: Importance.max)),
+        platformChannelSpecifics,
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
   }
-  Future<void> scheduleMultipleEventNotification(List<FirestoreEvent> events) async {
+
+  Future<void> scheduleMultipleEventNotification(
+      List<FirestoreEvent> events) async {
     for (final event in events) {
       final eventStart = tz.TZDateTime.from(
-            event.eventStartTime,
-            tz.local,
-          );
+        event.eventStartTime,
+        tz.local,
+      );
 
-          await flutterLocalNotificationsPlugin.zonedSchedule(
-              event.eventUID.hashCode,
-              event.title,
-              'event.description',
-              // event.eventUID.hashCode.toString(),
-              eventStart,
-              const NotificationDetails(
-                  android: AndroidNotificationDetails(
-                      "channel id", "channel name", "channel description",
-                      priority: Priority.max, importance: Importance.max)),
-              androidAllowWhileIdle: true,
-              uiLocalNotificationDateInterpretation:
-                  UILocalNotificationDateInterpretation.absoluteTime);
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+          event.eventUID.hashCode,
+          event.title,
+          'event.description',
+          // event.eventUID.hashCode.toString(),
+          eventStart,
+          const NotificationDetails(
+              android: AndroidNotificationDetails(
+                  "channel id", "channel name", "channel description",
+                  priority: Priority.max, importance: Importance.max)),
+          androidAllowWhileIdle: true,
+          uiLocalNotificationDateInterpretation:
+              UILocalNotificationDateInterpretation.absoluteTime);
     }
   }
 
@@ -126,6 +132,7 @@ class NotificationService {
       ),
     );
   }
+
   Future<void> cancelAllNotifications() async {
     await flutterLocalNotificationsPlugin.cancelAll();
   }
