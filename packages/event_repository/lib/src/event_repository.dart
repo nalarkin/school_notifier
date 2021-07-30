@@ -134,7 +134,7 @@ class EventRepository {
       for (List<FirestoreEvent> val in values) {
         for (final event in val) {
           if (_res.containsKey(event.eventStartTime)) {
-            print('contains key');
+            // print('contains key');
             _res[event.eventStartTime]!.add(event);
           } else {
             _res[event.eventStartTime] = [event];

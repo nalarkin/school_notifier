@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:message_repository/message_repository.dart';
 import 'package:school_notifier/app/app.dart';
+import 'package:school_notifier/calendar/view/calendar_page.dart';
 import 'package:school_notifier/event_repository_test/event_page.dart';
 import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/authentication/authentication.dart';
@@ -25,14 +26,24 @@ class SubscriptionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    UserRole role =
+        context.watch<ProfileBloc>().state.user.role ?? UserRole.student;
     return Scaffold(
+        floatingActionButton: role == UserRole.teacher || role == UserRole.admin
+            ? FloatingActionButton.extended(
+                label: Text("Calendar View"),
+                icon: Icon(Icons.calendar_today),
+                onPressed: () =>
+                    Navigator.pushNamed(context, CalendarPage.routeName),
+              )
+            : null,
         appBar: AppBar(
           title: const Text('Upcoming Events'),
           centerTitle: true,
           actions: <Widget>[
             IconButton(
                 key: const Key('homePage_logout_iconButton'),
-                icon: const Icon(Icons.exit_to_app),
+                icon: Icon(Icons.exit_to_app),
                 onPressed: () {
                   Navigator.pushNamedAndRemoveUntil(
                       context, '/', (Route<dynamic> route) => false);
