@@ -61,34 +61,42 @@ GestureDetector _BuildUserTile(
         Navigator.pushNamed(context, MessagePage.routeName,
             arguments: newConvo);
       },
-      child: Card(
-        child: ListTile(
-          title: Stack(
-            alignment: Alignment.center,
-            children: [
-              Row(
-                children: [
-                  // Text(
-                  //   '${userRoleToString(user.role)!.toUpperCase()}',
-                  //   style: theme.textTheme.caption
-                  //       ?.copyWith(color: Colors.grey, fontSize: 10),
-                  // ),
-                  if (user.role == UserRole.teacher) Icon(Icons.school),
-                  if (user.role == UserRole.student)
-                    Icon(Icons.child_care_sharp),
-                  if (user.role == UserRole.parent) Icon(Icons.person),
-                  Expanded(
-                    child: Container(),
-                  ),
-                ],
-              ),
-              Text(
-                '${user.firstName} ${user.lastName}',
-                style: theme.textTheme.bodyText1?.copyWith(
-                  color: Colors.black,
+      child: Container(
+        child: Container(
+          // padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+          margin: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+          decoration: BoxDecoration(
+              // border: Border.all(color: theme.accentColor),
+              color: theme.canvasColor,
+              borderRadius: BorderRadius.all(Radius.circular(20))),
+          child: ListTile(
+            title: Stack(
+              alignment: Alignment.center,
+              children: [
+                Row(
+                  children: [
+                    // Text(
+                    //   '${userRoleToString(user.role)!.toUpperCase()}',
+                    //   style: theme.textTheme.caption
+                    //       ?.copyWith(color: Colors.grey, fontSize: 10),
+                    // ),
+                    if (user.role == UserRole.teacher) Icon(Icons.school),
+                    if (user.role == UserRole.student)
+                      Icon(Icons.child_care_sharp),
+                    if (user.role == UserRole.parent) Icon(Icons.person),
+                    Expanded(
+                      child: Container(),
+                    ),
+                  ],
                 ),
-              ),
-            ],
+                Text(
+                  '${user.firstName} ${user.lastName}',
+                  style: theme.textTheme.bodyText1?.copyWith(
+                    color: Colors.black,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ));
