@@ -27,6 +27,17 @@ class FirestoreUserRepository implements UsersRepository<FirestoreUser> {
           .toList();
     });
   }
+  // List<FirestoreUser> myStudents(List<String> students) {
+  //   // return usersCollection.where((event) => false)
+  //   final temp = [for (final student in students) usersCollection.doc(student).get()]
+  //   return [for (final doc in temp) FirestoreUser.fromEntity(FirestoreUserEntity.fromSnapshot(doc))];
+  //   // .map((snapshot) {
+  //   //   return snapshot.docs
+  //   //       .map((doc) =>
+  //   //           FirestoreUser.fromEntity(FirestoreUserEntity.fromSnapshot(doc)))
+  //   //       .toList();
+  //   // });
+  // }
 
   @override
   Future<void> updateUser(FirestoreUser user) {

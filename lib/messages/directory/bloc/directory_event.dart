@@ -17,3 +17,16 @@ class DirectoryLoaded extends DirectoryEvent {
   @override
   List<Object> get props => [users];
 }
+
+class DirectorySelectFiltered extends DirectoryEvent {
+  const DirectorySelectFiltered() : super();
+  @override
+  List<Object> get props => [];
+
+}
+class DirectorySelectAllUsers extends DirectoryEvent {
+  const DirectorySelectAllUsers() : super();
+  @override
+  List<Object> get props => [];
+
+}

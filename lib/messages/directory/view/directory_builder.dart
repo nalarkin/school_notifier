@@ -14,6 +14,7 @@ class DirectoryBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     String _uid = context.watch<AuthenticationRepository>().currentUser.id;
     FirestoreUser _currUser = context.watch<ProfileBloc>().state.user;
     return BlocBuilder<DirectoryBloc, DirectoryState>(
@@ -22,11 +23,67 @@ class DirectoryBuilder extends StatelessWidget {
           return LoadingIndicator();
         } else if (state.status == DirectoryStatus.success) {
           final _users = state.users;
-          return ListView.builder(
-            itemCount: _users.length,
-            itemBuilder: (context, index) {
-              return _BuildUserTile(context, _users[index], _currUser);
-            },
+          return Stack(
+            children: [
+              ListView.builder(
+                itemCount: _users.length,
+                itemBuilder: (context, index) {
+                  return _BuildUserTile(context, _users[index], _currUser);
+                },
+              ),
+              Align(
+                  alignment: Alignment.bottomRight,
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        primary: const Color(0xFFFFD600),
+                      ),
+                      child: Text(
+                        'Your Students.',
+                        style: theme.textTheme.button,
+                      ),
+                      onPressed: () => context
+                          .read<DirectoryBloc>()
+                          .add(DirectorySelectFiltered()),
+                    ),
+                  )),
+            ],
+          );
+        } else if (state.status == DirectoryStatus.filter) {
+          final _users = state.filteredUsers;
+          return Stack(
+            children: [
+              ListView.builder(
+                itemCount: _users.length,
+                itemBuilder: (context, index) {
+                  return _BuildUserTile(context, _users[index], _currUser);
+                },
+              ),
+              Align(
+                  alignment: Alignment.bottomRight,
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        primary: const Color(0xFFFFD600),
+                      ),
+                      child: Text(
+                        'All Users.',
+                        style: theme.textTheme.button,
+                      ),
+                      onPressed: () => context
+                          .read<DirectoryBloc>()
+                          .add(DirectorySelectAllUsers()),
+                    ),
+                  )),
+            ],
           );
         }
         return Container();
@@ -53,8 +110,9 @@ GestureDetector _BuildUserTile(
             id: Message.getConvoID(_currUser.id, user.id),
             participants: [_currUser.id, user.id],
             participantsMap: {
-              _currUser.id: '${_currUser.firstName} ${_currUser.lastName}',
-              user.id: '${user.firstName} ${user.lastName}',
+              _currUser.id:
+                  '${_currUser.firstName} ${_currUser.lastName ?? ''}',
+              user.id: '${user.firstName} ${user.lastName ?? ''}',
             },
             lastMessage: blankMessage);
 
@@ -90,7 +148,7 @@ GestureDetector _BuildUserTile(
                   ],
                 ),
                 Text(
-                  '${user.firstName} ${user.lastName}',
+                  '${user.firstName} ${user.lastName ?? ''}',
                   style: theme.textTheme.bodyText1?.copyWith(
                     color: Colors.black,
                   ),

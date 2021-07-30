@@ -25,7 +25,17 @@ class DirectoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    UserRole? role =
+        context.watch<ProfileBloc>().state.user.role ?? UserRole.student;
     return Scaffold(
+        // floatingActionButton:
+        //     (role == UserRole.teacher || role == UserRole.admin)
+        //         ? FloatingActionButton.extended(
+        //             onPressed: () => context
+        //                 .read<DirectoryBloc>()
+        //                 .add(DirectorySelectFiltered()),
+        //             label: Text('Your students.'))
+        //         : null,
         appBar: AppBar(
           title: Text('Start a Conversation'),
           centerTitle: true,
@@ -45,7 +55,7 @@ class DirectoryPage extends StatelessWidget {
         body: BlocProvider(
           create: (_) => DirectoryBloc(
             context.read<FirestoreUserRepository>(),
-            context.read<AuthenticationRepository>().currentUser.id,
+            context.read<ProfileBloc>().state.user,
           ),
           child: DirectoryBuilder(),
         ));
