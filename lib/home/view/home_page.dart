@@ -80,14 +80,59 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 FirestoreEvent event = FirestoreEvent(
                     eventUID: 'nnieorsnaoientiroeantf983098',
-                    title: '3 seconds',
+                    title: '5 seconds',
                     posterID: 'posterID',
                     eventStartTime: DateTime.now().add(Duration(seconds: 5)),
                     eventEndTime: DateTime.now().add(Duration(seconds: 10)),
                     eventSubscriptionID: 'eventSubscriptionID');
-                NotificationService().scheduleEventNotification(event);
+                context
+                    .read<EventRepository>()
+                    .scheduleSingleNotification(event);
               },
               child: const Text('Schedule 1 notification'),
+            ),
+            MaterialButton(
+              onPressed: () {
+                FirestoreEvent event = FirestoreEvent(
+                    eventUID: 'nnieorsnaoientiro92ntf983098',
+                    title: '3 seconds',
+                    description: '3 seconds description',
+                    posterID: 'posterID',
+                    eventStartTime: DateTime.now().add(Duration(seconds: 3)),
+                    eventEndTime: DateTime.now().add(Duration(seconds: 10)),
+                    eventSubscriptionID: 'eventSubscriptionID');
+                FirestoreEvent event2 = FirestoreEvent(
+                    eventUID: 'nnieo323434iroeantf983098',
+                    title: '5 seconds',
+                    description: '5 seconds description',
+                    posterID: 'posterID',
+                    eventStartTime: DateTime.now().add(Duration(seconds: 5)),
+                    eventEndTime: DateTime.now().add(Duration(seconds: 10)),
+                    eventSubscriptionID: 'eventSubscriptionID');
+                FirestoreEvent event3 = FirestoreEvent(
+                    eventUID: 'nnieor444444iroeantf983098',
+                    title: '8 seconds',
+                    description: '8 seconds description',
+                    posterID: 'posterID',
+                    eventStartTime: DateTime.now().add(Duration(seconds: 8)),
+                    eventEndTime: DateTime.now().add(Duration(seconds: 10)),
+                    eventSubscriptionID: 'eventSubscriptionID');
+                context
+                    .read<EventRepository>()
+                    .scheduleMultipleNotifications([event, event2, event3]);
+              },
+              child: const Text('Schedule 3 notifications'),
+            ),
+            MaterialButton(
+              onPressed: () => NotificationService()
+                  .checkPendingNotificationRequests(context),
+              child: const Text('See scheduled notification count'),
+            ),
+            MaterialButton(
+              onPressed: () => context
+                  .read<EventRepository>()
+                  .deleteAllScheduledNotifications(),
+              child: const Text('Clear all notifications'),
             ),
             MaterialButton(
               onPressed: () =>
