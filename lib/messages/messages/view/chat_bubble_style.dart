@@ -13,7 +13,7 @@ const styleSomebody = BubbleStyle(
 
 const styleMe = BubbleStyle(
   nip: BubbleNip.rightBottom,
-  color: Color.fromARGB(255, 225, 255, 199),
+  color: Color.fromARGB(255, 190, 190, 190),
   borderColor: Colors.blue,
   borderWidth: 1,
   elevation: 1,

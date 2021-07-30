@@ -5,6 +5,7 @@ import 'package:school_notifier/login/view/view.dart';
 import 'package:school_notifier/profile/profile.dart';
 // import 'package:school_notifier/profile_setup/view/view.dart';
 import 'package:school_notifier/sign_up/sign_up.dart';
+import 'package:school_notifier/subscriptions/subscriptions.dart';
 import '../navigation.dart';
 
 class NavigationPage extends StatelessWidget {
@@ -16,11 +17,11 @@ class NavigationPage extends StatelessWidget {
     final currentState = context.watch<NavigationBloc>().state.status;
     switch (currentState) {
       case NavigationStatus.parent:
-        return HomePage();
+        return SubscriptionPage();
       case NavigationStatus.teacher:
-        return HomePage();
+        return SubscriptionPage();
       case NavigationStatus.student:
-        return HomePage();
+        return SubscriptionPage();
       case NavigationStatus.unknown:
         return LoginPage();
       case NavigationStatus.newParent:

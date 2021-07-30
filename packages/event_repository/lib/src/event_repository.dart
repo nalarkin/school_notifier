@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:event_repository/event_repository.dart';
@@ -23,7 +25,7 @@ class EventRepository {
     if (possibleEvent.exists) {
       await eventCollection.doc(event.eventUID).delete();
     } else {
-      print('Document does not exist. Message is from deleteEvent');
+      print('Document does not exist. Event is from deleteEvent');
     }
   }
 
@@ -35,7 +37,7 @@ class EventRepository {
           .doc(event.eventUID)
           .update(event.toEntity().toDocument());
     } else {
-      print('Document does not exist. Message is from updateEvent');
+      print('Document does not exist. Event is from updateEvent');
     }
   }
 
@@ -83,13 +85,19 @@ class EventRepository {
         .map(_convertToEventList);
   }
 
-  // Stream<List<FirestoreEvent>> getSingleStream(String subID) {
-  //   print("getSingleStream called with arg $subID");
-  //   return eventCollection
-  //       .where('eventSubscriptionID', isEqualTo: subID)
-  //       .snapshots()
-  //       .map(_convertToEventList);
-  // }
+  Future<void> storeListOfEvents(List<FirestoreEvent> events) async {
+    assert(events.length > 0);
+
+    WriteBatch batch = FirebaseFirestore.instance.batch();
+
+    for (FirestoreEvent event in events) {
+      final docRef = eventCollection.doc();
+
+      batch.set(
+          docRef, event.copyWith(eventUID: docRef.id).toEntity().toDocument());
+    }
+    batch.commit();
+  }
 
   List<FirestoreEvent> _convertToEventList(
       QuerySnapshot<Map<String, dynamic>> snapshot) {
@@ -111,5 +119,60 @@ class EventRepository {
       }
       return _res;
     });
+  }
+
+  Stream<LinkedHashMap<DateTime, List<FirestoreEvent>>> combineAllStreamsToMap(
+      List<String> subIds) {
+    return Rx.combineLatest([for (final id in subIds) getSingleStream(id)],
+        (List<List<FirestoreEvent>> values) {
+      // var _res = <FirestoreEvent>[];
+      LinkedHashMap<DateTime, List<FirestoreEvent>> _res =
+          LinkedHashMap<DateTime, List<FirestoreEvent>>(
+        equals: isSameDay,
+        hashCode: getHashCode,
+      );
+      for (List<FirestoreEvent> val in values) {
+        for (final event in val) {
+          if (_res.containsKey(event.eventStartTime)) {
+            // print('contains key');
+            _res[event.eventStartTime]!.add(event);
+          } else {
+            _res[event.eventStartTime] = [event];
+          }
+        }
+        // _res.addAll(val);
+      }
+      return _res;
+    });
+  }
+
+  // LinkedHashMap<DateTime, List<FirestoreEvent>> convertToLinkedHashMap(
+  //     List<FirestoreEvent> events) {
+  //   LinkedHashMap<DateTime, List<FirestoreEvent>> mapper =
+  //       LinkedHashMap<DateTime, List<FirestoreEvent>>(
+  //     equals: isSameDay,
+  //     hashCode: getHashCode,
+  //   );
+  //   for (final event in events) {
+  //     if (mapper.containsKey(event.eventStartTime)) {
+  //       print('contains key');
+  //       mapper[event.eventStartTime]!.add(event);
+  //     } else {
+  //       mapper[event.eventStartTime] = [event];
+  //     }
+  //   }
+  //   return mapper;
+  // }
+
+  int getHashCode(DateTime key) {
+    return key.day * 1000000 + key.month * 10000 + key.year;
+  }
+
+  bool isSameDay(DateTime? a, DateTime? b) {
+    if (a == null || b == null) {
+      return false;
+    }
+
+    return a.year == b.year && a.month == b.month && a.day == b.day;
   }
 }

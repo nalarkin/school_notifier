@@ -7,10 +7,12 @@ class CalendarState extends Equatable {
     this.eventDay = const EventDay.pure(),
     this.eventMonth = const EventMonth.pure(),
     this.eventYear = const EventYear.pure(),
-    this.eventSubscriptionId = const EventSubscriptionId.pure(),
+    // this.eventSubscriptionId = const EventSubscriptionId.pure(),
     this.eventDuration = const EventDuration.pure(),
-    this.eventType = const EventType.pure(),
+    // this.eventType = const EventType.pure(),
     this.eventTimeStart = const EventTimeStart.pure(),
+    this.eventSelectedDay,
+    this.eventSubscriptionList = const <String>[],
     this.status = FormzStatus.pure,
   });
 
@@ -20,9 +22,11 @@ class CalendarState extends Equatable {
   final EventMonth eventMonth;
   final EventYear eventYear;
   final EventTimeStart eventTimeStart;
-  final EventSubscriptionId eventSubscriptionId;
+  // final EventSubscriptionId eventSubscriptionId;
   final EventDuration eventDuration;
-  final EventType eventType;
+  // final EventType eventType;
+  final List<String> eventSubscriptionList;
+  final DateTime? eventSelectedDay;
   final FormzStatus status;
 
   // final typeStatus = Formz.validate([eventType]);
@@ -34,7 +38,7 @@ class CalendarState extends Equatable {
   //   final eventTimeStart = Formz.validate([state.eventTimeStart]);
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         status,
         eventTitle,
         eventDescription,
@@ -42,8 +46,10 @@ class CalendarState extends Equatable {
         eventMonth,
         eventYear,
         eventTimeStart,
-        eventSubscriptionId,
-        eventType,
+        eventSubscriptionList,
+        eventSelectedDay,
+        // eventSubscriptionId,
+        // eventType,
         eventDuration,
       ];
   CalendarState copyWith({
@@ -53,9 +59,11 @@ class CalendarState extends Equatable {
     EventMonth? eventMonth,
     EventYear? eventYear,
     EventTimeStart? eventTimeStart,
-    EventSubscriptionId? eventSubscriptionId,
+    // EventSubscriptionId? eventSubscriptionId,
     EventDuration? eventDuration,
-    EventType? eventType,
+    DateTime? eventSelectedDay,
+    List<String>? eventSubscriptionList,
+    // EventType? eventType,
     FormzStatus? status,
   }) {
     return CalendarState(
@@ -64,10 +72,13 @@ class CalendarState extends Equatable {
       eventDescription: eventDescription ?? this.eventDescription,
       eventDay: eventDay ?? this.eventDay,
       eventMonth: eventMonth ?? this.eventMonth,
+      eventSelectedDay: eventSelectedDay ?? this.eventSelectedDay,
       eventTimeStart: eventTimeStart ?? this.eventTimeStart,
       eventYear: eventYear ?? this.eventYear,
-      eventType: eventType ?? this.eventType,
-      eventSubscriptionId: eventSubscriptionId ?? this.eventSubscriptionId,
+      // eventType: eventType ?? this.eventType,
+      eventSubscriptionList:
+          eventSubscriptionList ?? this.eventSubscriptionList,
+      // eventSubscriptionId: eventSubscriptionId ?? this.eventSubscriptionId,
       eventDuration: eventDuration ?? this.eventDuration,
     );
   }

@@ -19,8 +19,10 @@ class CalendarAddEventPage extends StatelessWidget {
   const CalendarAddEventPage({Key? key}) : super(key: key);
   static const String routeName = '/add_event';
 
+
   @override
   Widget build(BuildContext context) {
+    final _selectedDate = ModalRoute.of(context)!.settings.arguments as DateTime;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add an Event'),
@@ -39,7 +41,9 @@ class CalendarAddEventPage extends StatelessWidget {
         padding: EdgeInsets.all(8),
         child: BlocProvider(
             create: (_) => CalendarCubit(context.read<EventRepository>(),
-                context.read<NavigationBloc>().state.user.id),
+                context.read<NavigationBloc>().state.user.id,
+                _selectedDate
+                ),
                 child: CalendarCreateEventForm(),),
       ),
     );

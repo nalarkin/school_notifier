@@ -60,19 +60,22 @@ class ProfileView extends StatelessWidget {
               height: 20,
             ),
             Avatar(),
-            SizedBox(
-              height: 8.0,
-            ),
+            const SizedBox(height: 8.0),
             _FirstNameDisplay(),
+            const SizedBox(height: 8.0),
             _LastNameDisplay(),
+            // const SizedBox(height: 8.0),
             _EmailDisplay(),
-            _JoinDateDisplay(),
+            // const SizedBox(height: 8.0),
             _UserRoleDisplay(),
+
+            _JoinDateDisplay(),
+            // const SizedBox(height: 40.0),
             _UserSubscriptionisplay(),
-            TextButton(
-                onPressed: () =>
-                    Navigator.pushNamed(context, HomePage.routeName),
-                child: Text("Cycle Back to Home")),
+            _RelatedChildrenDisplay(),
+            _RelatedParentDisplay(),
+            const SizedBox(height: 8.0),
+            // _JoinDateDisplay(),
           ],
         ),
       ),
@@ -85,13 +88,39 @@ class _FirstNameDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return BlocBuilder<ProfileBloc, ProfileState>(
         buildWhen: (previous, current) =>
             previous.user.firstName != current.user.firstName,
         builder: (context, state) {
           return Container(
-            color: Colors.red,
-            child: Text(state.user.firstName ?? ''),
+            // color: Colors.red,
+            margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            decoration: BoxDecoration(
+                border: Border.all(color: theme.accentColor),
+                color: theme.canvasColor,
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 60,
+                  child: Row(
+                    children: [
+                      Text('first:'),
+                      Flexible(child: Container()),
+                    ],
+                  ),
+                ),
+                Text(
+                  state.user.firstName ?? '',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      ?.copyWith(color: Colors.black),
+                ),
+              ],
+            ),
           );
         });
   }
@@ -102,13 +131,39 @@ class _LastNameDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return BlocBuilder<ProfileBloc, ProfileState>(
         buildWhen: (previous, current) =>
             previous.user.lastName != current.user.lastName,
         builder: (context, state) {
           return Container(
-            color: Colors.blue,
-            child: Text(state.user.lastName ?? ''),
+            // color: Colors.blue,
+            margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            decoration: BoxDecoration(
+                border: Border.all(color: theme.accentColor),
+                color: theme.canvasColor,
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 60,
+                  child: Row(
+                    children: [
+                      Text('last:'),
+                      Flexible(child: Container()),
+                    ],
+                  ),
+                ),
+                Text(
+                  state.user.lastName ?? '',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      ?.copyWith(color: Colors.black),
+                ),
+              ],
+            ),
           );
         });
   }
@@ -119,13 +174,41 @@ class _EmailDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return BlocBuilder<ProfileBloc, ProfileState>(
         buildWhen: (previous, current) =>
             previous.user.email != current.user.email,
         builder: (context, state) {
           return Container(
-            color: Colors.green,
-            child: Text(state.user.email ?? ''),
+            // color: Colors.green,
+            margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            decoration: BoxDecoration(
+                border: Border.all(color: theme.accentColor),
+                color: theme.canvasColor,
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            child: Row(
+              // mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 60,
+                  child: Row(
+                    children: [
+                      Text('email:'),
+                      Flexible(child: Container()),
+                    ],
+                  ),
+                ),
+                Text(
+                  state.user.email ?? '',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      ?.copyWith(color: Colors.black),
+                ),
+              ],
+            ),
           );
         });
   }
@@ -136,14 +219,39 @@ class _JoinDateDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return BlocBuilder<ProfileBloc, ProfileState>(
         buildWhen: (previous, current) =>
             previous.user.joinDate != current.user.joinDate,
         builder: (context, state) {
           return Container(
-            color: Colors.yellow,
-            child: Text(
-                '${DateFormat.yMMMd().format(state.user.joinDate ?? DateTime.now())}'),
+            // color: Colors.yellow,
+            margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            decoration: BoxDecoration(
+                border: Border.all(color: theme.accentColor),
+                color: theme.canvasColor,
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 60,
+                  child: Row(
+                    children: [
+                      Text('joined:'),
+                      Flexible(child: Container()),
+                    ],
+                  ),
+                ),
+                Text(
+                  '${DateFormat.yMMMd().format(state.user.joinDate ?? DateTime.now())}',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      ?.copyWith(color: Colors.black),
+                ),
+              ],
+            ),
           );
         });
   }
@@ -154,13 +262,39 @@ class _UserRoleDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return BlocBuilder<ProfileBloc, ProfileState>(
         buildWhen: (previous, current) =>
             previous.user.role != current.user.role,
         builder: (context, state) {
           return Container(
-            color: Colors.yellow,
-            child: Text('role: ${state.user.roleString}'),
+            // color: Colors.yellow,
+            margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            decoration: BoxDecoration(
+                border: Border.all(color: theme.accentColor),
+                color: theme.canvasColor,
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 60,
+                  child: Row(
+                    children: [
+                      Text('role:'),
+                      Flexible(child: Container()),
+                    ],
+                  ),
+                ),
+                Text(
+                  '${state.user.roleString}',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      ?.copyWith(color: Colors.black),
+                ),
+              ],
+            ),
           );
         });
   }
@@ -171,16 +305,147 @@ class _UserSubscriptionisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return BlocBuilder<ProfileBloc, ProfileState>(
         buildWhen: (previous, current) =>
-            previous.user.role != current.user.role,
+            previous.user.subscriptions != current.user.subscriptions,
         builder: (context, state) {
+          final subs = state.user.subscriptions ?? {};
+          if (subs.length == 0) return Container();
           return Container(
-            color: Colors.yellow,
-            child: Text('Subscriptions: ${state.user.subscriptions}'),
+            margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            decoration: BoxDecoration(
+                border: Border.all(color: theme.accentColor),
+                color: theme.canvasColor,
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            // color: Colors.yellow,
+            child: Column(
+              children: [
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     Text(
+                //       'Subscriptions:',
+                //       style: theme.textTheme.bodyText2,
+                //     ),
+                //   ],
+                // ),
+                for (final sub in subs.values)
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 60,
+                        child: Row(
+                          children: [
+                            Text('class:'),
+                            Flexible(child: Container()),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        '$sub',
+                        style: theme.textTheme.bodyText1,
+                      ),
+                    ],
+                  )
+              ],
+            ),
           );
         });
   }
 }
 
+class _RelatedChildrenDisplay extends StatelessWidget {
+  const _RelatedChildrenDisplay({Key? key}) : super(key: key);
 
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return BlocBuilder<ProfileBloc, ProfileState>(
+        buildWhen: (previous, current) =>
+            previous.user.children != current.user.children,
+        builder: (context, state) {
+          final children = state.user.children ?? {};
+          if (children.length == 0) return Container();
+          return Container(
+            margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            decoration: BoxDecoration(
+                border: Border.all(color: theme.accentColor),
+                color: theme.canvasColor,
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            // color: Colors.yellow,
+            child: Column(
+              children: [
+                for (final child in children.values)
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 60,
+                        child: Row(
+                          children: [
+                            Text('child:'),
+                            Flexible(child: Container()),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        '$child',
+                        style: theme.textTheme.bodyText1,
+                      ),
+                    ],
+                  )
+              ],
+            ),
+          );
+        });
+  }
+}
+
+class _RelatedParentDisplay extends StatelessWidget {
+  const _RelatedParentDisplay({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return BlocBuilder<ProfileBloc, ProfileState>(
+        buildWhen: (previous, current) =>
+            previous.user.parents != current.user.parents,
+        builder: (context, state) {
+          final parents = state.user.parents ?? {};
+          if (parents.length == 0) return Container();
+          return Container(
+            margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            decoration: BoxDecoration(
+                border: Border.all(color: theme.accentColor),
+                color: theme.canvasColor,
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            // color: Colors.yellow,
+            child: Column(
+              children: [
+                for (final parent in parents.values)
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 60,
+                        child: Row(
+                          children: [
+                            Text('parent:'),
+                            Flexible(child: Container()),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        '$parent',
+                        style: theme.textTheme.bodyText1,
+                      ),
+                    ],
+                  )
+              ],
+            ),
+          );
+        });
+  }
+}
