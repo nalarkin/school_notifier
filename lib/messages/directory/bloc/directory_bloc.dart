@@ -28,4 +28,10 @@ class DirectoryBloc extends Bloc<DirectoryEvent, DirectoryState> {
       yield DirectoryState(status: DirectoryStatus.success, users: event.users);
     }
   }
+
+  @override
+  Future<void> close() {
+    _users.cancel();
+    return super.close();
+  }
 }
