@@ -87,10 +87,58 @@ class HomePage extends StatelessWidget {
             ),
             MaterialButton(
               onPressed: () async {
-                await NotificationService().scheduleEventNotification();
+                FirestoreEvent event = FirestoreEvent(
+                    title: 'title',
+                    posterID: 'posterID',
+                    eventStartTime: DateTime.now().add(Duration(seconds: 5)),
+                    eventEndTime: DateTime.now().add(Duration(seconds: 30)),
+                    eventType: 'eventType',
+                    eventSubscriptionID: 'eventSubscriptionID');
+                await NotificationService().scheduleEventNotification(event);
               },
               child: const Text('Notiifcation test'),
-            )
+            ),
+            MaterialButton(
+              onPressed: () => NotificationService()
+                  .checkPendingNotificationRequests(context),
+              child: Text('check pending'),
+            ),
+            MaterialButton(
+              onPressed: () => NotificationService().cancelAllNotifications(),
+              child: Text('cancel all'),
+            ),
+            MaterialButton(
+              onPressed: () {
+                FirestoreEvent event = FirestoreEvent(
+                    eventUID: '2nWOi9m2zsg2eDlRYRqXzTatZrU2',
+                    title: '3 seconds',
+                    posterID: 'posterID',
+                    eventStartTime: DateTime.now().add(Duration(seconds: 3)),
+                    eventEndTime: DateTime.now().add(Duration(seconds: 30)),
+                    eventType: 'eventType',
+                    eventSubscriptionID: 'eventSubscriptionID');
+                FirestoreEvent event2 = FirestoreEvent(
+                    eventUID: '3333333333g2eDlRYRqXzTtZr1U2',
+                    title: '5 seconds',
+                    posterID: 'posterID',
+                    eventStartTime: DateTime.now().add(Duration(seconds: 5)),
+                    eventEndTime: DateTime.now().add(Duration(seconds: 30)),
+                    eventType: 'eventType',
+                    eventSubscriptionID: 'eventSubscriptionID');
+                FirestoreEvent event3 = FirestoreEvent(
+                    eventUID: '3333333333g2eDlRYRqXzTtZr1U2',
+                    title: '8 seconds',
+                    posterID: 'posterID',
+                    eventStartTime: DateTime.now().add(Duration(seconds: 8)),
+                    eventEndTime: DateTime.now().add(Duration(seconds: 30)),
+                    eventType: 'eventType',
+                    eventSubscriptionID: 'eventSubscriptionID');
+
+                NotificationService()
+                    .scheduleMultipleEventNotification([event, event2, event3]);
+              },
+              child: Text('schedule 3'),
+            ),
           ],
         ),
       ),

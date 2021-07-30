@@ -66,13 +66,67 @@ class NotificationService {
     await flutterLocalNotificationsPlugin.zonedSchedule(
         event.eventUID.hashCode,
         event.title,
-        event.description,
+        // event.description,
+        event.eventUID.hashCode.toString(),
         eventStart,
         const NotificationDetails(
             android: AndroidNotificationDetails(
-                "channel id", "channel name", "channel description")),
+                "channel id", "channel name", "channel description",
+                priority: Priority.high, importance: Importance.max)),
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
+  }
+  Future<void> scheduleMultipleEventNotification(List<FirestoreEvent> events) async {
+    for (final event in events) {
+      final eventStart = tz.TZDateTime.from(
+            event.eventStartTime,
+            tz.local,
+          );
+
+          await flutterLocalNotificationsPlugin.zonedSchedule(
+              event.eventUID.hashCode,
+              event.title,
+              'event.description',
+              // event.eventUID.hashCode.toString(),
+              eventStart,
+              const NotificationDetails(
+                  android: AndroidNotificationDetails(
+                      "channel id", "channel name", "channel description",
+                      priority: Priority.max, importance: Importance.max)),
+              androidAllowWhileIdle: true,
+              uiLocalNotificationDateInterpretation:
+                  UILocalNotificationDateInterpretation.absoluteTime);
+    }
+  }
+
+  Future<void> checkPendingNotificationRequests(context) async {
+    final List<PendingNotificationRequest> pendingNotificationRequests =
+        await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+    for (final notif in pendingNotificationRequests) {
+      print(notif.id);
+      print(notif.body);
+      print(notif.title);
+      print(notif.payload);
+    }
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        content:
+            Text('${pendingNotificationRequests.length} pending notification '
+                'requests'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+  Future<void> cancelAllNotifications() async {
+    await flutterLocalNotificationsPlugin.cancelAll();
   }
 }
