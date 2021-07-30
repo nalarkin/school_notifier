@@ -34,11 +34,15 @@ class SubscriptionBloc extends Bloc<SubscriptionEvent, SubscriptionState> {
 
   Future<void> _mapProfileBlocToEvent(ProfileState profileState) async {
     _eventSubscription.cancel();
-    if (profileState.user.subscriptions != null) {
+    if (profileState.user.subscriptions != null &&
+        _profileBloc.state.user.subscriptions!.length > 0) {
       _eventSubscription = _eventRepository
           .combineAllStreams(
               (_profileBloc.state.user.subscriptions!.keys).toList())
           .listen(_mapSubscriptionStreamToEvent);
+    } else {
+      _eventSubscription = Stream.empty().listen((_) => null);
+      add(SubscriptionEmpty());
     }
     return null;
   }

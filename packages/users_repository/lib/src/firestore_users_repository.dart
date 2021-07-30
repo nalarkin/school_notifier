@@ -68,6 +68,7 @@ class FirestoreUserRepository implements UsersRepository<FirestoreUser> {
     return null;
   }
 
+
   Future<String?> getFirestoreUserFirstLastName(String id) async {
     final potentialUser = await usersCollection.doc(id).get();
     if (potentialUser.exists) {
