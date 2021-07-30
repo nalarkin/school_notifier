@@ -1,3 +1,4 @@
+import 'package:event_repository/event_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/app/app.dart';
@@ -10,6 +11,7 @@ import 'package:school_notifier/login/login.dart';
 import 'package:school_notifier/messages/conversations/view/conversation_debug.dart';
 import 'package:school_notifier/messages/message.dart';
 import 'package:school_notifier/navigation/navigation.dart';
+import 'package:school_notifier/notification/notification_service.dart';
 import 'package:school_notifier/profile/profile.dart';
 import 'package:school_notifier/subscriptions/subscriptions.dart';
 import 'package:school_notifier/subscriptions/view/add_subscription_page.dart';
@@ -74,11 +76,19 @@ class HomePage extends StatelessWidget {
             //   onPressed: () => Navigator.pushNamed(context, KeyPage.routeName),
             //   child: const Text('Key Page'),
             // ),
-            // MaterialButton(
-            //   onPressed: () =>
-            //       Navigator.pushNamed(context, AddSubscriptionPage.routeName),
-            //   child: const Text('Add Subscription'),
-            // ),
+            MaterialButton(
+              onPressed: () {
+                FirestoreEvent event = FirestoreEvent(
+                    eventUID: 'nnieorsnaoientiroeantf983098',
+                    title: '3 seconds',
+                    posterID: 'posterID',
+                    eventStartTime: DateTime.now().add(Duration(seconds: 5)),
+                    eventEndTime: DateTime.now().add(Duration(seconds: 10)),
+                    eventSubscriptionID: 'eventSubscriptionID');
+                NotificationService().scheduleEventNotification(event);
+              },
+              child: const Text('Schedule 1 notification'),
+            ),
             MaterialButton(
               onPressed: () =>
                   Navigator.pushNamed(context, SubscriptionPage.routeName),
