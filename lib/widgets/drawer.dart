@@ -70,7 +70,7 @@ Widget customDrawer(BuildContext context) {
         ListTile(
             title: Text('Conversations'),
             leading: Icon(
-              Icons.logout,
+              Icons.mail,
               color: Colors.black,
             ),
             onTap: () {
@@ -78,9 +78,9 @@ Widget customDrawer(BuildContext context) {
               Navigator.pushNamed(context, ConversationPage.routeName);
             }),
         ListTile(
-            title: Text('Subscriptions'),
+            title: Text('Events'),
             leading: Icon(
-              Icons.mail,
+              Icons.event,
               color: Colors.black,
             ),
             onTap: () {

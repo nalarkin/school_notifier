@@ -15,6 +15,7 @@ import 'package:school_notifier/messages/message.dart';
 import 'package:school_notifier/navigation/navigation.dart';
 import 'package:school_notifier/profile/profile.dart';
 import 'package:school_notifier/subscriptions/view/subscriptions_builder.dart';
+import 'package:school_notifier/widgets/drawer.dart';
 import 'package:users_repository/users_repository.dart';
 import 'package:school_notifier/subscriptions/subscriptions.dart';
 
@@ -29,6 +30,7 @@ class SubscriptionPage extends StatelessWidget {
     UserRole role =
         context.watch<ProfileBloc>().state.user.role ?? UserRole.student;
     return Scaffold(
+        drawer: customDrawer(context),
         floatingActionButton: role == UserRole.teacher || role == UserRole.admin
             ? FloatingActionButton.extended(
                 label: Text("Calendar View"),
