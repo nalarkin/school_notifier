@@ -27,6 +27,14 @@ class SubscriptionLoaded extends SubscriptionEvent {
     return 'SubscriptionLoaded { subscriptions: ${this.subscriptions}}';
   }
 }
+class SubscriptionEmpty extends SubscriptionEvent {
+  const SubscriptionEmpty() : super(subscriptions: const <FirestoreEvent>[]);
+
+  @override
+  String toString() {
+    return 'SubscriptionLoaded { subscriptions: ${this.subscriptions}}';
+  }
+}
 
 // class SubscriptionRead extends SubscriptionEvent {
 //   const SubscriptionRead(this.singleSubscription, this.index) : super();

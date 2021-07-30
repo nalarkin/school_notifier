@@ -14,14 +14,15 @@ class SubscriptionBloc extends Bloc<SubscriptionEvent, SubscriptionState> {
     this._eventRepository,
     this._profileBloc,
   ) : super(SubscriptionInitial(<FirestoreEvent>[])) {
-    if (_profileBloc.state.user.subscriptions != null) {
+    if (_profileBloc.state.user.subscriptions != null &&
+        _profileBloc.state.user.subscriptions!.length > 0) {
       _eventSubscription = _eventRepository
           .combineAllStreams(
               (_profileBloc.state.user.subscriptions!.keys).toList())
           .listen(_mapSubscriptionStreamToEvent);
     } else {
       _eventSubscription = Stream.empty().listen((_) => null);
-      add(SubscriptionLoaded(<FirestoreEvent>[]));
+      add(SubscriptionEmpty());
     }
     _profileBlocSubscription =
         _profileBloc.stream.listen(_mapProfileBlocToEvent);
@@ -54,6 +55,8 @@ class SubscriptionBloc extends Bloc<SubscriptionEvent, SubscriptionState> {
   ) async* {
     if (event is SubscriptionLoaded) {
       yield await _convertSubscriptionsLoadedToState(event);
+    } else if (event is SubscriptionEmpty) {
+      yield SubscriptionSuccess(event.subscriptions);
     }
   }
 
