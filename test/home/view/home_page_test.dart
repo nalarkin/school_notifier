@@ -36,18 +36,7 @@ void main() {
           .thenReturn(AuthenticationState.authenticated(user));
     });
 
-    group('calls', () {
-      testWidgets('AppLogoutRequested when logout is pressed', (tester) async {
-        await tester.pumpWidget(
-          BlocProvider.value(
-            value: appBloc,
-            child: const MaterialApp(home: HomePage()),
-          ),
-        );
-        await tester.tap(find.byKey(logoutButtonKey));
-        verify(() => appBloc.add(AuthenticationLogoutRequested())).called(1);
-      });
-    });
+
 
     // group('renders', () {
     //   testWidgets('avatar widget', (tester) async {

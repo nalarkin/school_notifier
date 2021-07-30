@@ -200,27 +200,7 @@ void main() {
       });
     });
 
-    group('navigates', () {
-      testWidgets('to SignUpPage when Create Account is pressed',
-          (tester) async {
-        await tester.pumpWidget(
-          RepositoryProvider<AuthenticationRepository>(
-            create: (_) => MockAuthenticationRepository(),
-            child: MaterialApp(
-              routes: allRoutes,
-              home: Scaffold(
-                body: BlocProvider.value(
-                  value: loginCubit,
-                  child: const LoginForm(),
-                ),
-              ),
-            ),
-          ),
-        );
-        await tester.tap(find.byKey(createAccountButtonKey));
-        await tester.pumpAndSettle();
-        expect(find.byType(SignUpPage), findsOneWidget);
-      });
-    });
+    
+
   });
 }
