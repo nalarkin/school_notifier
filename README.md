@@ -21,7 +21,6 @@ link to website: `https://github.com/nalarkin/school_notifier`
 2. copy dependencies in `pubspec.yaml` file.
 3. In CLI, type`flutter pub get` to install required plugins that were listed in the new `pubspec.yaml file`
 4. To run android, in CLI type `flutter run`
-5. To run web version instead. In CLI type `flutter run -d chrome --web-hostname localhost --web-port 8887`
 
 ## Build ID: 
 
@@ -34,7 +33,7 @@ link to website: `https://github.com/nalarkin/school_notifier`
 * update contents in `android/app/src/AndroidManifest.xml`
 * have all files in `/lib` downloaded
 * Android SDK >= 21
-* compatible on Android and iOS
+* compatible on Android only, no web is supported.
 
 
 
@@ -46,4 +45,5 @@ link to website: `https://github.com/nalarkin/school_notifier`
 * Clone the entire repository instead of copying certain files
 * try `flutter clean` then `flutter pub get`
 * install the plugins by doing `flutter get <addon>`, this was how I installed my addons. So it could have changed some config code somewhere in the project that I was unaware of.
+* Ensure you are only trying to run the android version of the app, it is the only supported platform.
 
