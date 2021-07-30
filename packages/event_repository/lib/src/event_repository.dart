@@ -22,6 +22,10 @@ class EventRepository {
         .add(event.copyWith(eventUID: docRef.id).toEntity().toDocument());
   }
 
+  Future<void> initializeNotifications() async {
+    await _notificationService.init();
+  }
+
   Future<void> deleteEvent(FirestoreEvent event) async {
     final possibleEvent = await eventCollection.doc(event.eventUID).get();
     if (possibleEvent.exists) {
@@ -155,8 +159,13 @@ class EventRepository {
       List<FirestoreEvent> events) async {
     await _notificationService.scheduleMultipleEventNotification(events);
   }
+
   Future<void> deleteAllScheduledNotifications() async {
     await _notificationService.cancelAllNotifications();
+  }
+
+  Future<int> countScheduledNotifications() async {
+    return await _notificationService.countAllScheduledNotifications();
   }
 
   // LinkedHashMap<DateTime, List<FirestoreEvent>> convertToLinkedHashMap(

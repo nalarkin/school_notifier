@@ -3,15 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/app/app.dart';
 import 'package:school_notifier/calendar/view/calendar_page.dart';
-import 'package:school_notifier/event_repository_test/event_page.dart';
 import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/authentication/authentication.dart';
 import 'package:school_notifier/key_stuff/key_page.dart';
 import 'package:school_notifier/login/login.dart';
-import 'package:school_notifier/messages/conversations/view/conversation_debug.dart';
 import 'package:school_notifier/messages/message.dart';
 import 'package:school_notifier/navigation/navigation.dart';
-import 'package:school_notifier/notification/notification_service.dart';
 import 'package:school_notifier/profile/profile.dart';
 import 'package:school_notifier/subscriptions/subscriptions.dart';
 import 'package:school_notifier/subscriptions/view/add_subscription_page.dart';
@@ -124,9 +121,13 @@ class HomePage extends StatelessWidget {
               child: const Text('Schedule 3 notifications'),
             ),
             MaterialButton(
-              onPressed: () => NotificationService()
-                  .checkPendingNotificationRequests(context),
-              child: const Text('See scheduled notification count'),
+              onPressed: () async {
+                final count = await context
+                    .read<EventRepository>()
+                    .countScheduledNotifications();
+                print('$count notifications scheduled.');
+              },
+              child: const Text('Print Notification Count to Console'),
             ),
             MaterialButton(
               onPressed: () => context

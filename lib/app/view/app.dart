@@ -19,12 +19,15 @@ class App extends StatelessWidget {
   const App({
     Key? key,
     required AuthenticationRepository authenticationRepository,
+    required EventRepository eventRepository,
     // required PostsRepository postsRepository,
   })  : _authenticationRepository = authenticationRepository,
+        _eventRepository = eventRepository,
         // _postsRepository = postsRepository,
         super(key: key);
 
   final AuthenticationRepository _authenticationRepository;
+  final EventRepository _eventRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +39,8 @@ class App extends StatelessWidget {
           RepositoryProvider(
             create: (_) => KeyRepository(),
           ),
-          RepositoryProvider(
-            create: (_) => EventRepository(),
+          RepositoryProvider.value(
+            value: _eventRepository,
           ),
           RepositoryProvider(
             create: (_) => MessageRepository(),
@@ -89,7 +92,6 @@ class InitializeProviders2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        
         BlocProvider(
           create: (_) => ProfileBloc(
             context.read<FirestoreUserRepository>(),

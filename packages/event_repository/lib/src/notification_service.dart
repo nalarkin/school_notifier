@@ -132,6 +132,13 @@ class NotificationService {
     );
   }
 
+  Future<int> countAllScheduledNotifications() async {
+    final List<PendingNotificationRequest> pendingNotificationRequests =
+        await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+
+    return pendingNotificationRequests.length;
+  }
+
   Future<void> cancelAllNotifications() async {
     await flutterLocalNotificationsPlugin.cancelAll();
   }

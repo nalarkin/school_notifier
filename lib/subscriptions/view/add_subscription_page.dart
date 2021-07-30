@@ -5,7 +5,6 @@ import 'package:event_repository/event_repository.dart';
 import 'package:key_repository/key_repository.dart';
 import 'package:school_notifier/authentication/authentication.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:school_notifier/event_repository_test/EventViewModel.dart';
 import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/navigation/navigation.dart';
 import 'package:school_notifier/widgets/widgets.dart';

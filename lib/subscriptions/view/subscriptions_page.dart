@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:message_repository/message_repository.dart';
 import 'package:school_notifier/app/app.dart';
 import 'package:school_notifier/calendar/view/calendar_page.dart';
-import 'package:school_notifier/event_repository_test/event_page.dart';
 import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/authentication/authentication.dart';
 import 'package:school_notifier/login/login.dart';
