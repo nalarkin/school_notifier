@@ -44,6 +44,7 @@ link to website: `https://github.com/nalarkin/school_notifier`
 
 * Clone the entire repository instead of copying certain files
 * try `flutter clean` then `flutter pub get`
+* Ensure that all packages with the `packages/*` folder have no errors, and that their dependencies have been installed with their respective `pubspec.yaml`
 * install the plugins by doing `flutter get <addon>`, this was how I installed my addons. So it could have changed some config code somewhere in the project that I was unaware of.
 * Ensure you are only trying to run the android version of the app, it is the only supported platform.
 
