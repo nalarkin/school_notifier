@@ -33,7 +33,7 @@ class TokenForm extends StatelessWidget {
             children: [
               Text(
                 'Academic Advisor',
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headline4,
               ),
               const SizedBox(height: 25.0),
               _TokenPageDescription(),
@@ -73,7 +73,7 @@ class _TokenPageDescription extends StatelessWidget {
     final theme = Theme.of(context);
     return Text(
         "To register an account, use the token that your school emailed you.",
-        style: theme.textTheme.bodyText1?.copyWith(color: theme.primaryColor));
+        style: theme.textTheme.headline6);
   }
 }
 
@@ -103,6 +103,7 @@ class _TokenInput extends StatelessWidget {
 class _SubmitTokenButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return BlocBuilder<TokenCubit, TokenState>(
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
@@ -114,12 +115,15 @@ class _SubmitTokenButton extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
-                  primary: Colors.orangeAccent,
+                  primary: const Color(0xFFFFD600),
                 ),
                 onPressed: state.status.isValidated
                     ? () => context.read<TokenCubit>().tokenSubmitted()
                     : null,
-                child: const Text('SUBMIT TOKEN'),
+                child: Text(
+                  'SUBMIT TOKEN',
+                  style: theme.textTheme.button,
+                ),
               );
       },
     );
@@ -129,6 +133,7 @@ class _SubmitTokenButton extends StatelessWidget {
 class _DebugCreateParent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return ElevatedButton(
       key: const Key('signUpForm_continue_raisedButton'),
       style: ElevatedButton.styleFrom(
@@ -141,7 +146,10 @@ class _DebugCreateParent extends StatelessWidget {
         context.read<TokenCubit>().tokenChanged('MFqeALmMrCsWwYjaRdgC');
         context.read<TokenCubit>().tokenSubmitted();
       },
-      child: const Text('Use Debug Parent Token'),
+      child: Text(
+        'Use Debug Parent Token',
+        style: theme.textTheme.button,
+      ),
     );
   }
 }
@@ -149,6 +157,7 @@ class _DebugCreateParent extends StatelessWidget {
 class _DebugCreateTeacher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return ElevatedButton(
       key: const Key('signUpForm_continue_raisedButton'),
       style: ElevatedButton.styleFrom(
@@ -161,7 +170,10 @@ class _DebugCreateTeacher extends StatelessWidget {
         context.read<TokenCubit>().tokenChanged('IMqRRwos9ox3DpFXmnFi');
         context.read<TokenCubit>().tokenSubmitted();
       },
-      child: const Text('Use Debug Teacher Token'),
+      child: Text(
+        'Use Debug Teacher Token',
+        style: theme.textTheme.button,
+      ),
     );
   }
 }
@@ -169,6 +181,7 @@ class _DebugCreateTeacher extends StatelessWidget {
 class _DebugCreateStudent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return ElevatedButton(
       key: const Key('signUpForm_continue_raisedButton'),
       style: ElevatedButton.styleFrom(
@@ -181,7 +194,10 @@ class _DebugCreateStudent extends StatelessWidget {
         context.read<TokenCubit>().tokenChanged('qPPRwy6OsmNpiLn1jEEN');
         context.read<TokenCubit>().tokenSubmitted();
       },
-      child: const Text('Use Debug Student Token'),
+      child: Text(
+        'Use Debug Student Token',
+        style: theme.textTheme.button,
+      ),
     );
   }
 }
@@ -190,14 +206,20 @@ class _LoginPageButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return TextButton(
+    return ElevatedButton(
       key: const Key('tokenForm_toSigninNavigation_flatButton'),
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        primary: const Color(0xFFFFD600),
+      ),
       // onPressed: () => Navigator.of(context).push<void>(SignUpPage.route()),
       onPressed: () => Navigator.pushNamed(context, LoginPage.routeName),
       // onPressed: () => Navigator.of(context).push(SignUpPage.route()),
       child: Text(
         'LOGIN PAGE',
-        style: TextStyle(color: theme.primaryColor),
+        style: theme.textTheme.button,
       ),
     );
   }

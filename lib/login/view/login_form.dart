@@ -29,7 +29,7 @@ class LoginForm extends StatelessWidget {
             children: [
               Text(
                 'Academic Advisor',
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headline4,
               ),
               const SizedBox(height: 40.0),
               _EmailInput(),
@@ -37,7 +37,7 @@ class LoginForm extends StatelessWidget {
               _PasswordInput(),
               const SizedBox(height: 8.0),
               _LoginButton(),
-              const SizedBox(height: 8.0),
+              const SizedBox(height: 40.0),
               _SignUpButton(),
               const SizedBox(height: 4.0),
               _DebugLogin(),
@@ -97,6 +97,7 @@ class _PasswordInput extends StatelessWidget {
 class _LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return BlocBuilder<LoginCubit, LoginState>(
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
@@ -113,7 +114,10 @@ class _LoginButton extends StatelessWidget {
                 onPressed: state.status.isValidated
                     ? () => context.read<LoginCubit>().logInWithCredentials()
                     : null,
-                child: const Text('LOGIN'),
+                child: Text(
+                  'LOGIN',
+                  style: theme.textTheme.button,
+                ),
               );
       },
     );
@@ -124,14 +128,25 @@ class _SignUpButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return TextButton(
+    return ElevatedButton(
       key: const Key('loginForm_toTokenNavigation_flatButton'),
       // onPressed: () => Navigator.of(context).push<void>(SignUpPage.route()),
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        primary: const Color(0xFFFFD600),
+      ),
       onPressed: () => Navigator.pushNamed(context, TokenPage.routeName),
+      // style: TextButton.styleFrom(
+      //   // shape: ,
+      //   primary: theme.primaryColor,
+      // ),
       // onPressed: () => Navigator.of(context).push(SignUpPage.route()),
       child: Text(
-        'TOKEN PAGE',
-        style: TextStyle(color: theme.primaryColor),
+        'SIGN UP',
+        // style: TextStyle(color: theme.primaryColor),
+        style: theme.textTheme.button,
       ),
     );
   }

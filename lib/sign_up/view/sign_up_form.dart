@@ -64,8 +64,7 @@ class _LoginInfomationText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Text("create your login info",
-        style: theme.textTheme.bodyText1?.copyWith(color: theme.primaryColor));
+    return Text("create your login info", style: theme.textTheme.bodyText1);
   }
 }
 
@@ -145,8 +144,7 @@ class _ProfileInfoText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Text("add your profile info",
-        style: theme.textTheme.bodyText1?.copyWith(color: theme.primaryColor));
+    return Text("add your profile info", style: theme.textTheme.bodyText1);
   }
 }
 
