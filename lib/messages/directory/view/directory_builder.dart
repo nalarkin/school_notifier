@@ -97,7 +97,6 @@ GestureDetector _BuildUserTile(
   final theme = Theme.of(context);
   return GestureDetector(
       onTap: () {
-        // debugDumpApp();
         print(_currUser);
         Message blankMessage = Message(
             id: 'dummyid',
@@ -121,10 +120,8 @@ GestureDetector _BuildUserTile(
       },
       child: Container(
         child: Container(
-          // padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
           margin: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
           decoration: BoxDecoration(
-              // border: Border.all(color: theme.accentColor),
               color: theme.canvasColor,
               borderRadius: BorderRadius.all(Radius.circular(20))),
           child: ListTile(
@@ -133,11 +130,6 @@ GestureDetector _BuildUserTile(
               children: [
                 Row(
                   children: [
-                    // Text(
-                    //   '${userRoleToString(user.role)!.toUpperCase()}',
-                    //   style: theme.textTheme.caption
-                    //       ?.copyWith(color: Colors.grey, fontSize: 10),
-                    // ),
                     if (user.role == UserRole.teacher) Icon(Icons.school),
                     if (user.role == UserRole.student)
                       Icon(Icons.child_care_sharp),
@@ -159,58 +151,3 @@ GestureDetector _BuildUserTile(
         ),
       ));
 }
-
-// class _BuildUserTile extends StatelessWidget {
-//   const _BuildUserTile({ Key? key }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return GestureDetector(
-//       onTap: () {
-//         // debugDumpApp();
-//         FirestoreUser _currUser = context.r
-//         print(_currUser);
-//         // Message blankMessage = Message(
-//         //     content: '',
-//         //     idFrom: _uid,
-//         //     idTo: user.id,
-//         //     timestamp: DateTime.now());
-//         // Conversation newConvo = Conversation(
-//         //     id: Message.getConvoID(_uid, user.id),
-//         //     participants: [_uid, user.id],
-//         //     participantsMap: {
-//         //       _uid: '${_currUser.firstName} ${_currUser.lastName}',
-//         //       user.id: '${user.firstName} ${user.lastName}',
-//         //     },
-//         //     lastMessage: blankMessage);
-
-//         // Navigator.pushNamed(context, MessagePage.routeName,
-//         //     arguments: newConvo);
-//       },
-//       child: Card(
-//         child: ListTile(
-//           title: Stack(
-//             alignment: Alignment.center,
-//             children: [
-//               Row(
-//                 children: [
-//                   Text(
-//                     '${userRoleToString(user.role)!.toUpperCase()}',
-//                     style:
-//                         theme.textTheme.caption?.copyWith(color: Colors.black),
-//                   ),
-//                   Expanded(
-//                     child: Container(),
-//                   ),
-//                 ],
-//               ),
-//               Text(
-//                 '${user.firstName} ${user.lastName}',
-//                 style: theme.textTheme.headline6?.copyWith(color: Colors.black),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ));
-//   }
-// }

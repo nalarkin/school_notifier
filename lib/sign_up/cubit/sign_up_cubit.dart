@@ -124,15 +124,34 @@ class SignUpCubit extends Cubit<SignUpState> {
         password: state.password.value,
       );
 
+      final _userRole = getUserRoleFromKey(_key!);
+
       FirestoreUser curr = FirestoreUser(
         id: _authenticationRepository.currentUser.id,
         email: state.email.value,
         firstName: state.firstName.value,
         lastName: state.lastName.value,
-        children: {'sign_up_user_cubit_creates_this': 'edit student name'},
+        children: {},
         joinDate: DateTime.now(),
-        role: getUserRoleFromKey(_key!),
+        role: _userRole,
       );
+      if (_userRole == UserRole.parent && _key!.studentID.isNotEmpty) {
+        FirestoreUser? possibleChild =
+            await _userRepository.getFirestoreUserIfExists(_key!.studentID);
+        if (possibleChild != null) {
+          curr = curr.copyWith(
+              subscriptions: possibleChild.subscriptions,
+              classes: possibleChild.classes,
+              children: {
+                possibleChild.id:
+                    '${possibleChild.firstName} ${possibleChild.lastName}'
+              });
+          var currParents = possibleChild.parents ?? {};
+          currParents[curr.id] = '${curr.firstName} ${curr.lastName}';
+          await _userRepository
+              .updateUser(possibleChild.copyWith(parents: currParents));
+        }
+      }
 
       await _userRepository.addNewUser(curr);
       await _keyRepository.updateKey(_key!.copyWith(

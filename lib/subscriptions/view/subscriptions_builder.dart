@@ -33,8 +33,8 @@ class SubscriptionBuilder extends StatelessWidget {
         } else if (state is SubscriptionSuccess) {
           final _subscriptions = state.subscriptions;
 
-          print("subscriptions $_subscriptions");
-          print("length of subscriptions = ${_subscriptions.length}");
+          // print("subscriptions $_subscriptions");
+          // print("length of subscriptions = ${_subscriptions.length}");
           final _viewerUid =
               context.read<AuthenticationRepository>().currentUser.id;
           // ListView _elements = ListView.builder(

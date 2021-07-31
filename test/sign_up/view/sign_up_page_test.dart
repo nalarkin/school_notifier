@@ -15,14 +15,6 @@ void main() {
       expect(SignUpPage.route(), isA<MaterialPageRoute>());
     });
 
-    testWidgets('renders a SignUpForm', (tester) async {
-      await tester.pumpWidget(
-        RepositoryProvider<AuthenticationRepository>(
-          create: (_) => MockAuthenticationRepository(),
-          child: MaterialApp(home: SignUpPage()),
-        ),
-      );
-      expect(find.byType(SignUpForm), findsOneWidget);
-    });
+
   });
 }

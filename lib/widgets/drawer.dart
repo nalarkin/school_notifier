@@ -4,6 +4,7 @@ import 'package:school_notifier/home/view/home_page.dart';
 import 'package:school_notifier/messages/conversations/view/conversation_page.dart';
 import 'package:school_notifier/profile/view/profile_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:school_notifier/subscriptions/subscriptions.dart';
 import 'package:school_notifier/subscriptions/view/subscriptions_page.dart';
 
 Widget customDrawer(BuildContext context) {
@@ -78,14 +79,14 @@ Widget customDrawer(BuildContext context) {
               Navigator.pushNamed(context, ConversationPage.routeName);
             }),
         ListTile(
-            title: Text('Events'),
+            title: Text('Debug Links'),
             leading: Icon(
-              Icons.event,
+              Icons.bug_report,
               color: Colors.black,
             ),
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushNamed(context, SubscriptionPage.routeName);
+              Navigator.pushNamed(context, HomePage.routeName);
             }),
         ListTile(
             title: Text('Home'),
@@ -98,7 +99,7 @@ Widget customDrawer(BuildContext context) {
               // ...
               // Then close the drawer
               Navigator.pop(context);
-              Navigator.pushNamed(context, HomePage.routeName);
+              Navigator.pushNamed(context, SubscriptionPage.routeName);
             }),
       ]));
 }

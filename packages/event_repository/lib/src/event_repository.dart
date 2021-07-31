@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:event_repository/event_repository.dart';
+import './notification_service.dart';
 import 'package:rxdart/rxdart.dart';
 
 /// Do a query to find all the locations the user is subscribed to,
@@ -13,11 +14,16 @@ class EventRepository {
       .collection('exampleSchool')
       .doc('events')
       .collection('events');
+  final _notificationService = NotificationService();
 
   Future<void> addNewEvent(FirestoreEvent event) async {
     final docRef = eventCollection.doc();
     await eventCollection
         .add(event.copyWith(eventUID: docRef.id).toEntity().toDocument());
+  }
+
+  Future<void> initializeNotifications() async {
+    await _notificationService.init();
   }
 
   Future<void> deleteEvent(FirestoreEvent event) async {
@@ -78,8 +84,7 @@ class EventRepository {
     return eventCollection
         .where('eventSubscriptionID', isEqualTo: subID)
         .where('eventEndTime',
-            isGreaterThan:
-                Timestamp.fromDate(DateTime.now().subtract(Duration(days: 6))))
+            isGreaterThan: Timestamp.fromDate(DateTime.now()))
         // .orderBy('eventStartTime')
         .snapshots()
         .map(_convertToEventList);
@@ -144,6 +149,23 @@ class EventRepository {
       }
       return _res;
     });
+  }
+
+  Future<void> scheduleSingleNotification(FirestoreEvent event) async {
+    await _notificationService.scheduleEventNotification(event);
+  }
+
+  Future<void> scheduleMultipleNotifications(
+      List<FirestoreEvent> events) async {
+    await _notificationService.scheduleMultipleEventNotification(events);
+  }
+
+  Future<void> deleteAllScheduledNotifications() async {
+    await _notificationService.cancelAllNotifications();
+  }
+
+  Future<int> countScheduledNotifications() async {
+    return await _notificationService.countAllScheduledNotifications();
   }
 
   // LinkedHashMap<DateTime, List<FirestoreEvent>> convertToLinkedHashMap(

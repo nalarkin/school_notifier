@@ -7,7 +7,6 @@ import 'package:school_notifier/authentication/authentication.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_notifier/calendar/cubit/calendar_cubit.dart';
 import 'package:school_notifier/calendar/view/calendar_create_event_form.dart';
-import 'package:school_notifier/event_repository_test/EventViewModel.dart';
 import 'package:school_notifier/home/home.dart';
 import 'package:school_notifier/navigation/navigation.dart';
 import 'package:school_notifier/profile/profile.dart';
