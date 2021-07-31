@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    // final user = context.select((AuthenticationBloc bloc) => bloc.state.user);
+
     FirestoreUser currUser = context.watch<ProfileBloc>().state.user;
     return Scaffold(
       drawer: customDrawer(context),
@@ -47,11 +47,8 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            // Avatar(photo: user.photo),
             const SizedBox(height: 4.0),
-            // Text(user.email ?? '', style: textTheme.headline6),
             const SizedBox(height: 4.0),
-            // Text(user.name ?? '', style: textTheme.headline5),
             const SizedBox(height: 4.0),
             MaterialButton(
               onPressed: () =>
@@ -63,21 +60,13 @@ class HomePage extends StatelessWidget {
                   Navigator.pushNamed(context, ProfilePage.routeName),
               child: const Text('Profile Page'),
             ),
-            // MaterialButton(
-            //   onPressed: () =>
-            //       Navigator.pushNamed(context, EventPage.routeName),
-            //   child: const Text('Event Page'),
-            // ),
-            // MaterialButton(
-            //   onPressed: () => Navigator.pushNamed(context, KeyPage.routeName),
-            //   child: const Text('Key Page'),
-            // ),
             MaterialButton(
               onPressed: () {
                 FirestoreEvent event = FirestoreEvent(
                     eventUID: 'nnieorsnaoientiroeantf983098',
                     title: '5 seconds',
                     posterID: 'posterID',
+                    description: '5 seconds description',
                     eventStartTime: DateTime.now().add(Duration(seconds: 5)),
                     eventEndTime: DateTime.now().add(Duration(seconds: 10)),
                     eventSubscriptionID: 'eventSubscriptionID');
@@ -99,19 +88,19 @@ class HomePage extends StatelessWidget {
                     eventSubscriptionID: 'eventSubscriptionID');
                 FirestoreEvent event2 = FirestoreEvent(
                     eventUID: 'nnieo323434iroeantf983098',
-                    title: '5 seconds',
-                    description: '5 seconds description',
+                    title: '10 seconds',
+                    description: '10 seconds description',
                     posterID: 'posterID',
-                    eventStartTime: DateTime.now().add(Duration(seconds: 5)),
-                    eventEndTime: DateTime.now().add(Duration(seconds: 10)),
+                    eventStartTime: DateTime.now().add(Duration(seconds: 10)),
+                    eventEndTime: DateTime.now().add(Duration(seconds: 15)),
                     eventSubscriptionID: 'eventSubscriptionID');
                 FirestoreEvent event3 = FirestoreEvent(
                     eventUID: 'nnieor444444iroeantf983098',
-                    title: '8 seconds',
-                    description: '8 seconds description',
+                    title: '18 seconds',
+                    description: '18 seconds description',
                     posterID: 'posterID',
-                    eventStartTime: DateTime.now().add(Duration(seconds: 8)),
-                    eventEndTime: DateTime.now().add(Duration(seconds: 10)),
+                    eventStartTime: DateTime.now().add(Duration(seconds: 18)),
+                    eventEndTime: DateTime.now().add(Duration(seconds: 20)),
                     eventSubscriptionID: 'eventSubscriptionID');
                 context
                     .read<EventRepository>()
@@ -139,8 +128,6 @@ class HomePage extends StatelessWidget {
                   Navigator.pushNamed(context, SubscriptionPage.routeName),
               child: const Text('Subscription Page'),
             ),
-
-            // debugButton(),
             if (currUser.role == UserRole.teacher ||
                 currUser.role == UserRole.admin)
               MaterialButton(

@@ -71,8 +71,8 @@ class NotificationService {
     await flutterLocalNotificationsPlugin.zonedSchedule(
         event.eventUID.hashCode,
         event.title,
-        // event.description,
-        event.eventUID.hashCode.toString(),
+        event.description,
+        // event.eventUID.hashCode.toString(),
         eventStart,
         platformChannelSpecifics,
         androidAllowWhileIdle: true,
