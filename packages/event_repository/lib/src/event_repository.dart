@@ -80,7 +80,7 @@ class EventRepository {
   }
 
   Stream<List<FirestoreEvent>> getSingleStream(String subID) {
-    print("getSingleStream called with arg $subID");
+    // print("getSingleStream called with arg $subID");
     return eventCollection
         .where('eventSubscriptionID', isEqualTo: subID)
         .where('eventEndTime',
@@ -106,12 +106,12 @@ class EventRepository {
 
   List<FirestoreEvent> _convertToEventList(
       QuerySnapshot<Map<String, dynamic>> snapshot) {
-    print('_convertToEventList() called');
+    // print('_convertToEventList() called');
     var _eventList = <FirestoreEvent>[];
     snapshot.docs.forEach((snap) {
       _eventList.add(FirestoreEvent.fromEntity(EventEntity.fromSnapshot(snap)));
     });
-    print('Created event list is: $_eventList');
+    // print('Created event list is: $_eventList');
     return _eventList;
   }
 
