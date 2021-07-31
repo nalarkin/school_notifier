@@ -16,7 +16,7 @@ import 'package:users_repository/users_repository.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
-  static const String routeName = '/home';
+  static const String routeName = '/debug';
   static Page page() => const MaterialPage<void>(child: HomePage());
 
   @override
@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       drawer: customDrawer(context),
       appBar: AppBar(
-        title: const Text('Home'),
+        title: const Text('Debug'),
         centerTitle: true,
         actions: <Widget>[
           IconButton(

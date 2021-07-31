@@ -8,12 +8,12 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:school_notifier/app/app.dart';
 import 'package:school_notifier/calendar/view/calendar_page.dart';
 import 'package:users_repository/users_repository.dart';
-import 'package:flutter/rendering.dart';
+// import 'package:flutter/rendering.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 void main() async {
-  debugRepaintRainbowEnabled = true;
+  // debugRepaintRainbowEnabled = true;
   Bloc.observer = AppBlocObserver();
   WidgetsFlutterBinding.ensureInitialized();
   // await NotificationService().init();
