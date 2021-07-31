@@ -26,8 +26,8 @@ class ConversationBuilder extends StatelessWidget {
           );
         } else if (state is ConversationSuccess) {
           final _conversations = state.conversations;
-          print("conversations $_conversations");
-          print("length of conversations = ${_conversations.length}");
+          // print("conversations $_conversations");
+          // print("length of conversations = ${_conversations.length}");
           final _viewerUid =
               context.read<AuthenticationRepository>().currentUser.id;
           return ListView.builder(
