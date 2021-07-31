@@ -15,6 +15,13 @@ link to website: `https://github.com/nalarkin/school_notifier`
 * Drew Hartman
 * James Park
 
+## Video Demonstrations
+
+* [Authentication Workflow and Account Creation](https://youtu.be/qKenjBi_GVo)
+* [Event Creation](https://youtu.be/4ZOKFAq5rmY)
+* [Proof of Notifications Functionality](https://youtu.be/vr2bYco8tRM)
+* [Messaging Features](https://youtu.be/SctbDnlAuXw)
+
 ## How to run the App:
 
 1. Run git clone https://github.com/nalarkin/school_notifier.git
